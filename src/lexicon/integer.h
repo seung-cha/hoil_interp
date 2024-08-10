@@ -1,3 +1,6 @@
+#ifndef LEX_INTEGER_H
+#define LEX_INTEGER_H
+
 #include "lexicon.h"
 
 namespace Lexicons
@@ -7,7 +10,7 @@ namespace Lexicons
         public:
         int const value;
 
-        Integer(int value) : Lexicon(Lexicon::INT), value(value)
+        Integer(int value, int lineNo, int charNo) : Lexicon(Lexicon::INT, lineNo, charNo), value(value)
         {
 
         }
@@ -19,8 +22,9 @@ namespace Lexicons
             return str;
         }
 
-
     };
 
 
 }
+
+#endif

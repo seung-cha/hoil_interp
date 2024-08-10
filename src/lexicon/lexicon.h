@@ -1,4 +1,4 @@
-#ifndef LEXICON_H
+#ifndef LEXICONE_H
 #define LEXICONE_H
 
 #include <iostream>
@@ -13,13 +13,15 @@ namespace Lexicons
     {
         public:
         LexiconId const static 
-        INT = 0, REAL = 1, BOOL = 2, 
+        INT = 0,  REAL = 1, BOOL = 2, 
         ADD = 50, SUB = 51, MUL = 52, DIV = 53;
 
 
         public:
         LexiconId const Id;
-        Lexicon(LexiconId t) : Id(t)
+        int const LineNo;
+        int const CharNo;
+        Lexicon(LexiconId t, int lineNo, int charNo) : Id(t), LineNo(lineNo), CharNo(charNo)
         {
 
         }
@@ -30,6 +32,13 @@ namespace Lexicons
         {
             os << lex.ToString();
             return os;
+        }
+
+        std::string const Verbose() const
+        {
+            char str[512];
+            snprintf(str, 512, "%s [%d, %d]", ToString().c_str(), LineNo, CharNo);
+            return str;
         }
 
     };
