@@ -15,12 +15,6 @@ Scanner::~Scanner()
     }
 }
 
-bool Scanner::Seek()
-{
-    _trimBlanks();
-    return _readChar();
-}
-
 void Scanner::ScanFile()
 {
     while(Seek())
@@ -29,12 +23,17 @@ void Scanner::ScanFile()
     }
 }
 
+bool Scanner::Seek()
+{
+    _trimBlanks();
+    return _readChar();
+}
+
 void Scanner::Match(char c)
 {
     if(currentChar == c)
     {
         Seek();
-        charNo++;
     }
     else
     {

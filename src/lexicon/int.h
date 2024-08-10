@@ -1,16 +1,16 @@
-#ifndef LEX_INTEGER_H
-#define LEX_INTEGER_H
+#ifndef LEX_INT_H
+#define LEX_INT_H
 
 #include "lexicon.h"
 
 namespace Lexicons
 {
-    class Integer : public Lexicon
+    class Int : public Lexicon
     {
         public:
-        int const value;
+        int32_t const value;
 
-        Integer(int value, int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}, value{value}
+        Int(int32_t value, int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}, value{value}
         {
 
         }
