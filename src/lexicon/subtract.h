@@ -8,7 +8,7 @@ namespace Lexicons
     class Subtract : public Lexicon
     {
         public:
-        Subtract(int lineNo, int charNo) : Lexicon(Lexicon::SUB, lineNo, charNo)
+        Subtract(int lineNo, int charNo) : Lexicon{Lexicon::SUB, lineNo, charNo}
         {
             
         }

@@ -10,7 +10,7 @@ namespace Lexicons
         public:
         int const value;
 
-        Integer(int value, int lineNo, int charNo) : Lexicon(Lexicon::INT, lineNo, charNo), value(value)
+        Integer(int value, int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}, value{value}
         {
 
         }

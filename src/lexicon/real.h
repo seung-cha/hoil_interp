@@ -10,7 +10,7 @@ namespace Lexicons
         public:
         float const value;
 
-        Real(float value, int lineNo, int charNo) : Lexicon(Lexicon::REAL, lineNo, charNo), value(value)
+        Real(float value, int lineNo, int charNo) : Lexicon{Lexicon::REAL, lineNo, charNo}, value{value}
         {
 
         }

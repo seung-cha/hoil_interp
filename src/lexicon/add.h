@@ -8,7 +8,7 @@ namespace Lexicons
     class Add : public Lexicon
     {
         public:
-        Add(int lineNo, int charNo) : Lexicon(Lexicon::ADD, lineNo, charNo)
+        Add(int lineNo, int charNo) : Lexicon{Lexicon::ADD, lineNo, charNo}
         {
 
         }

@@ -21,7 +21,7 @@ namespace Lexicons
         LexiconId const Id;
         int const LineNo;
         int const CharNo;
-        Lexicon(LexiconId t, int lineNo, int charNo) : Id(t), LineNo(lineNo), CharNo(charNo)
+        Lexicon(LexiconId t, int lineNo, int charNo) : Id{t}, LineNo{lineNo}, CharNo{charNo}
         {
 
         }
