@@ -5,6 +5,10 @@
 
 Scanner::Scanner(std::string source) : stream{source}
 {
+    if(IsReady())
+    {
+        Seek();
+    }
 }
 
 Scanner::~Scanner()
@@ -17,7 +21,7 @@ Scanner::~Scanner()
 
 bool Scanner::IsReady()
 {
-    return stream.is_open() && _peek() != EOF;
+    return stream.is_open() && currentChar != EOF;
 }
 
 char Scanner::Seek()

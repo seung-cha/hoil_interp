@@ -18,7 +18,7 @@ namespace Lexicons
         std::string const ToString() const override
         {
             char str[100];
-            snprintf(str, 100, "< ADD, %d >", value);
+            snprintf(str, 100, "< INT, %d >", value);
             return str;
         }
 

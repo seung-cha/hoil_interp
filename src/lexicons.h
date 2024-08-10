@@ -1,5 +1,5 @@
-#ifndef TOKENS_H
-#define TOKENS_H
+#ifndef LEXICONS_H
+#define LEXICONS_H
 
 #include "lexicon/int.h"
 #include "lexicon/real.h"
