@@ -9,28 +9,21 @@
 class Scanner
 {
     public:
-    void ScanFile();
-    Scanner(std::string source);
-    ~Scanner();
-
-    private:
     char currentChar = 0;
     int lineNo = 1, charNo = 0;
-
-    /**
-     * Get the next char that is not a whitespace.
-     * Internally calls _readChar() and _trimBlanks().
-     */
-    bool Seek();
+    bool IsReady();
+    char Seek();
     void Match(char c);
 
+    Scanner(std::string source);
+    ~Scanner();
+    private:
     void _trimBlanks();
     char _peek();
     /**
      * Read a char and store it in currentChar.
-     * Return False if EOF is read.
      */
-    bool _readChar();
+    char _readChar();
     std::ifstream stream;
 
 

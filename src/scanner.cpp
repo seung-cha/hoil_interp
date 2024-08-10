@@ -15,15 +15,12 @@ Scanner::~Scanner()
     }
 }
 
-void Scanner::ScanFile()
+bool Scanner::IsReady()
 {
-    while(Seek())
-    {
-        printf("%c", currentChar);
-    }
+    return stream.is_open() && _peek() != EOF;
 }
 
-bool Scanner::Seek()
+char Scanner::Seek()
 {
     _trimBlanks();
     return _readChar();
@@ -42,19 +39,13 @@ void Scanner::Match(char c)
 }
 
 
-bool Scanner::_readChar()
+char Scanner::_readChar()
 {
-    if(stream.is_open())
+    if(IsReady())
     {
         charNo++;
         currentChar = stream.get();
-
-        if(currentChar == EOF)
-        {
-            return false;
-        }
-
-        return true;
+        return currentChar;
     }
     else
     {
