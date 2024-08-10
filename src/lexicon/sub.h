@@ -1,14 +1,14 @@
-#ifndef LEX_SUBTRACT_H
-#define LEX_SUBTRACT_H
+#ifndef LEX_SUB_H
+#define LEX_SUB_H
 
 #include "lexicon.h"
 
 namespace Lexicons
 {
-    class Subtract : public Lexicon
+    class Sub : public Lexicon
     {
         public:
-        Subtract(int lineNo, int charNo) : Lexicon{Lexicon::SUB, lineNo, charNo}
+        Sub(int lineNo, int charNo) : Lexicon{Lexicon::SUB, lineNo, charNo}
         {
             
         }

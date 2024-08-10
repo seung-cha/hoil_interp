@@ -3,7 +3,12 @@
 
 #include "lexicon/int.h"
 #include "lexicon/real.h"
+
+// Operators
 #include "lexicon/add.h"
-#include "lexicon/subtract.h"
+#include "lexicon/sub.h"
+#include "lexicon/mul.h"
+#include "lexicon/div.h"
+
 
 #endif
