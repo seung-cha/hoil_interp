@@ -1,14 +1,17 @@
 #ifndef LEXICONS_H
 #define LEXICONS_H
 
-#include "lexicon/int.h"
-#include "lexicon/real.h"
+// Types
+#include "lexicon/type/int.h"
+#include "lexicon/type/real.h"
+#include "lexicon/type/bool.h"
+#include "lexicon/type/string.h"
 
 // Operators
-#include "lexicon/add.h"
-#include "lexicon/sub.h"
-#include "lexicon/mul.h"
-#include "lexicon/div.h"
+#include "lexicon/operator/add.h"
+#include "lexicon/operator/sub.h"
+#include "lexicon/operator/mul.h"
+#include "lexicon/operator/div.h"
 
 
 #endif

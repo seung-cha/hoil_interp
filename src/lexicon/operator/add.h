@@ -1,7 +1,7 @@
 #ifndef LEX_ADD_H
 #define LEX_ADD_H
 
-#include "lexicon.h"
+#include "../lexicon.h"
 
 namespace Lexicons
 {

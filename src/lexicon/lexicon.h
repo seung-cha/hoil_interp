@@ -13,7 +13,7 @@ namespace Lexicons
     {
         public:
         LexiconId const static 
-        INT = 0,  REAL = 1, BOOL = 2, 
+        INT = 0,  REAL = 1, BOOL = 2, STRING = 3,
         ADD = 50, SUB = 51, MUL = 52, DIV = 53;
 
 
@@ -24,6 +24,10 @@ namespace Lexicons
         Lexicon(LexiconId t, int lineNo, int charNo) : Id{t}, LineNo{lineNo}, CharNo{charNo}
         {
 
+        }
+        virtual ~Lexicon()
+        {
+            
         }
 
         virtual std::string const ToString() const = 0;
