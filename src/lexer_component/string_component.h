@@ -17,8 +17,8 @@ namespace LexerComponents
 
             lineNo = scanner->lineNo;
             charNo = scanner->charNo;
-            std::ostringstream ss;
 
+            std::ostringstream ss; 
             scanner->Next();
             while(scanner->currentChar != '\"')
             {
@@ -28,7 +28,6 @@ namespace LexerComponents
                     // TODO: handle string-not-terminated error
                 }
             }
-
             scanner->Seek();
             return new Lexicons::String(ss.str(), lineNo, charNo);
         }

@@ -7,7 +7,8 @@ Scanner::Scanner(std::string source) : stream{source}
 {
     if(IsReady())
     {
-        Seek();
+        _readChar();
+        _trimBlanks();
     }
 }
 
@@ -26,6 +27,20 @@ bool Scanner::IsReady()
 
 char Scanner::Seek()
 {
+    char const peek = _peek();
+    if(peek == ' ' || peek == '\t' || peek == '\n')
+    {
+        _readChar();
+        _trimBlanks();
+        return currentChar;
+    }
+    else
+    {
+        return _readChar();
+    }
+
+
+
     _trimBlanks();
     return _readChar();
 }
@@ -33,6 +48,16 @@ char Scanner::Seek()
 char Scanner::Next()
 {
     return _readChar();
+}
+
+void Scanner::Trim()
+{
+    _trimBlanks();
+}
+
+char Scanner::Peek()
+{
+    return _peek();
 }
 
 void Scanner::Match(char c)
@@ -73,7 +98,7 @@ void Scanner::_trimBlanks()
 {
     while(true)
     {
-        switch(_peek())
+        switch(currentChar)
         {
             case ' ':
             break;
@@ -81,7 +106,7 @@ void Scanner::_trimBlanks()
             charNo += BLANK_SPACE - 1; // _readChar() increments it by 1
             break;
             case '\n':
-            charNo = -1;    // _readChar() resets it to 0. 
+            charNo = 0;    // _readChar() resets it to 0. 
             lineNo++;
             break;
 

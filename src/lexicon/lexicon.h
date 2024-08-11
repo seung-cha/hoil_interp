@@ -13,10 +13,11 @@ namespace Lexicons
     {
         public:
         LexiconId const static 
-        INT = 0,   REAL = 1,   BOOL = 2,  STRING = 3,
-        TRUE = 50, FALSE = 51, IF = 52,   ELIF = 53,  ELSE = 54,
-        FOR = 55,  WHILE = 56, DO = 57,   BREAK = 58, CONTINUE = 59,
-        ADD = 100, SUB = 101,  MUL = 102, DIV = 103;
+        INT  = 0,   REAL  = 1,    BOOL = 2,   STRING = 3,
+        TRUE = 50,  FALSE = 51,   IF   = 52,  ELIF   = 53,  ELSE     = 54,
+        FOR  = 55,  WHILE = 56,   DO   = 57,  BREAK  = 58,  CONTINUE = 59,
+        ADD  = 100, SUB   = 101,  MUL  = 102, DIV    = 103,
+        ID   = 255;
 
 
         public:

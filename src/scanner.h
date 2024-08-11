@@ -20,6 +20,11 @@ class Scanner
      * Get the next character without skipping blanks.
      */
     char Next();
+    /**
+     * Trim all blanks untill a new char is found
+     */
+    void Trim();
+    char Peek();
     void Match(char c);
 
     Scanner(std::string source);

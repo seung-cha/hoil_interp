@@ -1,6 +1,9 @@
 #ifndef LEXER_COMP_H
 #define LEXER_COMP_H
 
+#include <sstream>
+#include "cctype"
+
 #include "../scanner.h"
 #include "../lexicons.h"
 

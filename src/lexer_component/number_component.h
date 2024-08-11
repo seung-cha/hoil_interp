@@ -1,9 +1,7 @@
 #ifndef LEXER_COMP_NUMBER_H
 #define LEXER_COMP_NUMBER_H
 
-#include <sstream>
 #include "lexer_component.h"
-#include "cctype"
 
 namespace LexerComponents
 {
