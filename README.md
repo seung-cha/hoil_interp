@@ -10,6 +10,14 @@ Compiler for statistically typed language Toylan(guage) written in C++.
 # Overview
 Toylan is designed to be simple to learn and easy to use.
 
+## Reserved Keywords
+Following keywords are reserved and cannot be used as an identifier.
+```
+int, real, bool, string,
+if,  elif, else, 
+for, while,  do, break, continue
+```
+
 ## Data Types
 Toylan features the following primitive data types - 
 * `int`: Signed whole numbers in 4 bytes range.
