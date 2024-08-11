@@ -20,8 +20,9 @@ for, while,  do, break, continue
 
 ## Data Types
 Toylan features the following primitive data types - 
-* `int`: Signed whole numbers in 4 bytes range.
-* `real`: Signed real numbers in 4 bytes range.
+* `int`: Signed whole numbers in 4 bytes range. (equivalent to `int32_t`)
+* `real`: Signed real numbers in 4 bytes range. (equivalent to `string`)
+* `bool`: true, false. 1 byte range. (equivalent to `bool`)
 
 ## Operations
 Following operations can be performed on `int` and `real`  
