@@ -1,7 +1,7 @@
 #ifndef LEX_DIV_H
 #define LEX_DIV_H
 
-#include "lexicon.h"
+#include "../lexicon.h"
 
 namespace Lexicons
 {
