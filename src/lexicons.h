@@ -25,6 +25,9 @@
 #include "lexicon/keyword/break.h"
 #include "lexicon/keyword/continue.h"
 
+// Misc
+#include "lexicon/misc/identifier.h"
+
 
 
 #endif
