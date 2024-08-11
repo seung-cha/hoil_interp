@@ -17,7 +17,7 @@ int main(int argc, char** argv)
         std::cout << "Scanner failed to open the file. Perhaps it is invalid?" << std::endl;
     }
 
-    Lexer lexer{scanner};
+    Lexer lexer{&scanner};
 
     Lexicons::Lexicon* lex = nullptr;
 
