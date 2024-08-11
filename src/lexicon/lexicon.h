@@ -40,8 +40,8 @@ namespace Lexicons
 
         std::string const Verbose() const
         {
-            char str[512];
-            snprintf(str, 512, "%s [%d, %d]", ToString().c_str(), LineNo, CharNo);
+            char str[2048];
+            snprintf(str, 2048, "%s [%d, %d]", ToString().c_str(), LineNo, CharNo);
             return str;
         }
 

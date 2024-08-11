@@ -15,6 +15,7 @@ int main(int argc, char** argv)
     if(!scanner.IsReady())
     {
         std::cout << "Scanner failed to open the file. Perhaps it is invalid?" << std::endl;
+        return EXIT_FAILURE;
     }
 
     Lexer lexer{&scanner};
