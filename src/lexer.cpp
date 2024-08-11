@@ -6,7 +6,7 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
 {
     // Set the chain
     componentHead = &opComp;
-    componentHead->Chain(&numComp);
+    componentHead->Chain(&numComp)->Chain(&strComp);
 }
 
 

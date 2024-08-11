@@ -4,5 +4,6 @@
 #include "lexer_component/lexer_component.h"
 #include "lexer_component/number_component.h"
 #include "lexer_component/operator_component.h"
+#include "lexer_component/string_component.h"
 
 #endif

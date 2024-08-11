@@ -11,7 +11,7 @@ namespace LexerComponents
     class OperatorComponent : public LexerComponent
     {
         public:
-        Lexicons::Lexicon *GetLexicon(Scanner* scanner) override
+        Lexicons::Lexicon *GetLexicon(Scanner *scanner) override
         {
             char c = scanner->currentChar;
             if(c != '*' && c != '/' && c != '-' && c != '+')

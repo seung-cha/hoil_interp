@@ -19,13 +19,13 @@ namespace LexerComponents
     class LexerComponent
     {
         public:
-        LexerComponent *Chain(LexerComponent* next)
+        LexerComponent *Chain(LexerComponent *next)
         {
             this->next = next;
             return next;
         }
 
-        virtual Lexicons::Lexicon *GetLexicon(Scanner* scanner) = 0;
+        virtual Lexicons::Lexicon *GetLexicon(Scanner *scanner) = 0;
 
         protected:
         LexerComponent *next = nullptr;

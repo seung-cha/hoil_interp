@@ -30,6 +30,11 @@ char Scanner::Seek()
     return _readChar();
 }
 
+char Scanner::Next()
+{
+    return _readChar();
+}
+
 void Scanner::Match(char c)
 {
     if(currentChar == c)

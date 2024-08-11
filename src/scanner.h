@@ -12,7 +12,14 @@ class Scanner
     char currentChar = 0;
     int lineNo = 1, charNo = 0;
     bool IsReady();
+    /**
+     * Get the next character, skipping all spaces inbetween.
+     */
     char Seek();
+    /**
+     * Get the next character without skipping blanks.
+     */
+    char Next();
     void Match(char c);
 
     Scanner(std::string source);

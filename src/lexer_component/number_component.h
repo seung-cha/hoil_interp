@@ -12,7 +12,7 @@ namespace LexerComponents
      */
     class NumberComponent : public LexerComponent
     {
-        Lexicons::Lexicon *GetLexicon(Scanner* scanner) override
+        Lexicons::Lexicon *GetLexicon(Scanner *scanner) override
         {
             if(!isdigit(scanner->currentChar))
             {

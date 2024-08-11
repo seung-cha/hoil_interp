@@ -19,6 +19,7 @@ class Lexer
 
     LexerComponents::NumberComponent numComp;
     LexerComponents::OperatorComponent opComp;
+    LexerComponents::StringComponent strComp;
 
 };
 
