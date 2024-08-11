@@ -1,11 +1,14 @@
-main: scanner.o lexer.o
-	g++ src/main.cpp scanner.o lexer.o -o main
+build/main: scanner.o lexer.o build
+	g++ src/main.cpp build/scanner.o build/lexer.o -o build/main
 
-scanner.o: src/scanner.cpp
-	g++ -c src/scanner.cpp
+scanner.o: src/scanner.cpp build
+	g++ -c src/scanner.cpp -o build/scanner.o
 
 lexer.o: src/lexer.cpp
-	g++ -c src/lexer.cpp
+	g++ -c src/lexer.cpp -o build/lexer.o
+
+build:
+	mkdir build
 
 clean:
-	rm -f main lexer.o scanner.o
+	rm -rf build
