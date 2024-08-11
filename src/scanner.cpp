@@ -38,11 +38,6 @@ char Scanner::Seek()
     {
         return _readChar();
     }
-
-
-
-    _trimBlanks();
-    return _readChar();
 }
 
 char Scanner::Next()
