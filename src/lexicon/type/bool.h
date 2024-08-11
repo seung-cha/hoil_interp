@@ -8,8 +8,8 @@ namespace Lexicons
     class Bool : public Lexicon
     {
         public:
-        bool value;
-        Bool(bool value, int lineNo, int charNo) : Lexicon{Lexicon::BOOL, lineNo, charNo}, value{value}
+        bool const value;
+        Bool(bool const value, int lineNo, int charNo) : Lexicon{Lexicon::BOOL, lineNo, charNo}, value{value}
         {
 
         }
