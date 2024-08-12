@@ -12,6 +12,15 @@
 #include "lexicon/operator/sub.h"
 #include "lexicon/operator/mul.h"
 #include "lexicon/operator/div.h"
+#include "lexicon/operator/mod.h"
+
+#include "lexicon/operator/not.h"
+#include "lexicon/operator/assign.h"
+#include "lexicon/operator/equal.h"
+#include "lexicon/operator/less.h"
+#include "lexicon/operator/greater.h"
+#include "lexicon/operator/lequal.h"
+#include "lexicon/operator/gequal.h"
 
 // Keywords
 #include "lexicon/keyword/true.h"
@@ -27,7 +36,8 @@
 
 // Misc
 #include "lexicon/misc/identifier.h"
-
+#include "lexicon/misc/error.h"
+#include "lexicon/misc/eof.h"
 
 
 #endif
