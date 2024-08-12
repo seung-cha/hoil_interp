@@ -5,7 +5,7 @@
 #include "cctype"
 
 #include "../scanner.h"
-#include "../lexicons.h"
+#include "../lexemes.h"
 
 namespace LexerComponents
 {

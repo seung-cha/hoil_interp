@@ -3,7 +3,7 @@
 
 #include <string>
 #include "scanner.h"
-#include "lexicons.h"
+#include "lexemes.h"
 #include "lexer_components.h"
 
 class Lexer

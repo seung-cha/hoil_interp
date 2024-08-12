@@ -1,5 +1,5 @@
-#ifndef LEXICONS_H
-#define LEXICONS_H
+#ifndef LEXEMES_H
+#define LEXEMES_H
 
 // Types
 #include "lexicon/type/int.h"
