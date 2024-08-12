@@ -35,9 +35,16 @@
 #include "lexicon/keyword/continue.h"
 
 // Misc
+#include "lexicon/misc/oparen.h"
+#include "lexicon/misc/osparen.h"
+#include "lexicon/misc/ocurl.h"
+#include "lexicon/misc/cparen.h"
+#include "lexicon/misc/csparen.h"
+#include "lexicon/misc/ccurl.h"
 #include "lexicon/misc/identifier.h"
 #include "lexicon/misc/error.h"
 #include "lexicon/misc/eof.h"
+
 
 
 #endif

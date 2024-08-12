@@ -25,6 +25,9 @@ namespace Lexicons
         EQUAL       = 150,      NEQUAL      = 151,      NOT     = 152,                      // Boolean operators
         GREATER     = 153,      LESS        = 154,      GEQUAL  = 155,      LEQUAL  = 156,
 
+        OPAREN      = 200,      CPAREN      = 201,      OSPAREN = 202,      CSPAREN = 203,  // Parenthesis
+        OCURLY      = 204,      CCURLY      = 205,
+
         ID          = 250,      ERR         = 254,
         END_OF_FILE = 255;
 
