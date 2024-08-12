@@ -18,6 +18,25 @@ if,  elif, else,
 for, while,  do, break, continue
 ```
 
+## Identifier
+Identifiers are defined with alphanumerics and underscore. Identifiers must start with an alphabet or an underscore. 
+
+Examples of well-formed identifiers
+
+```
+correctId
+_
+_3124
+Valid
+correct_1_Identifier
+```
+Examples of ill-formed identifiers
+```
+1invalid
+invalid_+identifier
+_not-valid
+```
+
 ## Data Types
 Toylan features the following primitive data types - 
 * `int`: Signed whole numbers in 4 bytes range. (equivalent to `int32_t`)
@@ -30,6 +49,13 @@ Following operations can be performed on `int` and `real`
 * `-`: Arithmetic subtraction.
 * `*`: Arithmetic multiplication.
 * `/`: Arithmetic division.
+
+Following operations can only be performed on `int`  
+* `%`: Arithmetic modulo (remainder).
+
+## Comments
+Toylan uses @ to indicate the beginning of a comment.  
+A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
 
 
 # Context Free Grammar
