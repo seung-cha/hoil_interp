@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
 project(Toylan LANGUAGES CXX)
 
+# Make it easier to target executable
+set(EXEC "${PROJECT_NAME}") 
+
 #enable testing
 include(CTest)
 enable_testing()

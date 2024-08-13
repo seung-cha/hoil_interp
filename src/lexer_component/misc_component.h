@@ -17,6 +17,22 @@ namespace LexerComponents
             lineNo = scanner->lineNo;
 
             char c = scanner->currentChar;
+
+            if(c == '_')
+            {
+                // Handle identifier
+
+                std::ostringstream ss;
+                while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
+                {   
+                    ss << scanner->currentChar;
+                    scanner->Next();
+                }
+                
+                scanner->Trim();
+                return new Lexicons::Identifier(ss.str(), lineNo, charNo);                
+            }
+
           
             Lexicons::Lexicon *lex = nullptr;
 

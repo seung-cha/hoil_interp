@@ -16,6 +16,7 @@ namespace LexerComponents
         {
             lineNo = scanner->lineNo;
             charNo = scanner->charNo;
+            Lexicons::Lexicon *lex = nullptr;
 
             if(!isalpha(scanner->currentChar))
             {
@@ -28,56 +29,60 @@ namespace LexerComponents
                 ss << scanner->currentChar;
                 scanner->Next();
             }
-            
-            scanner->Trim();
             std::string const str = ss.str();
             if(str == "true")
             {
-                return new Lexicons::True(lineNo, charNo);
+                lex = new Lexicons::True(lineNo, charNo);
             }
             else if(str == "false")
             {
-                return new Lexicons::False(lineNo, charNo);
+                lex = new Lexicons::False(lineNo, charNo);
             }
             else if(str == "if")
             {
-                return new Lexicons::If(lineNo, charNo);
+                lex = new Lexicons::If(lineNo, charNo);
             }
             else if(str == "elif")
             {
-                return new Lexicons::Elif(lineNo, charNo);
+                lex = new Lexicons::Elif(lineNo, charNo);
             }
             else if(str == "else")
             {
-                return new Lexicons::Else(lineNo, charNo);
+                lex = new Lexicons::Else(lineNo, charNo);
             }
             else if(str == "for")
             {
-                return new Lexicons::For(lineNo, charNo);
+                lex = new Lexicons::For(lineNo, charNo);
             }
             else if(str == "while")
             {
-                return new Lexicons::While(lineNo, charNo);
+                lex = new Lexicons::While(lineNo, charNo);
             }
             else if(str == "do")
             {
-                return new Lexicons::Do(lineNo, charNo);
+                lex = new Lexicons::Do(lineNo, charNo);
             }
             else if(str == "break")
             {
-                return new Lexicons::Break(lineNo, charNo);
+                lex = new Lexicons::Break(lineNo, charNo);
             }
             else if(str == "continue")
             {
-                return new Lexicons::Continue(lineNo, charNo);
+                lex = new Lexicons::Continue(lineNo, charNo);
             }
             else
             {
-                // TODO: Handle identifier
-                return new Lexicons::Identifier(ss.str(), lineNo, charNo);
+                while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
+                {   
+                    ss << scanner->currentChar;
+                    scanner->Next();
+                }
+
+                lex = new Lexicons::Identifier(ss.str(), lineNo, charNo);
             }
 
-
+            scanner->Trim();
+            return lex;
         }
     };
 }
