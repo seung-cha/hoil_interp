@@ -1,0 +1,1 @@
+add_library(Lib STATIC lexer.cpp scanner.cpp)
