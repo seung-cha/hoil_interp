@@ -3,4 +3,4 @@ int real bool string true false
 if else elif
 for while do break continue
 + - * / % = [ ] ( ) { } 
-> >= < <= ! != == &
+> >= < <= ! != ==
