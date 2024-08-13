@@ -13,7 +13,11 @@ class Lexer
     Lexer(Scanner *scanner);
     ~Lexer();
     
-    void NoError() const;
+    std::vector<Lexicons::Lexicon*> const& Lexemes() const
+    {
+        return lexemes; 
+    }
+    
     /**
      * Get the next lexicon. Return nullptr if nothing is available.
      */

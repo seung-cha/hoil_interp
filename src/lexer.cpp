@@ -35,18 +35,6 @@ Lexicons::Lexicon *Lexer::GetLexicon()
     return lexemes[ctr++];
 }
 
-void Lexer::NoError() const
-{
-    for(const auto& token : lexemes)
-    {
-        std::cout << token->Id << std::endl;
-        if(token->Id == Lexicons::Lexicon::ERR)
-        {
-            assert(false && "Detected an error token!");
-        }
-    }
-}
-
 void Lexer::Verbose() const
 {
     int err = 0;

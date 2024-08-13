@@ -64,7 +64,17 @@ int main(int argc, char** argv)
 
     if(lexer_no_err)
     {
-        lexer.NoError();
+        const auto lexemes = lexer.Lexemes();
+
+        for(auto& lexeme : lexemes)
+        {
+            if(lexeme->Id == Lexicons::Lexicon::ERR)
+            {
+                assert(lexeme->Id == Lexicons::Lexicon::ERR && 
+                "Error lexeme detected!");
+            }
+        }
+
     }
 
     return EXIT_SUCCESS;
