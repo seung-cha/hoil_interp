@@ -22,13 +22,26 @@ Scanner::~Scanner()
 
 bool Scanner::IsReady()
 {
-    return stream.is_open() && currentChar != EOF;
+    return stream.is_open();
 }
 
 char Scanner::Seek()
 {
+    // _trimBlanks() skips until currentChat is not a whitespace char.
+    // If currentChar is non-whitespace, _trimBlank() does nothing. Next char could be a whitespace hence check the next char.
+    // If currentChar is a whitespace, _trimBlank() will make sure currentChar is non-whitespace.
+    if(!IsReady())
+    {
+        assert(false && "Attempt to call Seek() when stream is closed");
+    }
+    
     char const peek = _peek();
-    if(peek == ' ' || peek == '\t' || peek == '\n')
+    if(currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '#')
+    {
+        _trimBlanks();
+        return currentChar;
+    } 
+    else if(peek == ' ' || peek == '\t' || peek == '\n' || peek == '#')
     {
         _readChar();
         _trimBlanks();
@@ -70,27 +83,32 @@ void Scanner::Match(char c)
 
 char Scanner::_readChar()
 {
-    if(IsReady())
+    if(currentChar == EOF)
     {
-        charNo++;
-        currentChar = stream.get();
-        return currentChar;
+        stream.close();
+        return EOF;
     }
-    else
-    {
-        // TODO: Throw exception here
-    }
+
+    charNo++;
+    currentChar = stream.get();
+
 
     return currentChar;
 }
 
 char Scanner::_peek()
 {
+    if(currentChar == EOF)
+    {
+        return EOF;
+    }
+
     return stream.peek();
 }
 
 void Scanner::_trimBlanks()
 {
+    std::string temp;
     while(true)
     {
         switch(currentChar)
@@ -104,7 +122,12 @@ void Scanner::_trimBlanks()
             charNo = 0;    // _readChar() resets it to 0. 
             lineNo++;
             break;
-
+            case '#':
+            //Skip the entire line
+            getline(stream, temp);
+            charNo = 0;
+            lineNo++;
+            break;
             default:
             return;
         }

@@ -1,10 +1,13 @@
 #include "scanner.h"
 #include "lexer.h"
+#include "lexemes.h"
 #include <iostream>
+#include <cassert>
+
 
 int main(int argc, char** argv)
 {
-    if(argc != 2)
+    if(argc <= 1)
     {
         std::cout << "Usage: " << argv[0] << " source_file" << std::endl;
         return EXIT_SUCCESS;
@@ -30,12 +33,9 @@ int main(int argc, char** argv)
         {
             break;
         }
-        else
-        {
-            std::cout << lex->Verbose() << std::endl;
-            delete lex;
-        }
 
+        std::cout << lex->Verbose() << std::endl;
+        delete lex;
     }
 
 

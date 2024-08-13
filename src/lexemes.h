@@ -17,6 +17,7 @@
 #include "lexicon/operator/not.h"
 #include "lexicon/operator/assign.h"
 #include "lexicon/operator/equal.h"
+#include "lexicon/operator/nequal.h"
 #include "lexicon/operator/less.h"
 #include "lexicon/operator/greater.h"
 #include "lexicon/operator/lequal.h"

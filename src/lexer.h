@@ -11,6 +11,9 @@ class Lexer
     public:
     Lexer(Scanner *scanner);
 
+    /**
+     * Get the next lexicon. Return nullptr if nothing is available.
+     */
     Lexicons::Lexicon *GetLexicon();
 
     private:
@@ -18,7 +21,7 @@ class Lexer
     LexerComponents::LexerComponent *componentHead;
 
     LexerComponents::NumberComponent numComp;
-    LexerComponents::OperatorComponent opComp;
+    LexerComponents::MiscComponent miscComp;
     LexerComponents::StringComponent strComp;
     LexerComponents::AlphabetComponent alphaComp;
 
