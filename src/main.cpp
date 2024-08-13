@@ -1,17 +1,42 @@
+#include <iostream>
+#include <cassert>
+#include <string.h>
 #include "scanner.h"
 #include "lexer.h"
 #include "lexemes.h"
-#include <iostream>
-#include <cassert>
 
 
 int main(int argc, char** argv)
 {
     if(argc <= 1)
     {
-        std::cout << "Usage: " << argv[0] << " source_file" << std::endl;
+        std::cout << "Usage: " << argv[0] << " [source_file] --flags" << std::endl;
+        std::cout << "Type --help or -h for more detail." << std::endl;
         return EXIT_SUCCESS;
     }
+
+    bool lexer_verbose = false;
+
+    for(int i = 0; i < argc; i++)
+    {
+        // Print help
+        if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
+        {
+            std::cout << "Usage: " << argv[0] << 
+            " [source_file] --flags\n" 
+            "--flags can be any of the following:\n\n"
+            "--lexer-verbose    Print stats for lexer" << std::endl;
+
+            return EXIT_SUCCESS;
+        }
+
+        if(strcmp(argv[i], "--lexer-verbose") == 0)
+        {
+            lexer_verbose = true;
+        }
+    }
+
+
 
     Scanner scanner{argv[1]};
 
@@ -21,23 +46,14 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    Lexer lexer{&scanner};
 
+    Lexer lexer{&scanner};
     Lexicons::Lexicon* lex = nullptr;
 
-    while(true)
+    if(lexer_verbose)
     {
-        lex = lexer.GetLexicon();
-
-        if(lex == nullptr)
-        {
-            break;
-        }
-
-        std::cout << lex->Verbose() << std::endl;
-        delete lex;
+        lexer.Verbose();
     }
-
 
     return EXIT_SUCCESS;
 }
