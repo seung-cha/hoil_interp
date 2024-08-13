@@ -1,6 +1,7 @@
 #ifndef LEXER_COMP_NUMBER_H
 #define LEXER_COMP_NUMBER_H
 
+#include <cassert>
 #include "lexer_component.h"
 
 namespace LexerComponents
@@ -28,7 +29,8 @@ namespace LexerComponents
             }
 
             int32_t value = static_cast<int32_t>(std::stoi(ss.str()));
-            return new Lexicons::Int(value, lineNo, charNo);
+            //return new Lexicons::Int(value, lineNo, charNo);
+            assert(false && "values unsupported as of now");
         }
 
     };

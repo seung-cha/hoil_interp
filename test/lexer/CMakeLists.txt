@@ -1,4 +1,4 @@
 set(DIR "${CMAKE_CURRENT_SOURCE_DIR}")  # Make it easier to target test files
 
-add_test(NAME run COMMAND "${EXEC}")
-add_test(NAME test0 COMMAND "${EXEC}" "${DIR}/test0.tl")
+add_test(NAME Lexemes COMMAND "${EXEC}" "${DIR}/test0.tl" "--lexer-verbose" "--lexer-no-err")
+add_test(NAME Values COMMAND "${EXEC}" "${DIR}/test1.tl" "--lexer-verbose" "--lexer-no-err")

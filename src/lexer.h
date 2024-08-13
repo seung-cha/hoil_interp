@@ -12,7 +12,8 @@ class Lexer
     public:
     Lexer(Scanner *scanner);
     ~Lexer();
-
+    
+    void NoError() const;
     /**
      * Get the next lexicon. Return nullptr if nothing is available.
      */
@@ -23,7 +24,7 @@ class Lexer
      * Tokens: N
      * Errors: E
      */
-    void Verbose();
+    void Verbose() const;
 
     private:
     int ctr = 0;

@@ -30,6 +30,7 @@ namespace LexerComponents
                 scanner->Next();
             }
             std::string const str = ss.str();
+
             if(str == "true")
             {
                 lex = new Lexicons::True(lineNo, charNo);
@@ -69,6 +70,22 @@ namespace LexerComponents
             else if(str == "continue")
             {
                 lex = new Lexicons::Continue(lineNo, charNo);
+            }
+            else if(str == "int")
+            {
+                lex = new Lexicons::Int(lineNo, charNo);
+            }
+            else if(str == "real")
+            {
+                lex = new Lexicons::Real(lineNo, charNo);
+            }
+            else if(str == "bool")
+            {
+                lex = new Lexicons::Bool(lineNo, charNo);
+            }
+            else if(str == "string")
+            {
+                lex = new Lexicons::String(lineNo, charNo);
             }
             else
             {

@@ -8,22 +8,14 @@ namespace Lexicons
     class Bool : public Lexicon
     {
         public:
-        bool const value;
-        Bool(bool const value, int lineNo, int charNo) : Lexicon{Lexicon::BOOL, lineNo, charNo}, value{value}
+        Bool(int lineNo, int charNo) : Lexicon{Lexicon::BOOL, lineNo, charNo}
         {
 
         }
 
         std::string const ToString() const override
         {
-            if(value)
-            {
-                return "< BOOL, true >";
-            }
-            else
-            {
-                return "< BOOL, false >";
-            }
+            return "< BOOL, TYPE >";
         }
     };
 

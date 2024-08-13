@@ -8,17 +8,14 @@ namespace Lexicons
     class String : public Lexicon
     {
         public:
-        std::string const value;
-        String(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::STRING, lineNo, charNo}, value{value}
+        String(int lineNo, int charNo) : Lexicon{Lexicon::STRING, lineNo, charNo}
         {
 
         }
 
         std::string const ToString() const override
         {
-            char str[1024 + value.size()];
-            snprintf(str, 1024 + sizeof(value), "< STRING, %s >", value.c_str());
-            return str;
+            return "< STRING, TYPE >";
         }
 
     };

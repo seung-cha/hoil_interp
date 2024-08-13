@@ -35,17 +35,37 @@ Lexicons::Lexicon *Lexer::GetLexicon()
     return lexemes[ctr++];
 }
 
-void Lexer::Verbose()
+void Lexer::NoError() const
+{
+    for(const auto& token : lexemes)
+    {
+        std::cout << token->Id << std::endl;
+        if(token->Id == Lexicons::Lexicon::ERR)
+        {
+            assert(false && "Detected an error token!");
+        }
+    }
+}
+
+void Lexer::Verbose() const
 {
     int err = 0;
+    int id = 0;
     for(const auto& token : lexemes)
     {
         if(token->Id == Lexicons::Lexicon::ERR)
         {
             err++;
         }
+        else if(token->Id == Lexicons::Lexicon::IDENTIFIER)
+        {
+            id++;
+        }
+
+        std::cout << token->Verbose() << std::endl;
     }
 
     std::cout << "Tokens: " << lexemes.size() << std::endl;
+    std::cout << "IDs: " << id << std::endl;
     std::cout << "Errors: " << err << std::endl;
 }

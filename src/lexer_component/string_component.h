@@ -3,6 +3,7 @@
 
 #include "lexer_component.h"
 #include <sstream>
+#include <cassert>
 namespace LexerComponents
 {
     class StringComponent : public LexerComponent
@@ -29,7 +30,8 @@ namespace LexerComponents
                 }
             }
             scanner->Seek();
-            return new Lexicons::String(ss.str(), lineNo, charNo);
+            //return new Lexicons::String(ss.str(), lineNo, charNo);
+            assert(false && "String unsupported as of now");
         }
     };
 

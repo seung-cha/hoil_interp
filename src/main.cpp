@@ -16,23 +16,30 @@ int main(int argc, char** argv)
     }
 
     bool lexer_verbose = false;
+    bool lexer_no_err = false;
 
     for(int i = 0; i < argc; i++)
     {
+        char const* str = argv[i];
         // Print help
-        if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
+        if(strcmp(str, "--help") == 0 || strcmp(str, "-h") == 0)
         {
-            std::cout << "Usage: " << argv[0] << 
+            std::cout << "\n\nUsage: " << argv[0] << 
             " [source_file] --flags\n" 
             "--flags can be any of the following:\n\n"
-            "--lexer-verbose    Print stats for lexer" << std::endl;
+            "--lexer-verbose    Print lexemes obtained by lexer\n"
+            "--lexer-no-err           Fail on obtaining error lexeme" << std::endl;
 
             return EXIT_SUCCESS;
         }
 
-        if(strcmp(argv[i], "--lexer-verbose") == 0)
+        if(strcmp(str, "--lexer-verbose") == 0)
         {
             lexer_verbose = true;
+        }
+        else if(strcmp(str, "--lexer-no-err") == 0)
+        {
+            lexer_no_err = true;
         }
     }
 
@@ -53,6 +60,11 @@ int main(int argc, char** argv)
     if(lexer_verbose)
     {
         lexer.Verbose();
+    }
+
+    if(lexer_no_err)
+    {
+        lexer.NoError();
     }
 
     return EXIT_SUCCESS;

@@ -8,18 +8,15 @@ namespace Lexicons
     class Int : public Lexicon
     {
         public:
-        int32_t const value;
 
-        Int(int32_t const value, int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}, value{value}
+        Int(int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}
         {
 
         }
 
         std::string const ToString() const override
         {
-            char str[1024];
-            snprintf(str, 1024, "< INT, %d >", value);
-            return str;
+            return "< INT, TYPE >";
         }
 
     };
