@@ -1,0 +1,15 @@
+name: Verify Compiler
+run-name: verify compiler functionalities
+on: push
+
+jobs:
+    Build-Compiler:
+        runs-on: ubuntu-latest
+        steps:
+            - run: cmake -S . -B build
+            - run: cd build
+            - run: cmake ..
+    Lexer:
+        runs-on: ubuntu-latest
+        steps:
+            - run: ctest --verbose -R lexer
