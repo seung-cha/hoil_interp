@@ -14,6 +14,7 @@ namespace Lexicons
         public:
         LexiconId const static 
         INT         = 0,        REAL        = 1,        BOOL    = 2,        STRING  = 3,    // Identifiers
+        INTVAL      = 10,       REALVAL     = 11,       BOOLVAL = 12,       STRINGVAL = 13,
 
         TRUE        = 50,       FALSE       = 51,       IF      = 52,       ELIF    = 53,   // Keywords
         ELSE        = 54,       FOR         = 55,       WHILE   = 56,       DO      = 57,      

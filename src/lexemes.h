@@ -7,6 +7,13 @@
 #include "lexicon/type/bool.h"
 #include "lexicon/type/string.h"
 
+// Values
+#include "lexicon/type/int_value.h"
+#include "lexicon/type/real_value.h"
+#include "lexicon/type/bool_value.h"
+#include "lexicon/type/string_value.h"
+
+
 // Operators
 #include "lexicon/operator/add.h"
 #include "lexicon/operator/sub.h"
@@ -24,8 +31,8 @@
 #include "lexicon/operator/gequal.h"
 
 // Keywords
-#include "lexicon/keyword/true.h"
-#include "lexicon/keyword/false.h"
+//#include "lexicon/keyword/true.h"
+//#include "lexicon/keyword/false.h"
 #include "lexicon/keyword/if.h"
 #include "lexicon/keyword/elif.h"
 #include "lexicon/keyword/else.h"

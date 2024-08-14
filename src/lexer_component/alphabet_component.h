@@ -33,11 +33,11 @@ namespace LexerComponents
 
             if(str == "true")
             {
-                lex = new Lexicons::True(lineNo, charNo);
+                lex = new Lexicons::BoolValue(true, lineNo, charNo);
             }
             else if(str == "false")
             {
-                lex = new Lexicons::False(lineNo, charNo);
+                lex = new Lexicons::BoolValue(false, lineNo, charNo);
             }
             else if(str == "if")
             {

@@ -13,24 +13,42 @@ namespace LexerComponents
     {
         Lexicons::Lexicon *GetLexicon(Scanner *scanner) override
         {
-            if(!isdigit(scanner->currentChar))
+            if(!isdigit(scanner->currentChar) || scanner->currentChar == '.')
             {
                 CHAIN_RETURN;
             }
 
+            bool decFound = false;
             std::ostringstream ss;
             lineNo = scanner->lineNo;
             charNo = scanner->charNo;
             
-            while(isdigit(scanner->currentChar))
+            while(isdigit(scanner->currentChar) || (!decFound && scanner->currentChar == '.'))
             {
+                if(scanner->currentChar == '.')
+                {
+                    decFound = true;
+                }
+
                 ss << scanner->currentChar;
                 scanner->Seek();
             }
 
-            int32_t value = static_cast<int32_t>(std::stoi(ss.str()));
-            //return new Lexicons::Int(value, lineNo, charNo);
-            assert(false && "values unsupported as of now");
+            // Error checking
+            if(ss.str() == ".")
+            {
+                return new Lexicons::Error(ss.str(), lineNo, charNo);
+            }
+            else if(decFound)
+            {
+                float value = std::stof(ss.str());
+                return new Lexicons::RealValue(value ,lineNo, charNo);
+            }
+            else
+            {
+                int32_t value = static_cast<int32_t>(std::stoi(ss.str()));
+                return new Lexicons::IntValue(value, lineNo, charNo);
+            }
         }
 
     };

@@ -27,11 +27,11 @@ namespace LexerComponents
                 if(scanner->Next() == EOF)
                 {
                     // TODO: handle string-not-terminated error
+                    return new Lexicons::Error(ss.str(), lineNo, charNo);
                 }
             }
             scanner->Seek();
-            //return new Lexicons::String(ss.str(), lineNo, charNo);
-            assert(false && "String unsupported as of now");
+            return new Lexicons::StringValue(ss.str(), lineNo, charNo);
         }
     };
 
