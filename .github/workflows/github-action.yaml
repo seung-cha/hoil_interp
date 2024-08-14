@@ -34,4 +34,4 @@ jobs:
             - name: test lexer
               run: |
                 cd build
-                ctest --verbose -R lexer
+                sudo ctest --verbose -R lexer
