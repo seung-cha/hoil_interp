@@ -54,7 +54,7 @@ Following operations can only be performed on `int`
 * `%`: Arithmetic modulo (remainder).
 
 ## Comments
-Toylan uses @ to indicate the beginning of a comment.  
+Toylan uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
 
 
