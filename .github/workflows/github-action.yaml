@@ -33,4 +33,5 @@ jobs:
                 path: build/
             - name: test lexer
               run: |
-                ls
+                cd build
+                ctest --verbose -R lexer
