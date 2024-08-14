@@ -13,7 +13,7 @@ namespace LexerComponents
     {
         Lexicons::Lexicon *GetLexicon(Scanner *scanner) override
         {
-            if(!isdigit(scanner->currentChar) || scanner->currentChar == '.')
+            if(!(isdigit(scanner->currentChar) || scanner->currentChar == '.'))
             {
                 CHAIN_RETURN;
             }
@@ -31,8 +31,10 @@ namespace LexerComponents
                 }
 
                 ss << scanner->currentChar;
-                scanner->Seek();
+                scanner->Next();
             }
+
+            scanner->Trim();
 
             // Error checking
             if(ss.str() == ".")
