@@ -18,4 +18,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: Build-Compiler
         steps:
-            - run: ctest --verbose -R lexer
+            - uses: actions/checkout@v2
+            - run: |
+                cd build
+                ctest --verbose -R lexer
