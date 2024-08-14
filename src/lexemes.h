@@ -13,7 +13,6 @@
 #include "lexicon/type/bool_value.h"
 #include "lexicon/type/string_value.h"
 
-
 // Operators
 #include "lexicon/operator/add.h"
 #include "lexicon/operator/sub.h"
@@ -52,6 +51,7 @@
 #include "lexicon/misc/identifier.h"
 #include "lexicon/misc/error.h"
 #include "lexicon/misc/eof.h"
+#include "lexicon/misc/semicolon.h"
 
 
 

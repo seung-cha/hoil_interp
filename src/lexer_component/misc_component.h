@@ -115,6 +115,9 @@ namespace LexerComponents
                 case '}':
                 lex = new Lexicons::CloseCurly(lineNo, charNo);
                 break;
+                case ';':
+                lex = new Lexicons::Semicolon(lineNo, charNo);
+                break;
                 case EOF:
                 lex = new Lexicons::EndOfFile(lineNo, charNo);
                 break;
