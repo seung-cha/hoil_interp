@@ -8,8 +8,12 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: cmake -S . -B build
-            - run: cd build
-            - run: make
+
+            - name: build
+              run: |
+                cd build
+                cmake --build .
+
     Lexer:
         runs-on: ubuntu-latest
         needs: Build-Compiler
