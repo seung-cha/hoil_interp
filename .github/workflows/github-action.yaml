@@ -6,20 +6,24 @@ jobs:
     Build-Compiler:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - run: cmake -S . -B build
 
-            - name: build
+            - uses: actions/checkout@v4
+            - run: cmake -S . -B out
+
+            - name: build   # upload-artifact does not preserve the root dir so make a nested dir instead
               run: |
-                cd build
+                cd out
                 cmake --build .
+                cd ..
+                mkdir build
+                mv out/* build
+                mv build out
             
-            # New terminal. It's on the root directory.
             - name: update build dir as artifact
               uses: actions/upload-artifact@v4
               with:
                 name: build
-                path: build/
+                path: out/
 
     Lexer:
         runs-on: ubuntu-latest
@@ -32,4 +36,5 @@ jobs:
                 name: build
             - name: test lexer
               run: |
-                ls -R
+                cd build
+                ctest --verbose -R lexer
