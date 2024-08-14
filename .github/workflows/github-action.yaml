@@ -3,35 +3,12 @@ run-name: verify compiler functionalities
 on: push
 
 jobs:
-    Build-Compiler:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - run: cmake -S . -B build
-
-            - name: build
-              run: |
-                cd build
-                cmake --build .
-            
-            - name: update build dir as artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: build
-                path: build/
-
     Lexer:
         runs-on: ubuntu-latest
-        needs: Build-Compiler
         steps:
-            - run:  mkdir build
             - uses: actions/checkout@v4
-            - name: download build dir
-              uses: actions/download-artifact@v4
-              with:
-                name: build
-                path: build/
-            - name: test lexer
-              run: |
+            - run:  cmake -S . -B build
+            - run:  |
                 cd build
-                sudo ctest --verbose -R lexer
+                cmake --build .
+            - run: ctest --verbose -R lexer --test-dir build
