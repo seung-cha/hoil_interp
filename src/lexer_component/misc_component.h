@@ -121,6 +121,9 @@ namespace LexerComponents
                 case EOF:
                 lex = new Lexicons::EndOfFile(lineNo, charNo);
                 break;
+                case ',':
+                lex = new Lexicons::Comma(lineNo, charNo);
+                break;
                 default:
                 lex = new Lexicons::Error(std::string{c}, lineNo, charNo);
                 break;
