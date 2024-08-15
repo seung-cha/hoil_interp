@@ -53,6 +53,7 @@
 #include "lexicon/misc/error.h"
 #include "lexicon/misc/eof.h"
 #include "lexicon/misc/semicolon.h"
+#include "lexicon/misc/comma.h"
 
 
 

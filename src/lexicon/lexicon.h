@@ -30,7 +30,7 @@ namespace Lexicons
         OPAREN      = 200,      CPAREN      = 201,      OSPAREN = 202,      CSPAREN = 203,  // Parenthesis
         OCURLY      = 204,      CCURLY      = 205,
 
-        SEMICOLON   = 210,
+        SEMICOLON   = 210,      COMMA       = 211,
 
         IDENTIFIER  = 250,      ERR         = 254,
         END_OF_FILE = 255;
