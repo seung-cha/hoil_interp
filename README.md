@@ -53,21 +53,33 @@ Following operations can be performed on `int` and `real`
 Following operations can only be performed on `int`  
 * `%`: Arithmetic modulo (remainder).
 
+Following operations are boolean operations and the effects are obvious:
+* `!` Negation
+* `==` Equality
+* `!=` Inequality
+* `>` Strictly greater
+* `<` Strictly less
+* `>=` Greater or equal
+* `<=` Less or equal
+
+
 ## Comments
 Toylan uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
 
 
 # Context Free Grammar
+Non terminals are represented by enclosing them with `_` or `"`.
 ```
+      var_decl -> type _identifier_ ";"
+
+          type -> _int_ | _real_ | _string_ | _void_
+
 arithmetic-op0 -> arithmetic-op0 "+" arithmetic-op1
                 | arithmetic-op0 "-" arithmetic-op1
                 | arithmetic-op1
 
-arithmetic-op1 -> arithmetic-op1 "*" operand
-                | arithmetic-op1 "/" operand
-                | operand
-
-       operand -> *digits*
-
+arithmetic-op1 -> arithmetic-op1 "*" _number_
+                | arithmetic-op1 "/" _number_
+                | _number_
 ```
