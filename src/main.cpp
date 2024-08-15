@@ -4,6 +4,7 @@
 #include "scanner.h"
 #include "lexer.h"
 #include "lexemes.h"
+#include "parser.h"
 
 
 int main(int argc, char** argv)
@@ -74,7 +75,15 @@ int main(int argc, char** argv)
                 "Error lexeme detected!");
             }
         }
+    }
 
+    Parser parser{&lexer};
+
+    parser.Analyse();
+
+    for(const auto& str : parser.ErrorMsgs())
+    {
+        std::cout << str << std::endl;
     }
 
     return EXIT_SUCCESS;

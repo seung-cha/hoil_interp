@@ -25,7 +25,6 @@ class Scanner
      */
     void Trim();
     char Peek();
-    void Match(char c);
 
     Scanner(std::string source);
     ~Scanner();

@@ -68,19 +68,6 @@ char Scanner::Peek()
     return _peek();
 }
 
-void Scanner::Match(char c)
-{
-    if(currentChar == c)
-    {
-        Seek();
-    }
-    else
-    {
-        // TODO:: Throw an exception here
-    }
-}
-
-
 char Scanner::_readChar()
 {
     if(currentChar == EOF)
