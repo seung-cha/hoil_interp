@@ -13,7 +13,8 @@ namespace Lexicons
     {
         public:
         LexiconId const static 
-        INT         = 0,        REAL        = 1,        BOOL    = 2,        STRING  = 3,    // Identifiers
+        INT         = 0,        REAL        = 1,        BOOL    = 2,        STRING  = 3,    // Types
+        VOID        = 4,
         INTVAL      = 10,       REALVAL     = 11,       BOOLVAL = 12,       STRINGVAL = 13,
 
         TRUE        = 50,       FALSE       = 51,       IF      = 52,       ELIF    = 53,   // Keywords
