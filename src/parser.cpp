@@ -2,6 +2,8 @@
 #include "lexer.h"
 #include "parser.h"
 
+using namespace Lexicons;
+
 Parser::Parser(Lexer *lexer) : lexer{lexer}
 {
     Next();
@@ -17,7 +19,7 @@ void Parser::Match(Lexicons::LexiconId id)
     if(currentLexicon->Id != id)
     {
         std::ostringstream ss;
-        ss << "Unexpected Token: " << currentLexicon->Verbose() << std::endl;
+        ss << "Unexpected Token: " << currentLexicon->Verbose();
         errorMsgs.push_back(ss.str());
     }
 
@@ -26,5 +28,4 @@ void Parser::Match(Lexicons::LexiconId id)
 
 void Parser::Analyse()
 {
-    
 }
