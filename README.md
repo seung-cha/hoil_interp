@@ -72,12 +72,11 @@ A comment may appear at the start or end of a line. The effect of comment persis
 Non terminals are represented by enclosing them with `_` or `"`. `eps` represents empty production.
 ```
                   program -> (var-decl)*
-                  
+
        # Variable declaration
                  var_decl -> type var_decl_list ";"
             var_decl_list -> var_decl_expr ("," var_decl_list)*
-            var_decl_expr -> var_init ("=" var_init_expr)?
-                 var_init -> identifier
+            var_decl_expr -> _identifier_ ("=" var_init_expr)?
             var_init_expr -> expr
 
 

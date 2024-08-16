@@ -55,11 +55,35 @@ void Parser::ParseProgram()
 
 void Parser::ParseVarDecl()
 {
-    // As of now, handle single var declaration only.
+    // var_decl -> type var_decl_list ";"
     ParseType();
-    Match(Lexicon::IDENTIFIER);
+    ParseVarDeclList();
     Match(Lexicon::SEMICOLON);
 }
+
+void Parser::ParseVarDeclList()
+{
+    // var_decl_list -> var_decl_expr ("," var_decl_list)*
+    ParseVarDeclExpr();
+    while(currentLexicon->Id == Lexicon::COMMA)
+    {
+        Next();
+        ParseVarDeclList();
+    }
+}
+
+void Parser::ParseVarDeclExpr()
+{
+    // var_decl_expr -> _identifier_ ("=" var_init_expr)?
+    Match(Lexicon::IDENTIFIER);
+
+    // TODO
+    if(currentLexicon->Id == Lexicon::EQUAL)
+    {
+        
+    }
+}
+
 
 void Parser::ParseType()
 {

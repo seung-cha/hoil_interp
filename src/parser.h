@@ -43,7 +43,11 @@ class Parser
     // TODO: Build AST out of parse functions
     private:
     void ParseProgram();
+
     void ParseVarDecl();
+    void ParseVarDeclList();
+    void ParseVarDeclExpr();
+
     void ParseType();
 
 
