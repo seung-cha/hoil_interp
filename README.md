@@ -71,6 +71,8 @@ A comment may appear at the start or end of a line. The effect of comment persis
 # Context Free Grammar
 Non terminals are represented by enclosing them with `_` or `"`. `eps` represents empty production.
 ```
+                  program -> (var-decl)*
+                  
        # Variable declaration
                  var_decl -> type var_decl_list ";"
             var_decl_list -> var_decl_expr ("," var_decl_list)*
@@ -78,7 +80,6 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
                  var_init -> identifier
             var_init_expr -> expr
 
-      var_multi_decl_expr -> ("," _identifier)+
 
                      type -> _int_ | _real_ | _string_ | _void_
 
