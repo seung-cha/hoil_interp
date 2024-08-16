@@ -6,6 +6,7 @@
 #include "lexicon/type/real.h"
 #include "lexicon/type/bool.h"
 #include "lexicon/type/string.h"
+#include "lexicon/type/void.h"
 
 // Values
 #include "lexicon/type/int_value.h"
@@ -52,6 +53,7 @@
 #include "lexicon/misc/error.h"
 #include "lexicon/misc/eof.h"
 #include "lexicon/misc/semicolon.h"
+#include "lexicon/misc/comma.h"
 
 
 

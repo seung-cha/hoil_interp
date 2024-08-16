@@ -71,8 +71,9 @@ int main(int argc, char** argv)
         {
             if(lexeme->Id == Lexicons::Lexicon::ERR)
             {
-                assert(lexeme->Id == Lexicons::Lexicon::ERR && 
-                "Error lexeme detected!");
+                std::cout << "Error lexeme detected!" << std::endl;
+                std::cout << lexeme->Verbose() << std::endl;
+                return EXIT_FAILURE;
             }
         }
     }

@@ -87,6 +87,10 @@ namespace LexerComponents
             {
                 lex = new Lexicons::String(lineNo, charNo);
             }
+            else if(str == "void")
+            {
+                lex = new Lexicons::Void(lineNo, charNo);
+            }
             else
             {
                 while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
