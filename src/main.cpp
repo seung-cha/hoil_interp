@@ -80,8 +80,6 @@ int main(int argc, char** argv)
 
     Parser parser{&lexer};
 
-    parser.Analyse();
-
     for(const auto& str : parser.ErrorMsgs())
     {
         std::cout << str << std::endl;
