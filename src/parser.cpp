@@ -78,7 +78,7 @@ void Parser::ParseVarDeclExpr()
     Match(Lexicon::IDENTIFIER);
 
     // TODO
-    if(currentLexicon->Id == Lexicon::EQUAL)
+    if(currentLexicon->Id == Lexicon::ASSIGN)
     {
         
     }

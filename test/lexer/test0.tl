@@ -4,3 +4,5 @@ if else elif
 for while do break continue
 + - * / % = [ ] ( ) { } 
 > >= < <= ! != == ,
+
++= -= /= *= # Assignment operators

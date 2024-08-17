@@ -21,8 +21,15 @@
 #include "lexicon/operator/div.h"
 #include "lexicon/operator/mod.h"
 
-#include "lexicon/operator/not.h"
+// Assign Operators
 #include "lexicon/operator/assign.h"
+#include "lexicon/operator/add_assign.h"
+#include "lexicon/operator/sub_assign.h"
+#include "lexicon/operator/div_assign.h"
+#include "lexicon/operator/mul_assign.h"
+
+
+#include "lexicon/operator/not.h"
 #include "lexicon/operator/equal.h"
 #include "lexicon/operator/nequal.h"
 #include "lexicon/operator/less.h"

@@ -39,16 +39,49 @@ namespace LexerComponents
             switch(c)
             {
                 case '+':
-                lex = new Lexicons::Add(lineNo, charNo);
+                if(scanner->Peek() == '=')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::AddAssign(lineNo, charNo);
+                }
+                else
+                {
+                    lex = new Lexicons::Add(lineNo, charNo);
+                }
                 break;
                 case '-':
                 lex = new Lexicons::Sub(lineNo, charNo);
+                if(scanner->Peek() == '=')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::SubAssign(lineNo, charNo);
+                }
+                else
+                {
+                    lex = new Lexicons::Sub(lineNo, charNo);
+                }
                 break;
                 case '*':
-                lex = new Lexicons::Mul(lineNo, charNo);
+                if(scanner->Peek() == '=')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::MulAssign(lineNo, charNo);
+                }
+                else
+                {
+                    lex = new Lexicons::Mul(lineNo, charNo);
+                }
                 break;
                 case '/':
-                lex = new Lexicons::Div(lineNo, charNo);
+                if(scanner->Peek() == '=')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::DivAssign(lineNo, charNo);
+                }
+                else
+                {
+                    lex = new Lexicons::Div(lineNo, charNo);
+                }
                 break;
                 case '%':
                 lex = new Lexicons::Mod(lineNo, charNo);

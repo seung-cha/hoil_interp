@@ -5,3 +5,5 @@ for(a; ; a = a + 1)
 {
     print("Hello World!");
 }
+
+real += 551 -= 32 *= 117 /= 2761;

@@ -13,27 +13,28 @@ namespace Lexicons
     {
         public:
         LexiconId const static 
-        INT         = 0,        REAL        = 1,        BOOL    = 2,        STRING  = 3,    // Types
-        VOID        = 4,
-        INTVAL      = 10,       REALVAL     = 11,       BOOLVAL = 12,       STRINGVAL = 13,
+        INT             = 0,            REAL            = 1,            BOOL        = 2,            STRING      = 3,    // Types
+        VOID            = 4,
+        INTVAL          = 10,           REALVAL         = 11,           BOOLVAL     = 12,           STRINGVAL   = 13,
 
-        TRUE        = 50,       FALSE       = 51,       IF      = 52,       ELIF    = 53,   // Keywords
-        ELSE        = 54,       FOR         = 55,       WHILE   = 56,       DO      = 57,      
-        BREAK       = 58,       CONTINUE    = 59,
+        TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
+        ELSE            = 54,           FOR             = 55,           WHILE       = 56,           DO          = 57,      
+        BREAK           = 58,           CONTINUE        = 59,
 
-        ADD         = 100,      SUB         = 101,      MUL     = 102,      DIV     = 103,  // Operators
-        MOD         = 104,      ASSIGN      = 105,      
+        ADD             = 100,          SUB             = 101,          MUL         = 102,          DIV         = 103,  // Operators
+        MOD             = 104,          ASSIGN          = 105,          ADD_ASSIGN  = 106,          SUB_ASSIGN  = 107,      
+        MUL_ASSIGN      = 108,          DIV_ASSIGN      = 109,
 
-        EQUAL       = 150,      NEQUAL      = 151,      NOT     = 152,                      // Boolean operators
-        GREATER     = 153,      LESS        = 154,      GEQUAL  = 155,      LEQUAL  = 156,
+        EQUAL           = 150,          NEQUAL          = 151,          NOT         = 152,                      // Boolean operators
+        GREATER         = 153,          LESS            = 154,          GEQUAL      = 155,          LEQUAL      = 156,
 
-        OPAREN      = 200,      CPAREN      = 201,      OSPAREN = 202,      CSPAREN = 203,  // Parenthesis
-        OCURLY      = 204,      CCURLY      = 205,
+        OPAREN          = 200,          CPAREN          = 201,          OSPAREN     = 202,          CSPAREN     = 203,  // Parenthesis
+        OCURLY          = 204,          CCURLY          = 205,
 
-        SEMICOLON   = 210,      COMMA       = 211,
+        SEMICOLON       = 210,          COMMA           = 211,
 
-        IDENTIFIER  = 250,      ERR         = 254,
-        END_OF_FILE = 255;
+        IDENTIFIER      = 250,          ERR             = 254,
+        END_OF_FILE     = 255;
 
 
         public:
