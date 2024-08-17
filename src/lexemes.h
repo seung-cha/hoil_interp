@@ -37,6 +37,10 @@
 #include "lexicon/operator/lequal.h"
 #include "lexicon/operator/gequal.h"
 
+// Logical Operators
+#include "lexicon/operator/logical_or.h"
+#include "lexicon/operator/logical_and.h"
+
 // Keywords
 //#include "lexicon/keyword/true.h"
 //#include "lexicon/keyword/false.h"

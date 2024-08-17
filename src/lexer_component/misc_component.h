@@ -130,6 +130,28 @@ namespace LexerComponents
                     lex = new Lexicons::Not(lineNo, charNo);
                 }
                 break;
+                case '|':
+                if(scanner->Peek() == '|')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::LogicalOr(lineNo, charNo);
+                }
+                else
+                {
+                    goto error_lex;
+                }
+                break;
+                case '&':
+                if(scanner->Peek() == '&')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::LogicalAnd(lineNo, charNo);
+                }
+                else
+                {
+                    goto error_lex;
+                }
+                break;
                 case '(':
                 lex = new Lexicons::OpenParen(lineNo, charNo);
                 break;
@@ -158,6 +180,7 @@ namespace LexerComponents
                 lex = new Lexicons::Comma(lineNo, charNo);
                 break;
                 default:
+                error_lex:
                 lex = new Lexicons::Error(std::string{c}, lineNo, charNo);
                 break;
             }

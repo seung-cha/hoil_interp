@@ -80,8 +80,10 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
             var_init_expr -> expr
 
                      expr -> assignment_expr
-          assignment_expr -> assign_op assignment_expr
-                           | cond_expr
+          assignment_expr -> (assign_op assign_expr)* logical_or_expr
+          logical_or_expr -> logical_and_expr ("||" logical_and_expr)*
+         logical_and_expr -> equality_expr ("&&" equality_expr)*
+            equality_expr -> TODO
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
                      type -> _int_ | _real_ | _string_ | _void_
