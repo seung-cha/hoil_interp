@@ -15,6 +15,11 @@ void Parser::Next()
     currentLexicon = lexer->GetLexicon();
 }
 
+bool Parser::LexemeIs(Lexicons::LexiconId id)
+{
+    return currentLexicon->Id == id;
+}
+
 void Parser::Match(Lexicons::LexiconId id)
 {
     if(currentLexicon->Id != id)
@@ -40,11 +45,11 @@ void Parser::ReportMismatch()
 void Parser::ParseProgram()
 {
     while(
-        currentLexicon->Id == Lexicon::INT  ||
-        currentLexicon->Id == Lexicon::REAL ||
-        currentLexicon->Id == Lexicon::BOOL ||
-        currentLexicon->Id == Lexicon::STRING ||
-        currentLexicon->Id == Lexicon::VOID
+        LexemeIs(Lexicon::INT)  ||
+        LexemeIs(Lexicon::REAL) ||
+        LexemeIs(Lexicon::BOOL) ||
+        LexemeIs(Lexicon::STRING) ||
+        LexemeIs(Lexicon::VOID)
         )
     {
         ParseVarDecl();
@@ -109,3 +114,58 @@ void Parser::ParseType()
     }
 }
 
+void Parser::ParseExpr()
+{
+    ParseAssignmentExpr();
+}
+
+void Parser::ParseAssignmentExpr()
+{
+    while(LexemeIs(Lexicon::ASSIGN) ||
+        LexemeIs(Lexicon::ADD_ASSIGN)||
+        LexemeIs(Lexicon::SUB_ASSIGN)||
+        LexemeIs(Lexicon::MUL_ASSIGN)||
+        LexemeIs(Lexicon::DIV_ASSIGN))
+        {
+            Next();
+            // TO DO Handle recursion
+        }
+
+    ParseLogicalOrExpr();
+}
+
+void Parser::ParseLogicalOrExpr()
+{
+    ParseLogicalAndExpr();
+    while(LexemeIs(Lexicon::LOGICAL_OR))
+    {
+        Next();
+        ParseLogicalAndExpr();
+    }
+
+}
+
+void Parser::ParseLogicalAndExpr()
+{
+    ParseEqualityExpr();
+    while(LexemeIs(Lexicon::LOGICAL_AND))
+    {
+        Next();
+        ParseEqualityExpr();
+    }
+}
+
+void Parser::ParseEqualityExpr()
+{
+    ParseAdditiveExpr();
+    while(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
+    {
+        Next();
+        ParseAdditiveExpr();
+    }
+}
+
+void Parser::ParseAdditiveExpr()
+{
+
+}

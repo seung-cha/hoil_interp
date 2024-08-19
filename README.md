@@ -85,7 +85,7 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
           logical_or_expr -> logical_or_expr "||" logical_and_expr
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
-                           | logical_and_expr
+                           | equality_expr
             equality_expr -> equality_expr "==" additive_expr
                            | equality_expr "!=" additive_expr
                            | additive_expr

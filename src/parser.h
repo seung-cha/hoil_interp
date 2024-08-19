@@ -21,6 +21,11 @@ class Parser
 
     private:
     /**
+     * Return true if the current lexeme is of type Id.
+     * Does not consume lexeme.
+     */
+    bool LexemeIs(Lexicons::LexiconId id); 
+    /**
      * Get the next lexicon
      */
     void Next();
@@ -50,6 +55,12 @@ class Parser
 
     void ParseType();
 
+    void ParseExpr();
+    void ParseAssignmentExpr();
+    void ParseLogicalOrExpr();
+    void ParseLogicalAndExpr();
+    void ParseEqualityExpr();
+    void ParseAdditiveExpr();
 
 
 
