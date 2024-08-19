@@ -89,7 +89,15 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
             equality_expr -> equality_expr "==" additive_expr
                            | equality_expr "!=" additive_expr
                            | additive_expr
-            additive_expr -> TODO
+            additive_expr -> additive_expr "+" multiplicative_expr
+                           | additive_expr "-" multiplicative_expr
+                           | multiplicative_expr
+      multiplicative_epxr -> multiplicative_expr "*" unary_expr
+                           | multiplicative_expr "/" unary_expr
+                           | multiplicative_expr "%" unary_expr
+                           | unary_expr
+                           
+               unary_expr -> TODO
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
                      type -> _int_ | _real_ | _string_ | _void_

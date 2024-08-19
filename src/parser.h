@@ -61,7 +61,8 @@ class Parser
     void ParseLogicalAndExpr();
     void ParseEqualityExpr();
     void ParseAdditiveExpr();
-
+    void ParseMultiplicativeExpr();
+    void ParseUnaryExpr();
 
 
 

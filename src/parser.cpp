@@ -167,5 +167,30 @@ void Parser::ParseEqualityExpr()
 
 void Parser::ParseAdditiveExpr()
 {
+    ParseMultiplicativeExpr();
+
+    while(LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB))
+    {
+        Next();
+        ParseMultiplicativeExpr();
+    }
+
+}
+
+void Parser::ParseMultiplicativeExpr()
+{
+    ParseUnaryExpr();
+
+    while(LexemeIs(Lexicon::MUL) || 
+          LexemeIs(Lexicon::DIV) || 
+          LexemeIs(Lexicon::MOD))
+    {
+        Next();
+        ParseUnaryExpr();
+    }
+}
+
+void Parser::ParseUnaryExpr()
+{
 
 }
