@@ -96,17 +96,9 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
                            | multiplicative_expr "/" unary_expr
                            | multiplicative_expr "%" unary_expr
                            | unary_expr
-                           
+
                unary_expr -> TODO
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
                      type -> _int_ | _real_ | _string_ | _void_
-
-           arithmetic-op0 -> arithmetic-op0 "+" arithmetic-op1
-                           | arithmetic-op0 "-" arithmetic-op1
-                           | arithmetic-op1
-
-           arithmetic-op1 -> arithmetic-op1 "*" _number_
-                           | arithmetic-op1 "/" _number_
-                           | _number_
 ```
