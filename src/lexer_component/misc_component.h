@@ -44,6 +44,11 @@ namespace LexerComponents
                     scanner->Next();
                     lex = new Lexicons::AddAssign(lineNo, charNo);
                 }
+                else if(scanner->Peek() == '+')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::UnaryAdd(lineNo, charNo);
+                }
                 else
                 {
                     lex = new Lexicons::Add(lineNo, charNo);
@@ -55,6 +60,11 @@ namespace LexerComponents
                 {
                     scanner->Next();
                     lex = new Lexicons::SubAssign(lineNo, charNo);
+                }
+                 else if(scanner->Peek() == '-')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::UnarySub(lineNo, charNo);
                 }
                 else
                 {

@@ -8,3 +8,5 @@ for while do break continue
 += -= /= *= # Assignment operators
 
 || &&       # Logical operators 
+
+--, ++      # Unary operators

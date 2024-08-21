@@ -21,6 +21,10 @@
 #include "lexicon/operator/div.h"
 #include "lexicon/operator/mod.h"
 
+// Unary Operations
+#include "lexicon/operator/unary_add.h"
+#include "lexicon/operator/unary_sub.h"
+
 // Assign Operators
 #include "lexicon/operator/assign.h"
 #include "lexicon/operator/add_assign.h"
