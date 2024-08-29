@@ -192,5 +192,20 @@ void Parser::ParseMultiplicativeExpr()
 
 void Parser::ParseUnaryExpr()
 {
+    ParsePrimaryExpr(); // TODO: add unary expr
+}
 
+void Parser::ParsePrimaryExpr()
+{
+    if(LexemeIs(Lexicon::IDENTIFIER) || 
+    LexemeIs(Lexicon::REALVAL)       || 
+    LexemeIs(Lexicon::BOOLVAL)       ||
+    LexemeIs(Lexicon::STRINGVAL))
+    {
+        Next();
+    }
+    else
+    {
+        ReportMismatch();
+    }
 }
