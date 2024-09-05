@@ -1,3 +1,6 @@
+/**
+ *  THIS LEXEME IS NOT USED
+ */
 #ifndef LEX_FALSE_H
 #define LEX_FALSE_H
 

@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 
     bool lexer_verbose = false;
     bool lexer_no_err = false;
+    bool parser_no_err = false;
 
     for(int i = 0; i < argc; i++)
     {
@@ -29,7 +30,8 @@ int main(int argc, char** argv)
             " [source_file] --flags\n" 
             "--flags can be any of the following:\n\n"
             "--lexer-verbose    Print lexemes obtained by lexer\n"
-            "--lexer-no-err           Fail on obtaining error lexeme" << std::endl;
+            "--lexer-no-err           Fail on obtaining error lexeme\n"
+            "--parser-no-err       Fail if source file is syntactically ill-formed" << std::endl;
 
             return EXIT_SUCCESS;
         }
@@ -42,8 +44,11 @@ int main(int argc, char** argv)
         {
             lexer_no_err = true;
         }
+        else if(strcmp(str, "--parser-no-err") == 0)
+        {
+            parser_no_err = true;
+        }
     }
-
 
 
     Scanner scanner{argv[1]};
@@ -78,12 +83,19 @@ int main(int argc, char** argv)
         }
     }
 
+
     Parser parser{&lexer};
 
     for(const auto& str : parser.ErrorMsgs())
     {
         std::cout << str << std::endl;
     }
+
+    if(parser_no_err && parser.ErrorMsgs().size() > 0)
+    {
+        return EXIT_FAILURE;
+    }
+
 
     return EXIT_SUCCESS;
 }

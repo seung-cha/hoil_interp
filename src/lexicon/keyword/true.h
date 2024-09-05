@@ -1,8 +1,10 @@
+/**
+ *  THIS LEXEME IS NOT USED
+ */
 #ifndef LEX_TRUE_H
 #define LEX_TRUE_H
 
 #include "../lexicon.h"
-
 namespace Lexicons
 {
     class True : public Lexicon

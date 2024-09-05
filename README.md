@@ -100,11 +100,14 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
                            | "-" unary_expr
                            | "!" unary_expr
                            | primary_expr
-                           
-             primary_expr -> TODO
+             primary_expr -> Identifier
+                           | IntVal
+                           | RealVal
+                           | BoolVal
+                           | StringVal
                
 
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
-                     type -> _int_ | _real_ | _string_ | _void_
+                     type -> Int | Real | String | Void
 ```

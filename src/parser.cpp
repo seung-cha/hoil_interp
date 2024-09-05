@@ -204,5 +204,15 @@ void Parser::ParseUnaryExpr()
 
 void Parser::ParsePrimaryExpr()
 {
-    // TODO
+    if(LexemeIs(Lexicon::IDENTIFIER) || 
+    LexemeIs(Lexicon::REALVAL)       || 
+    LexemeIs(Lexicon::BOOLVAL)       ||
+    LexemeIs(Lexicon::STRINGVAL))
+    {
+        Next();
+    }
+    else
+    {
+        ReportMismatch();
+    }
 }

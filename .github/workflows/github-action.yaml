@@ -12,3 +12,13 @@ jobs:
                 cd build
                 cmake --build .
             - run: ctest --verbose -R lexer --test-dir build
+    Parser:
+        needs: Lexer
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: cmake -S . -B build
+            - run: |
+                cd build
+                cmake --build .
+            - run: ctest --verbose -R parser --test-dir build
