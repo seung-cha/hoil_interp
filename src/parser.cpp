@@ -85,7 +85,8 @@ void Parser::ParseVarDeclExpr()
     // TODO
     if(currentLexicon->Id == Lexicon::ASSIGN)
     {
-        
+        Next();
+        ParseExpr();
     }
 }
 

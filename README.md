@@ -76,7 +76,7 @@ Non terminals are represented by enclosing them with `_` or `"`. `eps` represent
        # Variable declaration
                  var_decl -> type var_decl_list ";"
             var_decl_list -> var_decl_expr ("," var_decl_list)*
-            var_decl_expr -> _identifier_ ("=" var_init_expr)?
+            var_decl_expr -> Identifier ("=" var_init_expr)?
             var_init_expr -> expr
 
                      expr -> assignment_expr
