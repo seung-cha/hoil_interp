@@ -191,6 +191,18 @@ void Parser::ParseMultiplicativeExpr()
 }
 
 void Parser::ParseUnaryExpr()
-{
+{  
+    while(LexemeIs(Lexicon::ADD) || 
+    LexemeIs(Lexicon::SUB) || 
+    LexemeIs(Lexicon::NOT))
+    {
+        Next();
+    }
 
+    ParsePrimaryExpr();
+}
+
+void Parser::ParsePrimaryExpr()
+{
+    // TODO
 }
