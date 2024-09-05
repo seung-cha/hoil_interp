@@ -207,7 +207,8 @@ void Parser::ParsePrimaryExpr()
     if(LexemeIs(Lexicon::IDENTIFIER) || 
     LexemeIs(Lexicon::REALVAL)       || 
     LexemeIs(Lexicon::BOOLVAL)       ||
-    LexemeIs(Lexicon::STRINGVAL))
+    LexemeIs(Lexicon::STRINGVAL)     ||
+    LexemeIs(Lexicon::INTVAL))
     {
         Next();
     }
