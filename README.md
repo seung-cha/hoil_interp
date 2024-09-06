@@ -69,7 +69,7 @@ A comment may appear at the start or end of a line. The effect of comment persis
 
 
 # Context Free Grammar
-Non terminals are represented by enclosing them with `_` or `"`. `eps` represents empty production.
+Non terminals are represented with a capital letter.
 ```
                   program -> (var-decl)*
 
