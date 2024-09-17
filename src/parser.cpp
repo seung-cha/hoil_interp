@@ -82,7 +82,6 @@ void Parser::ParseVarDeclExpr()
     // var_decl_expr -> _identifier_ ("=" var_init_expr)?
     Match(Lexicon::IDENTIFIER);
 
-    // TODO
     if(currentLexicon->Id == Lexicon::ASSIGN)
     {
         Next();
