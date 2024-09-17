@@ -105,6 +105,12 @@ Non terminals are represented with a capital letter.
                            | RealVal
                            | BoolVal
                            | StringVal
+
+
+                     stmt -> expr
+                           | if_stmt
+
+                  if_stmt -> "if" "("expr")" stmt ("elif" "("expr")" stmt)* ("else" stmt)?
                
 
 
