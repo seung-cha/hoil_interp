@@ -19,12 +19,12 @@ namespace Lexicons
 
         TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
         ELSE            = 54,           FOR             = 55,           WHILE       = 56,           DO          = 57,      
-        BREAK           = 58,           CONTINUE        = 59,
+        BREAK           = 58,           CONTINUE        = 59,           LOOP        = 60,           RETURN      = 61,
 
         ADD             = 100,          SUB             = 101,          MUL         = 102,          DIV         = 103,  // Operators
         MOD             = 104,          ASSIGN          = 105,          ADD_ASSIGN  = 106,          SUB_ASSIGN  = 107,      
         MUL_ASSIGN      = 108,          DIV_ASSIGN      = 109,
-        UNARY_ADD       = 110,          UNARY_SUB       = 111, // Unary Operations
+        UNARY_ADD       = 110,          UNARY_SUB       = 111,                                                          // Unary Operations
 
         EQUAL           = 150,          NEQUAL          = 151,          NOT         = 152,                      // Boolean operators
         GREATER         = 153,          LESS            = 154,          GEQUAL      = 155,          LEQUAL      = 156,
