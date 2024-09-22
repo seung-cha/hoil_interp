@@ -13,9 +13,8 @@ Toylan is designed to be simple to learn and easy to use.
 ## Reserved Keywords
 Following keywords are reserved and cannot be used as an identifier.
 ```
-int, real, bool, void, string, true, false
-if,  elif, else, 
-for, while,  do, break, continue
+int,    real,   bool,   void,   string,   true,   false,  if,     elif,   else,    
+for,    while,  do,     break,  continue, return, loop,   until
 ```
 
 ## Identifier
