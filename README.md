@@ -107,11 +107,20 @@ Non terminals are represented with a capital letter.
                            | StringVal
 
 
-                     stmt -> expr
+                     stmt -> expr_stmt
                            | if_stmt
+                           | loop_stmt
+                           | jump_stmt
+                           | return_stmt
 
+                expr_stmt -> ";"
+                           | expr ";"
                   if_stmt -> "if" "("expr")" stmt ("elif" "("expr")" stmt)* ("else" stmt)?
-               
+                loop_stmt -> "loop" "(" expr ")" stmt
+                           | "loop" "(" var_decl expr_stmt expr ")" stmt
+                jump_stmt -> Continue ";"
+                           | Break ";"
+              return_stmt -> Return expr_stmt
 
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
