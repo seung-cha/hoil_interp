@@ -20,6 +20,7 @@ namespace Lexicons
         TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
         ELSE            = 54,           FOR             = 55,           WHILE       = 56,           DO          = 57,      
         BREAK           = 58,           CONTINUE        = 59,           LOOP        = 60,           RETURN      = 61,
+        UNTIL           = 62,
 
         ADD             = 100,          SUB             = 101,          MUL         = 102,          DIV         = 103,  // Operators
         MOD             = 104,          ASSIGN          = 105,          ADD_ASSIGN  = 106,          SUB_ASSIGN  = 107,      

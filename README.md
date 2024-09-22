@@ -115,9 +115,10 @@ Non terminals are represented with a capital letter.
 
                 expr_stmt -> ";"
                            | expr ";"
-                  if_stmt -> "if" "("expr")" stmt ("elif" "("expr")" stmt)* ("else" stmt)?
-                loop_stmt -> "loop" "(" expr ")" stmt
-                           | "loop" "(" var_decl expr_stmt expr ")" stmt
+                  if_stmt -> If "(" expr" )" stmt ( Elif "(" expr ")" stmt )* ( Else stmt )?
+                loop_stmt -> Loop "(" expr ")" stmt
+                           | Loop "(" var_decl expr_stmt expr ")" stmt
+                           | Loop stmt Until "(" expr ")" ";"
                 jump_stmt -> Continue ";"
                            | Break ";"
               return_stmt -> Return expr_stmt

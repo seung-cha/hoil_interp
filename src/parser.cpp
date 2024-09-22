@@ -269,6 +269,7 @@ void Parser::ParseIfStmt()
 void Parser::ParseLoopStmt()
 {
     Match(Lexicon::LOOP);
+    // TODO: Parse Loop-Until after checking for first(stmt)
 
     Match(Lexicon::OPAREN);
     // TODO: Parse expr or var_decl by checking the first set
