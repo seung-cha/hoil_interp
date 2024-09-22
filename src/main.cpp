@@ -50,7 +50,6 @@ int main(int argc, char** argv)
         }
     }
 
-
     Scanner scanner{argv[1]};
 
     if(!scanner.IsReady())

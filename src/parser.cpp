@@ -217,3 +217,82 @@ void Parser::ParsePrimaryExpr()
         ReportMismatch();
     }
 }
+
+void Parser::ParseStmt()
+{
+    // TODO: Calculate first sets
+}
+
+void Parser::ParseExprStmt()
+{
+    if(LexemeIs(Lexicon::SEMICOLON))
+    {
+        Next();
+    }
+    else
+    {
+        ParseExpr();
+        Match(Lexicon::SEMICOLON);
+    }
+}
+
+void Parser::ParseIfStmt()
+{
+    Match(Lexicon::IF);
+
+    Match(Lexicon::OPAREN);
+    ParseExpr();
+    Match(Lexicon::CPAREN);
+
+    ParseStmt();
+
+    while(LexemeIs(Lexicon::ELIF))
+    {
+        Next();
+
+        Match(Lexicon::OPAREN);
+        ParseExpr();
+        Match(Lexicon::CPAREN);
+
+        ParseStmt();
+    }
+
+    if(LexemeIs(Lexicon::ELSE))
+    {
+        Next();
+
+        ParseStmt();
+    }
+
+}
+
+void Parser::ParseLoopStmt()
+{
+    Match(Lexicon::LOOP);
+
+    Match(Lexicon::OPAREN);
+    // TODO: Parse expr or var_decl by checking the first set
+    Match(Lexicon::CPAREN);
+
+    ParseStmt();
+}
+
+void Parser::ParseJumpStmt()
+{
+    if(LexemeIs(Lexicon::CONTINUE))
+    {
+        Next();
+    }
+    else
+    {
+        Match(Lexicon::BREAK);
+    }
+
+    Match(Lexicon::SEMICOLON);
+}
+
+void Parser::ParseReturnStmt()
+{
+    Match(Lexicon::RETURN);
+    ParseExprStmt();
+}

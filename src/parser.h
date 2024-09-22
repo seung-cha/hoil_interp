@@ -55,6 +55,7 @@ class Parser
 
     void ParseType();
 
+    // Expr
     void ParseExpr();
     void ParseAssignmentExpr();
     void ParseLogicalOrExpr();
@@ -64,6 +65,14 @@ class Parser
     void ParseMultiplicativeExpr();
     void ParseUnaryExpr();
     void ParsePrimaryExpr();
+
+    // Stmt
+    void ParseStmt();
+    void ParseExprStmt();
+    void ParseIfStmt();
+    void ParseLoopStmt();
+    void ParseJumpStmt();
+    void ParseReturnStmt();
 };
 
 #endif
