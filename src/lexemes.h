@@ -58,6 +58,7 @@
 #include "lexicon/keyword/continue.h"
 #include "lexicon/keyword/loop.h"
 #include "lexicon/keyword/return.h"
+#include "lexicon/keyword/until.h"
 
 // Misc
 #include "lexicon/misc/oparen.h"

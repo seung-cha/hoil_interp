@@ -91,6 +91,18 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Void(lineNo, charNo);
             }
+            else if(str == "return")
+            {
+                lex = new Lexicons::Return(lineNo, charNo);
+            }
+            else if(str == "loop")
+            {
+                lex = new Lexicons::Loop(lineNo, charNo);
+            }
+            else if(str == "until")
+            {
+                lex = new Lexicons::Until(lineNo, charNo);
+            }
             else
             {
                 while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
