@@ -297,3 +297,12 @@ void Parser::ParseReturnStmt()
     Match(Lexicon::RETURN);
     ParseExprStmt();
 }
+
+void Parser::ParseCompoundStmt()
+{
+    Match(Lexicon::OCURLY);
+
+    // TODO: handle contents inside the compound stmt
+
+    Match(Lexicon::CCURLY);
+}

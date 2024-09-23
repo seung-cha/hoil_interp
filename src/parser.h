@@ -73,6 +73,7 @@ class Parser
     void ParseLoopStmt();
     void ParseJumpStmt();
     void ParseReturnStmt();
+    void ParseCompoundStmt();
 };
 
 #endif

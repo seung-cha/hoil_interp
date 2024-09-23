@@ -111,6 +111,7 @@ Non terminals are represented with a capital letter.
                            | loop_stmt
                            | jump_stmt
                            | return_stmt
+                           | compound_stmt
 
                 expr_stmt -> ";"
                            | expr ";"
@@ -121,6 +122,8 @@ Non terminals are represented with a capital letter.
                 jump_stmt -> Continue ";"
                            | Break ";"
               return_stmt -> Return expr_stmt
+            compound_stmt -> "{" "}"
+                           | "{" TODO "}"
 
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
