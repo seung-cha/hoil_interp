@@ -78,6 +78,9 @@ Non terminals are represented with a capital letter.
             var_decl_expr -> Identifier ("=" var_init_expr)?
             var_init_expr -> expr
 
+       # Function declaration
+                func_decl -> TODO 
+
                      expr -> assignment_expr
           assignment_expr -> (assign_op assign_expr)* assignment_expr
                            | logical_or_expr
