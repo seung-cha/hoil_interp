@@ -80,8 +80,8 @@ Non terminals are represented with a capital letter.
 
        # Function declaration, params and args
                 func_decl -> type Identifier "(" param_list ")" compound_stmt
-               param_list -> param_decl ("," param_list)*
-               param_decl -> type Identifier
+               param_list -> param ("," param)*
+                    param -> type Identifier
 
                  arg_list -> arg ("," arg)*
                       arg -> expr
