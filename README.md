@@ -78,9 +78,15 @@ Non terminals are represented with a capital letter.
             var_decl_expr -> Identifier ("=" var_init_expr)?
             var_init_expr -> expr
 
-       # Function declaration
-                func_decl -> TODO 
+       # Function declaration, params and args
+                func_decl -> type Identifier "(" param_list ")" compound_stmt
+               param_list -> param_decl ("," param_list)*
+               param_decl -> type Identifier
 
+                 arg_list -> expr ("," expr)*
+
+
+       # Expressions
                      expr -> assignment_expr
           assignment_expr -> (assign_op assign_expr)* assignment_expr
                            | logical_or_expr
@@ -100,15 +106,22 @@ Non terminals are represented with a capital letter.
                            | unary_expr
                unary_expr -> "+" unary_expr
                            | "-" unary_expr
+                           | "++" unary_expr
+                           | "--" unary_expr
                            | "!" unary_expr
                            | primary_expr
              primary_expr -> Identifier
+                           | Identifier "(" arg_list ")"
+                           | Identifier "++"
+                           | Identifier "--"
                            | IntVal
                            | RealVal
                            | BoolVal
                            | StringVal
+                           | "(" expr ")"
 
 
+       # Statements
                      stmt -> expr_stmt
                            | if_stmt
                            | loop_stmt
