@@ -89,6 +89,48 @@ void Parser::ParseVarDeclExpr()
     }
 }
 
+void Parser::ParseFuncDecl()
+{
+    ParseType();
+    Match(Lexicon::IDENTIFIER);
+
+    Match(Lexicon::OPAREN);
+    ParseParamList();
+    Match(Lexicon::CPAREN);
+
+    ParseCompoundStmt();
+}
+
+void Parser::ParseParamList()
+{
+    ParseParam();
+    while(LexemeIs(Lexicon::COMMA))
+    {
+        Next();
+        ParseParam();
+    }
+}
+
+void Parser::ParseParam()
+{
+    ParseType();
+    Match(Lexicon::IDENTIFIER);
+}
+
+void Parser::ParseArgList()
+{
+    ParseArg();
+    while(LexemeIs(Lexicon::COMMA))
+    {
+        Next();
+        ParseArg();
+    }
+}
+
+void Parser::ParseArg()
+{
+    ParseExpr();
+}
 
 void Parser::ParseType()
 {
@@ -196,7 +238,39 @@ void Parser::ParseUnaryExpr()
     LexemeIs(Lexicon::SUB) || 
     LexemeIs(Lexicon::NOT))
     {
-        Next();
+        if(LexemeIs(Lexicon::ADD))
+        {
+            Next();
+            if(LexemeIs(Lexicon::ADD))
+            {
+                // It is "++"
+                Next();
+            }
+            else
+            {
+                // It is "+"
+            }
+        }
+        else if(LexemeIs(Lexicon::SUB))
+        {
+            Next();
+            if(LexemeIs(Lexicon::SUB))
+            {
+                // It is "--"
+                Next();
+            }
+            else
+            {
+                // It is "-"
+            }
+        }
+        else
+        {
+            // It is "!"
+            Next();
+        }
+
+
     }
 
     ParsePrimaryExpr();
@@ -208,9 +282,21 @@ void Parser::ParsePrimaryExpr()
     LexemeIs(Lexicon::REALVAL)       || 
     LexemeIs(Lexicon::BOOLVAL)       ||
     LexemeIs(Lexicon::STRINGVAL)     ||
-    LexemeIs(Lexicon::INTVAL))
+    LexemeIs(Lexicon::INTVAL)        ||
+    LexemeIs(Lexicon::OPAREN))
     {
-        Next();
+        // Handle "( expr )"
+        if(LexemeIs(Lexicon::OPAREN))
+        {
+            Next();
+            ParseExpr();
+            Match(Lexicon::CPAREN);
+        }
+        else
+        {
+            Next();
+        }
+
     }
     else
     {

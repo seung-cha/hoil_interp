@@ -49,11 +49,20 @@ class Parser
     private:
     void ParseProgram();
 
+    // Variable Decl
     void ParseVarDecl();
     void ParseVarDeclList();
     void ParseVarDeclExpr();
 
-    void ParseType();
+    // Func decl
+    void ParseFuncDecl();
+
+    // Param & Arg
+    void ParseParamList();
+    void ParseParam();
+
+    void ParseArgList();
+    void ParseArg();
 
     // Expr
     void ParseExpr();
@@ -74,6 +83,8 @@ class Parser
     void ParseJumpStmt();
     void ParseReturnStmt();
     void ParseCompoundStmt();
+    
+    void ParseType();
 };
 
 #endif
