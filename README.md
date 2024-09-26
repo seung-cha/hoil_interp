@@ -83,7 +83,8 @@ Non terminals are represented with a capital letter.
                param_list -> param_decl ("," param_list)*
                param_decl -> type Identifier
 
-                 arg_list -> expr ("," expr)*
+                 arg_list -> arg ("," arg)*
+                      arg -> expr
 
 
        # Expressions
