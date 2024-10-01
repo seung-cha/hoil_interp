@@ -144,5 +144,5 @@ Non terminals are represented with a capital letter.
                      item -> var_decl | stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
-                     type -> Int | Real | String | Void
+                     type -> Int | Real | String | Bool | Void
 ```

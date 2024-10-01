@@ -462,7 +462,12 @@ void Parser::ParseItemList()
 {
     ParseItem();
     // TODO: STOP BEING LAZY AND IMPLEMENT FIRST SET
-    while(!LexemeIs(Lexicon::CCURLY))
+    // WHAT IS THIS??????
+    while(
+        LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon::VOID) || LexemeIs(Lexicon::BOOL)
+    ||  LexemeIs(Lexicon::IF) || LexemeIs(Lexicon::LOOP) || LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK)
+    ||  LexemeIs(Lexicon::RETURN) || LexemeIs(Lexicon::OCURLY) || LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::INTVAL)
+    || LexemeIs(Lexicon::REALVAL) || LexemeIs(Lexicon::BOOLVAL) || LexemeIs(Lexicon::STRINGVAL) || LexemeIs(Lexicon::OPAREN))
     {
         ParseItem();
     }
