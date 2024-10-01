@@ -75,8 +75,7 @@ Non terminals are represented with a capital letter.
        # Variable declaration
                  var_decl -> type var_decl_list ";"
             var_decl_list -> var_decl_expr ("," var_decl_list)*
-            var_decl_expr -> Identifier ("=" var_init_expr)?
-            var_init_expr -> expr
+            var_decl_expr -> Identifier ("=" expr)?
 
        # Function declaration, params and args
                 func_decl -> type Identifier "(" param_list ")" compound_stmt
@@ -89,8 +88,8 @@ Non terminals are represented with a capital letter.
 
        # Expressions
                      expr -> assignment_expr
-          assignment_expr -> (assign_op assign_expr)* assignment_expr
-                           | logical_or_expr
+          assignment_expr -> logical_or_expr
+                           | assignment_expr assign_op logical_or_expr
           logical_or_expr -> logical_or_expr "||" logical_and_expr
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
