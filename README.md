@@ -70,7 +70,7 @@ A comment may appear at the start or end of a line. The effect of comment persis
 # Context Free Grammar
 Non terminals are represented with a capital letter.
 ```
-                  program -> (var-decl)*
+                  program -> (func_decl)*
 
        # Variable declaration
                  var_decl -> type var_decl_list ";"
@@ -140,8 +140,10 @@ Non terminals are represented with a capital letter.
                            | Break ";"
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" "}"
-                           | "{" TODO "}"
+                           | "{" item_block "}"
 
+               item_block -> item (item_block)*
+                     item -> var_decl | stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
                      type -> Int | Real | String | Void
