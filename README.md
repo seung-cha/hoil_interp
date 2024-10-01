@@ -78,7 +78,7 @@ Non terminals are represented with a capital letter.
             var_decl_expr -> Identifier ("=" expr)?
 
        # Function declaration, params and args
-                func_decl -> type Identifier "(" param_list ")" compound_stmt
+                func_decl -> type Identifier "(" param_list? ")" compound_stmt
                param_list -> param ("," param)*
                     param -> type Identifier
 
@@ -111,7 +111,7 @@ Non terminals are represented with a capital letter.
                            | "!" unary_expr
                            | primary_expr
              primary_expr -> Identifier
-                           | Identifier "(" arg_list ")"
+                           | Identifier "(" arg_list? ")"
                            | Identifier "++"
                            | Identifier "--"
                            | IntVal
@@ -138,8 +138,7 @@ Non terminals are represented with a capital letter.
                 jump_stmt -> Continue ";"
                            | Break ";"
               return_stmt -> Return expr_stmt
-            compound_stmt -> "{" "}"
-                           | "{" item_list "}"
+            compound_stmt -> "{" item_list? "}"
 
                item_list -> item (item_list)*
                      item -> var_decl | stmt

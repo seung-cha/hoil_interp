@@ -6,7 +6,7 @@ using namespace Lexicons;
 
 Parser::Parser(Lexer *lexer) : lexer{lexer}
 {
-    Next();
+    Next(); // Grab the first token
     ParseProgram();
 }
 
@@ -92,7 +92,12 @@ void Parser::ParseFuncDecl()
     Match(Lexicon::IDENTIFIER);
 
     Match(Lexicon::OPAREN);
-    ParseParamList();
+
+    if(!LexemeIs(Lexicon::CPAREN))
+    {
+        ParseParamList();
+    }
+
     Match(Lexicon::CPAREN);
 
     ParseCompoundStmt();
@@ -416,6 +421,10 @@ void Parser::ParseCompoundStmt()
     Match(Lexicon::OCURLY);
 
     // TODO: handle contents inside the compound stmt
+    if(!LexemeIs(Lexicon::CCURLY))
+    {
+        ParseItemList();
+    }
 
     Match(Lexicon::CCURLY);
 }
