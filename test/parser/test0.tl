@@ -1,5 +1,8 @@
 # Simple variable declarations
-int identifier;
-string identifier;
-real identifier;
-void identifier;
+int main()
+{
+    int identifier;
+    string identifier;
+    real identifier;
+    void identifier;
+}
