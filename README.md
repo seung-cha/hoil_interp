@@ -139,9 +139,9 @@ Non terminals are represented with a capital letter.
                            | Break ";"
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" "}"
-                           | "{" item_block "}"
+                           | "{" item_list "}"
 
-               item_block -> item (item_block)*
+               item_list -> item (item_list)*
                      item -> var_decl | stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
