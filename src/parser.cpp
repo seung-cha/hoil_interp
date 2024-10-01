@@ -52,7 +52,7 @@ void Parser::ParseProgram()
         LexemeIs(Lexicon::VOID)
         )
     {
-        ParseVarDecl();
+        ParseFuncDecl();
     }
 
     Match(Lexicon::END_OF_FILE);
@@ -60,7 +60,6 @@ void Parser::ParseProgram()
 
 void Parser::ParseVarDecl()
 {
-    // var_decl -> type var_decl_list ";"
     ParseType();
     ParseVarDeclList();
     Match(Lexicon::SEMICOLON);
@@ -68,7 +67,6 @@ void Parser::ParseVarDecl()
 
 void Parser::ParseVarDeclList()
 {
-    // var_decl_list -> var_decl_expr ("," var_decl_list)*
     ParseVarDeclExpr();
     while(currentLexicon->Id == Lexicon::COMMA)
     {
@@ -79,7 +77,6 @@ void Parser::ParseVarDeclList()
 
 void Parser::ParseVarDeclExpr()
 {
-    // var_decl_expr -> _identifier_ ("=" var_init_expr)?
     Match(Lexicon::IDENTIFIER);
 
     if(currentLexicon->Id == Lexicon::ASSIGN)
@@ -163,6 +160,8 @@ void Parser::ParseExpr()
 
 void Parser::ParseAssignmentExpr()
 {
+    ParseLogicalOrExpr();
+
     while(LexemeIs(Lexicon::ASSIGN) ||
         LexemeIs(Lexicon::ADD_ASSIGN)||
         LexemeIs(Lexicon::SUB_ASSIGN)||
@@ -170,10 +169,8 @@ void Parser::ParseAssignmentExpr()
         LexemeIs(Lexicon::DIV_ASSIGN))
         {
             Next();
-            // TO DO Handle recursion
+            ParseLogicalOrExpr();
         }
-
-    ParseLogicalOrExpr();
 }
 
 void Parser::ParseLogicalOrExpr()
@@ -184,7 +181,6 @@ void Parser::ParseLogicalOrExpr()
         Next();
         ParseLogicalAndExpr();
     }
-
 }
 
 void Parser::ParseLogicalAndExpr()
@@ -234,43 +230,25 @@ void Parser::ParseMultiplicativeExpr()
 
 void Parser::ParseUnaryExpr()
 {  
-    while(LexemeIs(Lexicon::ADD) || 
-    LexemeIs(Lexicon::SUB) || 
-    LexemeIs(Lexicon::NOT))
+    if(LexemeIs(Lexicon::UNARY_ADD))
     {
-        if(LexemeIs(Lexicon::ADD))
-        {
-            Next();
-            if(LexemeIs(Lexicon::ADD))
-            {
-                // It is "++"
-                Next();
-            }
-            else
-            {
-                // It is "+"
-            }
-        }
-        else if(LexemeIs(Lexicon::SUB))
-        {
-            Next();
-            if(LexemeIs(Lexicon::SUB))
-            {
-                // It is "--"
-                Next();
-            }
-            else
-            {
-                // It is "-"
-            }
-        }
-        else
-        {
-            // It is "!"
-            Next();
-        }
-
-
+        Next();
+    }
+    else if(LexemeIs(Lexicon::ADD))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::UNARY_SUB))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::SUB))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::NOT))
+    {
+        Next();
     }
 
     ParsePrimaryExpr();
@@ -307,6 +285,30 @@ void Parser::ParsePrimaryExpr()
 void Parser::ParseStmt()
 {
     // TODO: Calculate first sets
+    if(LexemeIs(Lexicon::IF))
+    {
+        ParseIfStmt();
+    }
+    else if(LexemeIs(Lexicon::LOOP))
+    {
+        ParseLoopStmt();
+    }
+    else if(LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK))
+    {
+        ParseJumpStmt();
+    }
+    else if(LexemeIs(Lexicon::RETURN))
+    {
+        ParseReturnStmt();
+    }
+    else if(LexemeIs(Lexicon::OCURLY))
+    {
+        ParseCompoundStmt();
+    }
+    else
+    {
+        ParseExprStmt();
+    }
 }
 
 void Parser::ParseExprStmt()
@@ -356,12 +358,37 @@ void Parser::ParseLoopStmt()
 {
     Match(Lexicon::LOOP);
     // TODO: Parse Loop-Until after checking for first(stmt)
+    if(!LexemeIs(Lexicon::OPAREN))
+    {
+        // Handle LOOP UNTIL
+        ParseStmt();
+        Match(Lexicon::UNTIL);
+        Match(Lexicon::OPAREN);
+        ParseExpr();
+        Match(Lexicon::CPAREN);
+        Match(Lexicon::SEMICOLON);
+    }
+    else
+    {
+        Match(Lexicon::OPAREN);
+        if(LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || 
+        LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon:: VOID))
+        {
+            // For-loop like form
+            ParseVarDecl();
+            ParseExprStmt();
+            ParseExpr();
 
-    Match(Lexicon::OPAREN);
-    // TODO: Parse expr or var_decl by checking the first set
-    Match(Lexicon::CPAREN);
+        }
+        else
+        {
+            // While-loop like form
+            ParseExpr();
+        }
 
-    ParseStmt();
+        Match(Lexicon::CPAREN);
+        Match(Lexicon::SEMICOLON);
+    }
 }
 
 void Parser::ParseJumpStmt()
@@ -391,4 +418,32 @@ void Parser::ParseCompoundStmt()
     // TODO: handle contents inside the compound stmt
 
     Match(Lexicon::CCURLY);
+}
+
+
+void Parser::ParseItemList()
+{
+    ParseItem();
+    // TODO: STOP BEING LAZY AND IMPLEMENT FIRST SET
+    while(!LexemeIs(Lexicon::CCURLY))
+    {
+        ParseItem();
+    }
+
+}
+
+void Parser::ParseItem()
+{
+    if(LexemeIs(Lexicon::INT)  ||
+        LexemeIs(Lexicon::REAL) ||
+        LexemeIs(Lexicon::BOOL) ||
+        LexemeIs(Lexicon::STRING) ||
+        LexemeIs(Lexicon::VOID))
+    {
+        ParseVarDecl();
+    }
+    else
+    {
+        ParseStmt();
+    }
 }

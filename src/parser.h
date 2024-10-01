@@ -64,6 +64,10 @@ class Parser
     void ParseArgList();
     void ParseArg();
 
+    // Block
+    void ParseItemList();
+    void ParseItem();
+
     // Expr
     void ParseExpr();
     void ParseAssignmentExpr();
@@ -74,6 +78,7 @@ class Parser
     void ParseMultiplicativeExpr();
     void ParseUnaryExpr();
     void ParsePrimaryExpr();
+
 
     // Stmt
     void ParseStmt();
