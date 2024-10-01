@@ -261,25 +261,54 @@ void Parser::ParseUnaryExpr()
 
 void Parser::ParsePrimaryExpr()
 {
-    if(LexemeIs(Lexicon::IDENTIFIER) || 
-    LexemeIs(Lexicon::REALVAL)       || 
-    LexemeIs(Lexicon::BOOLVAL)       ||
-    LexemeIs(Lexicon::STRINGVAL)     ||
-    LexemeIs(Lexicon::INTVAL)        ||
-    LexemeIs(Lexicon::OPAREN))
+    if(LexemeIs(Lexicon::IDENTIFIER))
     {
-        // Handle "( expr )"
+        Next();
+        // Check function call, post ++ or --
         if(LexemeIs(Lexicon::OPAREN))
         {
             Next();
-            ParseExpr();
+            if(!LexemeIs(Lexicon::CPAREN))
+            {
+                ParseArgList();
+            }
+
             Match(Lexicon::CPAREN);
         }
-        else
+        else if(LexemeIs(Lexicon::UNARY_ADD))
         {
             Next();
         }
-
+        else if(LexemeIs(Lexicon::UNARY_SUB))
+        {
+            Next();
+        }
+        else
+        {
+            ReportMismatch();
+        }
+    }
+    else if(LexemeIs(Lexicon::INTVAL))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::REALVAL))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::BOOLVAL))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::STRINGVAL))
+    {
+        Next();
+    }
+    else if(LexemeIs(Lexicon::OPAREN))
+    {
+        Next();
+        ParseExpr();
+        Match(Lexicon::CPAREN);
     }
     else
     {
@@ -420,7 +449,6 @@ void Parser::ParseCompoundStmt()
 {
     Match(Lexicon::OCURLY);
 
-    // TODO: handle contents inside the compound stmt
     if(!LexemeIs(Lexicon::CCURLY))
     {
         ParseItemList();
