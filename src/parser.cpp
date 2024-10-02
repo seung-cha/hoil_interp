@@ -38,7 +38,7 @@ void Parser::ReportMismatch()
     std::ostringstream ss;
     ss << "Unexpected Token: " << currentLexicon->Verbose();
     errorMsgs.push_back(ss.str());
-    Next();
+    //Next();
 }
 
 
