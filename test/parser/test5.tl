@@ -1,7 +1,8 @@
-# complete example
-
+# if stmt
 int main()
 {
-    print("Hello World!");
-    return 0;
+    if(1)
+    {
+
+    }
 }

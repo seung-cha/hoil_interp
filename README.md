@@ -94,8 +94,13 @@ Non terminals are represented with a capital letter.
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
                            | equality_expr
-            equality_expr -> equality_expr "==" additive_expr
-                           | equality_expr "!=" additive_expr
+            equality_expr -> equality_expr "==" relation_expr
+                           | equality_expr "!=" relation_expr
+                           | relation_expr
+            relation_expr -> relation_expr "<"  additive_expr
+                           | relation_expr "<=" additive_expr
+                           | relation_expr ">"  additive_expr
+                           | relation_expr "=>" additive_expr
                            | additive_expr
             additive_expr -> additive_expr "+" multiplicative_expr
                            | additive_expr "-" multiplicative_expr

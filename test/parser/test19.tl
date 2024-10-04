@@ -1,0 +1,6 @@
+# break
+
+int main()
+{
+    break;
+}

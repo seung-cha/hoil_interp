@@ -1,0 +1,6 @@
+# Continue
+
+int main()
+{
+    continue;
+}

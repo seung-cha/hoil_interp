@@ -200,8 +200,20 @@ void Parser::ParseLogicalAndExpr()
 
 void Parser::ParseEqualityExpr()
 {
-    ParseAdditiveExpr();
+    ParseRelationExpr();
     while(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
+    {
+        Next();
+        ParseRelationExpr();
+    }
+}
+
+void Parser::ParseRelationExpr()
+{
+    ParseAdditiveExpr();
+    while(
+        LexemeIs(Lexicon::LESS) || LexemeIs(Lexicon::LEQUAL) ||
+        LexemeIs(Lexicon::GREATER) || LexemeIs(Lexicon::GEQUAL))
     {
         Next();
         ParseAdditiveExpr();
@@ -391,7 +403,6 @@ void Parser::ParseIfStmt()
 void Parser::ParseLoopStmt()
 {
     Match(Lexicon::LOOP);
-    // TODO: Parse Loop-Until after checking for first(stmt)
     if(!LexemeIs(Lexicon::OPAREN))
     {
         // Handle LOOP UNTIL
@@ -421,7 +432,7 @@ void Parser::ParseLoopStmt()
         }
 
         Match(Lexicon::CPAREN);
-        Match(Lexicon::SEMICOLON);
+        ParseStmt();
     }
 }
 
