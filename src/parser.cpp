@@ -319,7 +319,7 @@ void Parser::ParsePrimaryExpr()
     else if(LexemeIs(Lexicon::OPAREN))
     {
         Next();
-        ParseExpr();
+        ParseArgList();
         Match(Lexicon::CPAREN);
     }
     else
