@@ -295,10 +295,6 @@ void Parser::ParsePrimaryExpr()
         {
             Next();
         }
-        else
-        {
-            ReportMismatch();
-        }
     }
     else if(LexemeIs(Lexicon::INTVAL))
     {
