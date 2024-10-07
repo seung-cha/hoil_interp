@@ -39,3 +39,28 @@ add_test(NAME parser_do_while_like_loop_stmt COMMAND "${EXEC}" "${DIR}/test24.tl
 add_test(NAME parser_hello_world_example COMMAND "${EXEC}" "${DIR}/test25.tl" "--parser-no-err")
 add_test(NAME parser_hello_world_example2 COMMAND "${EXEC}" "${DIR}/test26.tl" "--parser-no-err")
 add_test(NAME parser_hello_world_example3 COMMAND "${EXEC}" "${DIR}/test27.tl" "--parser-no-err")
+
+add_test(NAME parser_addition COMMAND "${EXEC}" "${DIR}/test28.tl" "--parser-no-err")
+add_test(NAME parser_subtraction COMMAND "${EXEC}" "${DIR}/test29.tl" "--parser-no-err")
+add_test(NAME parser_multiplication COMMAND "${EXEC}" "${DIR}/test30.tl" "--parser-no-err")
+add_test(NAME parser_division COMMAND "${EXEC}" "${DIR}/test31.tl" "--parser-no-err")
+add_test(NAME parser_modulo COMMAND "${EXEC}" "${DIR}/test46.tl" "--parser-no-err")
+
+add_test(NAME parser_unary_addition COMMAND "${EXEC}" "${DIR}/test32.tl" "--parser-no-err")
+add_test(NAME parser_unary_subtraction COMMAND "${EXEC}" "${DIR}/test33.tl" "--parser-no-err")
+add_test(NAME parser_prefix_unary_addition COMMAND "${EXEC}" "${DIR}/test34.tl" "--parser-no-err")
+add_test(NAME parser_prefix_unary_subtraction COMMAND "${EXEC}" "${DIR}/test35.tl" "--parser-no-err")
+add_test(NAME parser_unary_negation COMMAND "${EXEC}" "${DIR}/test36.tl" "--parser-no-err")
+
+add_test(NAME parser_equality COMMAND "${EXEC}" "${DIR}/test37.tl" "--parser-no-err")
+add_test(NAME parser_inequality COMMAND "${EXEC}" "${DIR}/test38.tl" "--parser-no-err")
+add_test(NAME parser_less_than COMMAND "${EXEC}" "${DIR}/test39.tl" "--parser-no-err")
+add_test(NAME parser_greater_than COMMAND "${EXEC}" "${DIR}/test40.tl" "--parser-no-err")
+add_test(NAME parser_less_or_equal COMMAND "${EXEC}" "${DIR}/test41.tl" "--parser-no-err")
+add_test(NAME parser_greater_or_equal COMMAND "${EXEC}" "${DIR}/test42.tl" "--parser-no-err")
+add_test(NAME parser_not_equal COMMAND "${EXEC}" "${DIR}/test43.tl" "--parser-no-err")
+
+add_test(NAME parser_nested_expr COMMAND "${EXEC}" "${DIR}/test44.tl" "--parser-no-err")
+add_test(NAME parser_multi_nested_expr COMMAND "${EXEC}" "${DIR}/test45.tl" "--parser-no-err")
+
+
