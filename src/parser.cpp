@@ -250,25 +250,32 @@ void Parser::ParseUnaryExpr()
     if(LexemeIs(Lexicon::UNARY_ADD))
     {
         Next();
+        ParseUnaryExpr();
     }
     else if(LexemeIs(Lexicon::ADD))
     {
         Next();
+        ParseUnaryExpr();
     }
     else if(LexemeIs(Lexicon::UNARY_SUB))
     {
         Next();
+        ParseUnaryExpr();
     }
     else if(LexemeIs(Lexicon::SUB))
     {
         Next();
+        ParseUnaryExpr();
     }
     else if(LexemeIs(Lexicon::NOT))
     {
         Next();
+        ParseUnaryExpr();
     }
-
-    ParsePrimaryExpr();
+    else
+    {
+        ParsePrimaryExpr();
+    }
 }
 
 void Parser::ParsePrimaryExpr()
@@ -315,7 +322,7 @@ void Parser::ParsePrimaryExpr()
     else if(LexemeIs(Lexicon::OPAREN))
     {
         Next();
-        ParseArgList();
+        ParseExpr();
         Match(Lexicon::CPAREN);
     }
     else
@@ -474,7 +481,9 @@ void Parser::ParseItemList()
         LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon::VOID) || LexemeIs(Lexicon::BOOL)
     ||  LexemeIs(Lexicon::IF) || LexemeIs(Lexicon::LOOP) || LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK)
     ||  LexemeIs(Lexicon::RETURN) || LexemeIs(Lexicon::OCURLY) || LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::INTVAL)
-    || LexemeIs(Lexicon::REALVAL) || LexemeIs(Lexicon::BOOLVAL) || LexemeIs(Lexicon::STRINGVAL) || LexemeIs(Lexicon::OPAREN))
+    ||  LexemeIs(Lexicon::REALVAL) || LexemeIs(Lexicon::BOOLVAL) || LexemeIs(Lexicon::STRINGVAL) || LexemeIs(Lexicon::OPAREN)
+    ||  LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB) || LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::UNARY_SUB)
+    ||  LexemeIs(Lexicon::NOT))
     {
         ParseItem();
     }
