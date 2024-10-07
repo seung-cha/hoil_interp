@@ -7,8 +7,7 @@ namespace ASTs
 {
     class AST
     {
-        public:
-        virtual std::string const ToString() const = 0;
+
     };
 
 }
