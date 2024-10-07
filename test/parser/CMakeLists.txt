@@ -19,7 +19,7 @@ add_test(NAME parser_nested_func_decl COMMAND "${EXEC}" "${DIR}/test10.tl" "--pa
 set_property(TEST parser_nested_func_decl PROPERTY WILL_FAIL True)
 
 add_test(NAME parser_func_decl COMMAND "${EXEC}" "${DIR}/test11.tl" "--parser-no-err")
-add_test(NAME parser_func_with_one_param_decl COMMAND "${EXEC}" "${DIR}/test.12" "--parser-no-err")
+add_test(NAME parser_func_with_one_param_decl COMMAND "${EXEC}" "${DIR}/test12.tl" "--parser-no-err")
 add_test(NAME parser_func_with_multi_params_decl COMMAND "${EXEC}" "${DIR}/test13.tl" "--parser-no-err")
 add_test(NAME parser_multi_func_decl_2 COMMAND "${EXEC}" "${DIR}/test14.tl" "--parser-no-err")
 
