@@ -9,8 +9,10 @@ namespace Lexicons
     {
         public:
         float const value;
+        std::string const spelling;
 
-        RealValue(float const value, int lineNo, int charNo) : Lexicon{Lexicon::REALVAL, lineNo, charNo}, value{value}
+        RealValue(float const value, std::string spelling, int lineNo, int charNo) : 
+        Lexicon{Lexicon::REALVAL, lineNo, charNo}, value{value}, spelling{spelling}
         {
 
         }

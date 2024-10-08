@@ -44,12 +44,12 @@ namespace LexerComponents
             else if(decFound)
             {
                 float value = std::stof(ss.str());
-                return new Lexicons::RealValue(value ,lineNo, charNo);
+                return new Lexicons::RealValue(value, ss.str(), lineNo, charNo);
             }
             else
             {
                 int32_t value = static_cast<int32_t>(std::stoi(ss.str()));
-                return new Lexicons::IntValue(value, lineNo, charNo);
+                return new Lexicons::IntValue(value, ss.str(), lineNo, charNo);
             }
         }
 
