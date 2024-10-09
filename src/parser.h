@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "lexemes.h"
+#include "AST.h"
 
 class Lexer;
 namespace Lexicons

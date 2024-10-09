@@ -1,7 +1,7 @@
 #ifndef AST_TYPE_H
 #define AST_TYPE_H
 
-#include "../AST.h"
+#include "../ast.h"
 
 namespace ASTs
 {
