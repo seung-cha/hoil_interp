@@ -5,7 +5,7 @@
 
 namespace ASTs
 {
-    class expr : public AST
+    class Expr : public AST
     {
 
     };

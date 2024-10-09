@@ -3,6 +3,12 @@
 
 // Expressions
 #include "ast/expr/expr.h"
+#include "ast/expr/binary_expr.h"
+#include "ast/expr/unary_expr.h"
+#include "ast/expr/int_expr.h"
+#include "ast/expr/real_expr.h"
+#include "ast/expr/bool_expr.h"
+#include "ast/expr/string_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"
