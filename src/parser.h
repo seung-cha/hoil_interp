@@ -2,6 +2,7 @@
 #define PARSER_H
 #include <vector>
 #include <string>
+#include <memory>
 #include "lexemes.h"
 #include "AST.h"
 
@@ -91,7 +92,17 @@ class Parser
     void ParseReturnStmt();
     void ParseCompoundStmt();
     
-    void ParseType();
+    std::unique_ptr<ASTs::Type> ParseType();
+    std::unique_ptr<ASTs::Operator> ParseOperator();
+
+    // Literals
+    std::unique_ptr<ASTs::Literal> ParseIntLiteral();
+    std::unique_ptr<ASTs::Literal> ParseRealLiteral();
+    std::unique_ptr<ASTs::Literal> ParseBoolLiteral();
+    std::unique_ptr<ASTs::Literal> ParseStringLiteral();
+
+    //Identifier
+    std::unique_ptr<ASTs::Identifier> ParseIdentifier();
 };
 
 #endif

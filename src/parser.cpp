@@ -134,28 +134,35 @@ void Parser::ParseArg()
     ParseExpr();
 }
 
-void Parser::ParseType()
+std::unique_ptr<ASTs::Type> Parser::ParseType()
 {
+    std::unique_ptr<ASTs::Type> ptr{};
     switch(currentLexicon->Id)
     {
         case Lexicon::INT:
         Next();
+        ptr = std::make_unique<ASTs::IntType>();
         break;
         case Lexicon::REAL:
         Next();
+        ptr = std::make_unique<ASTs::RealType>();
         break;
         case Lexicon::BOOL:
         Next();
+        ptr = std::make_unique<ASTs::BoolType>();
         break;
         case Lexicon::VOID:
         Next();
+        ptr = std::make_unique<ASTs::VoidType>();
         break;
         case Lexicon::STRING:
         Next();
+        ptr = std::make_unique<ASTs::StringType>();
         break;
         default:
         ReportMismatch();
     }
+    return ptr;
 }
 
 void Parser::ParseExpr()
@@ -504,4 +511,54 @@ void Parser::ParseItem()
     {
         ParseStmt();
     }
+}
+
+std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
+{
+    // TODO: Handle
+    return std::make_unique<ASTs::Operator>();
+}
+
+std::unique_ptr<ASTs::Literal> Parser::ParseIntLiteral()
+{
+    if(!LexemeIs(Lexicon::INTVAL))
+        return std::unique_ptr<ASTs::IntLiteral>{};
+
+    Next();
+    return std::make_unique<ASTs::IntLiteral>();
+}
+
+std::unique_ptr<ASTs::Literal> Parser::ParseRealLiteral()
+{
+    if(!LexemeIs(Lexicon::REALVAL))
+        return std::unique_ptr<ASTs::RealLiteral>{};
+
+    Next();
+    return std::make_unique<ASTs::RealLiteral>();
+}
+
+std::unique_ptr<ASTs::Literal> Parser::ParseBoolLiteral()
+{
+    if(!LexemeIs(Lexicon::BOOLVAL))
+        return std::unique_ptr<ASTs::BoolLiteral>{};
+
+    Next();
+    return std::make_unique<ASTs::BoolLiteral>();
+}
+
+std::unique_ptr<ASTs::Literal> Parser::ParseStringLiteral()
+{
+    if(!LexemeIs(Lexicon::STRINGVAL))
+        return std::unique_ptr<ASTs::StringLiteral>{};
+
+    Next();
+    return std::make_unique<ASTs::StringLiteral>();
+}
+
+std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
+{
+    if(!LexemeIs(Lexicon::IDENTIFIER))
+        return std::unique_ptr<ASTs::Identifier>{};
+    
+    return std::make_unique<ASTs::Identifier>();
 }
