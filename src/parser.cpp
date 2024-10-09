@@ -287,6 +287,8 @@ void Parser::ParseUnaryExpr()
 
 void Parser::ParsePrimaryExpr()
 {
+    std::unique_ptr<ASTs::Expr> expr{};
+
     if(LexemeIs(Lexicon::IDENTIFIER))
     {
         Next();
@@ -312,19 +314,23 @@ void Parser::ParsePrimaryExpr()
     }
     else if(LexemeIs(Lexicon::INTVAL))
     {
-        Next();
+        auto intLiteral = ParseIntLiteral();
+        expr = std::make_unique<ASTs::IntExpr>(intLiteral.release());
     }
     else if(LexemeIs(Lexicon::REALVAL))
     {
-        Next();
+        auto realLiteral = ParseRealLiteral();
+        expr = std::make_unique<ASTs::RealExpr>(realLiteral.release());
     }
     else if(LexemeIs(Lexicon::BOOLVAL))
     {
-        Next();
+        auto boolLiteral = ParseBoolLiteral();
+        expr = std::make_unique<ASTs::BoolExpr>(boolLiteral.release());
     }
     else if(LexemeIs(Lexicon::STRINGVAL))
     {
-        Next();
+        auto stringLiteral = ParseStringLiteral();
+        expr = std::make_unique<ASTs::StringExpr>(stringLiteral.release());
     }
     else if(LexemeIs(Lexicon::OPAREN))
     {
@@ -519,7 +525,7 @@ std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
     return std::make_unique<ASTs::Operator>();
 }
 
-std::unique_ptr<ASTs::Literal> Parser::ParseIntLiteral()
+std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
 {
     if(!LexemeIs(Lexicon::INTVAL))
         return std::unique_ptr<ASTs::IntLiteral>{};
@@ -528,7 +534,7 @@ std::unique_ptr<ASTs::Literal> Parser::ParseIntLiteral()
     return std::make_unique<ASTs::IntLiteral>();
 }
 
-std::unique_ptr<ASTs::Literal> Parser::ParseRealLiteral()
+std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
 {
     if(!LexemeIs(Lexicon::REALVAL))
         return std::unique_ptr<ASTs::RealLiteral>{};
@@ -537,7 +543,7 @@ std::unique_ptr<ASTs::Literal> Parser::ParseRealLiteral()
     return std::make_unique<ASTs::RealLiteral>();
 }
 
-std::unique_ptr<ASTs::Literal> Parser::ParseBoolLiteral()
+std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
 {
     if(!LexemeIs(Lexicon::BOOLVAL))
         return std::unique_ptr<ASTs::BoolLiteral>{};
@@ -546,7 +552,7 @@ std::unique_ptr<ASTs::Literal> Parser::ParseBoolLiteral()
     return std::make_unique<ASTs::BoolLiteral>();
 }
 
-std::unique_ptr<ASTs::Literal> Parser::ParseStringLiteral()
+std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
 {
     if(!LexemeIs(Lexicon::STRINGVAL))
         return std::unique_ptr<ASTs::StringLiteral>{};

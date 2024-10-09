@@ -96,10 +96,10 @@ class Parser
     std::unique_ptr<ASTs::Operator> ParseOperator();
 
     // Literals
-    std::unique_ptr<ASTs::Literal> ParseIntLiteral();
-    std::unique_ptr<ASTs::Literal> ParseRealLiteral();
-    std::unique_ptr<ASTs::Literal> ParseBoolLiteral();
-    std::unique_ptr<ASTs::Literal> ParseStringLiteral();
+    std::unique_ptr<ASTs::IntLiteral> ParseIntLiteral();
+    std::unique_ptr<ASTs::RealLiteral> ParseRealLiteral();
+    std::unique_ptr<ASTs::BoolLiteral> ParseBoolLiteral();
+    std::unique_ptr<ASTs::StringLiteral> ParseStringLiteral();
 
     //Identifier
     std::unique_ptr<ASTs::Identifier> ParseIdentifier();
