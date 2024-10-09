@@ -35,4 +35,6 @@
 #include "ast/op/pre_unary_add_op.h"
 #include "ast/op/post_unary_sub_op.h"
 
+// Identifier
+#include "ast/identifier.h"
 #endif
