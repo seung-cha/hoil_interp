@@ -44,11 +44,17 @@
 #include "ast/op/post_unary_sub_op.h"
 
 //Terminals
-#include "terminal.h"
+#include "ast/terminal.h"
 
 // Identifier
 #include "ast/identifier.h"
 
 // Variable
 #include "ast/var/Variable.h"
+
+// Lists
+#include "ast/list/list.h"
+#include "ast/list/arg_list.h"
+#include "ast/list/arg.h"
+
 #endif

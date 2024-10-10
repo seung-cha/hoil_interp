@@ -63,8 +63,8 @@ class Parser
     void ParseParamList();
     void ParseParam();
 
-    void ParseArgList();
-    void ParseArg();
+    std::unique_ptr<ASTs::ArgList> ParseArgList();
+    std::unique_ptr<ASTs::Arg> ParseArg();
 
     // Block
     void ParseItemList();

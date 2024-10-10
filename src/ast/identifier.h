@@ -7,7 +7,12 @@ namespace ASTs
 {
     class Identifier : public Terminal
     {
+        public:
+        Identifier(std::string spelling) : Terminal{spelling}
+        {
 
+        }
+        
     };
 }
 

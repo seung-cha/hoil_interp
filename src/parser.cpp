@@ -119,19 +119,25 @@ void Parser::ParseParam()
     Match(Lexicon::IDENTIFIER);
 }
 
-void Parser::ParseArgList()
+std::unique_ptr<ASTs::ArgList> Parser::ParseArgList()
 {
+    // TODO: Update
     ParseArg();
     while(LexemeIs(Lexicon::COMMA))
     {
         Next();
         ParseArg();
     }
+
+    return nullptr;
 }
 
-void Parser::ParseArg()
+std::unique_ptr<ASTs::Arg> Parser::ParseArg()
 {
+    // TODO: Update
     ParseExpr();
+    
+    return nullptr;
 }
 
 std::unique_ptr<ASTs::Type> Parser::ParseType()
@@ -296,6 +302,7 @@ void Parser::ParsePrimaryExpr()
         // Check function call, post ++ or --
         if(LexemeIs(Lexicon::OPAREN))
         {
+            // TODO: Handle function call
             Next();
             if(!LexemeIs(Lexicon::CPAREN))
             {
@@ -304,13 +311,12 @@ void Parser::ParsePrimaryExpr()
 
             Match(Lexicon::CPAREN);
         }
-        else if(LexemeIs(Lexicon::UNARY_ADD))
+        else if(LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::UNARY_SUB))
         {
-            Next();
-        }
-        else if(LexemeIs(Lexicon::UNARY_SUB))
-        {
-            Next();
+            auto op = ParseOperator();
+            auto var = new ASTs::VariableExpr(new ASTs::Variable(identifier.release()));
+
+            expr = std::make_unique<ASTs::PostUnaryExpr>(var, op.release());
         }
         else
         {
@@ -527,7 +533,9 @@ void Parser::ParseItem()
 std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
 {
     // TODO: Handle
-    return std::make_unique<ASTs::Operator>();
+    auto op = std::make_unique<ASTs::Operator>(currentLexicon->spelling);
+    Next();
+    return op;
 }
 
 std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
@@ -536,7 +544,7 @@ std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
         return std::unique_ptr<ASTs::IntLiteral>{};
 
     Next();
-    return std::make_unique<ASTs::IntLiteral>();
+    return std::make_unique<ASTs::IntLiteral>(currentLexicon->spelling);
 }
 
 std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
@@ -545,7 +553,7 @@ std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
         return std::unique_ptr<ASTs::RealLiteral>{};
 
     Next();
-    return std::make_unique<ASTs::RealLiteral>();
+    return std::make_unique<ASTs::RealLiteral>(currentLexicon->spelling);
 }
 
 std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
@@ -554,7 +562,7 @@ std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
         return std::unique_ptr<ASTs::BoolLiteral>{};
 
     Next();
-    return std::make_unique<ASTs::BoolLiteral>();
+    return std::make_unique<ASTs::BoolLiteral>(currentLexicon->spelling);
 }
 
 std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
@@ -563,7 +571,7 @@ std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
         return std::unique_ptr<ASTs::StringLiteral>{};
 
     Next();
-    return std::make_unique<ASTs::StringLiteral>();
+    return std::make_unique<ASTs::StringLiteral>(currentLexicon->spelling);
 }
 
 std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
@@ -572,5 +580,5 @@ std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
         return std::unique_ptr<ASTs::Identifier>{};
     
     Next();
-    return std::make_unique<ASTs::Identifier>();
+    return std::make_unique<ASTs::Identifier>(currentLexicon->spelling);
 }
