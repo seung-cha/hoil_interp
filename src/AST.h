@@ -56,5 +56,7 @@
 #include "ast/list/list.h"
 #include "ast/list/arg_list.h"
 #include "ast/list/arg.h"
+#include "ast/list/param_list.h"
+#include "ast/list/param.h"
 
 #endif
