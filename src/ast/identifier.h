@@ -1,5 +1,5 @@
 #ifndef AST_IDENTIFIER_H
-#define AST_IDENFITIER_H
+#define AST_IDENTIFIER_H
 
 #include "ast.h"
 

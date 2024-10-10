@@ -10,11 +10,11 @@ namespace ASTs
     class VariableExpr : public Expr
     {
         public:
-        VariableExpr(std::unique_ptr<Variable> variable) : variable{std::move(variable)}
+        VariableExpr(Variable *variable) : variable{variable}
         {
 
         }
-        
+
         std::unique_ptr<Variable> variable;
     };
 

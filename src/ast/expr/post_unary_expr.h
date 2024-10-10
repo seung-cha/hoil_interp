@@ -11,7 +11,7 @@ namespace ASTs
     class PostUnaryExpr : public Expr
     {
         public:
-        PostUnaryExpr(std::unique_ptr<Expr> expr, std::unique_ptr<Operator> op) : expr{std::move(expr)}, op{std::move(op)}
+        PostUnaryExpr(Expr *expr, Operator *op) : expr{expr}, op{op}
         {
 
         }

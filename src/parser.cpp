@@ -293,7 +293,6 @@ void Parser::ParsePrimaryExpr()
     {
         auto identifier = ParseIdentifier();
 
-        Next();
         // Check function call, post ++ or --
         if(LexemeIs(Lexicon::OPAREN))
         {
@@ -315,7 +314,7 @@ void Parser::ParsePrimaryExpr()
         }
         else
         {
-            expr = std::make_unique<ASTs::VariableExpr>(identifier);
+            expr = std::make_unique<ASTs::VariableExpr>(new ASTs::Variable(identifier.release()));
         }
     }
     else if(LexemeIs(Lexicon::INTVAL))

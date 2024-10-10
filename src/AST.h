@@ -45,4 +45,7 @@
 
 // Identifier
 #include "ast/identifier.h"
+
+// Variable
+#include "ast/var/Variable.h"
 #endif

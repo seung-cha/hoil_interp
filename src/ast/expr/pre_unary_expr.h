@@ -11,7 +11,7 @@ namespace ASTs
     class PreUnaryExpr : public Expr
     {
         public:
-        PreUnaryExpr(std::unique_ptr<Expr> expr, std::unique_ptr<Operator> op) : expr{std::move(expr)}, op{std::move(op)}
+        PreUnaryExpr(Expr *expr, Operator *op) : expr{expr}, op{op}
         {
 
         }

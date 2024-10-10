@@ -11,14 +11,12 @@ namespace ASTs
     class Variable : public AST
     {
         public: 
-        Variable(std::unique_ptr<Identifier> identifier) : identifier{std::move(identifier)}
+        Variable(Identifier *identifier) : identifier{identifier}
         {
 
         }
         
         std::unique_ptr<Identifier> identifier;
-
-
     };
 }
 
