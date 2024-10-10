@@ -1,5 +1,5 @@
-#ifndef AST_UNARY_EXPR_H
-#define AST_UNARY_EXPR_H 
+#ifndef AST_PRE_UNARY_EXPR_H
+#define AST_PRE_UNARY_EXPR_H 
 
 #include "expr.h"
 #include "../op/operator.h"
@@ -8,10 +8,10 @@
 
 namespace ASTs
 {
-    class UnaryExpr : public Expr
+    class PreUnaryExpr : public Expr
     {
         public:
-        UnaryExpr(Expr *expr, Operator *op) : expr{expr}, op{op}
+        PreUnaryExpr(std::unique_ptr<Expr> expr, std::unique_ptr<Operator> op) : expr{std::move(expr)}, op{std::move(op)}
         {
 
         }

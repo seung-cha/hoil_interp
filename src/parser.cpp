@@ -291,6 +291,8 @@ void Parser::ParsePrimaryExpr()
 
     if(LexemeIs(Lexicon::IDENTIFIER))
     {
+        auto identifier = ParseIdentifier();
+
         Next();
         // Check function call, post ++ or --
         if(LexemeIs(Lexicon::OPAREN))
@@ -310,6 +312,10 @@ void Parser::ParsePrimaryExpr()
         else if(LexemeIs(Lexicon::UNARY_SUB))
         {
             Next();
+        }
+        else
+        {
+            expr = std::make_unique<ASTs::VariableExpr>(identifier);
         }
     }
     else if(LexemeIs(Lexicon::INTVAL))
@@ -566,5 +572,6 @@ std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
     if(!LexemeIs(Lexicon::IDENTIFIER))
         return std::unique_ptr<ASTs::Identifier>{};
     
+    Next();
     return std::make_unique<ASTs::Identifier>();
 }
