@@ -8,7 +8,7 @@ namespace Lexicons
     class SubAssign : public Lexicon
     {
         public:
-        SubAssign(int lineNo, int charNo) : Lexicon{Lexicon::SUB_ASSIGN, lineNo, charNo}
+        SubAssign(int lineNo, int charNo) : Lexicon{Lexicon::SUB_ASSIGN, "-=", lineNo, charNo}
         {
 
         }

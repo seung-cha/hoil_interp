@@ -9,7 +9,7 @@ namespace Lexicons
     {
         public:
 
-        Int(int lineNo, int charNo) : Lexicon{Lexicon::INT, lineNo, charNo}
+        Int(int lineNo, int charNo) : Lexicon{Lexicon::INT, "int", lineNo, charNo}
         {
 
         }

@@ -8,7 +8,7 @@ namespace Lexicons
     class Comma : public Lexicon
     {
         public:
-        Comma(int lineNo, int charNo) : Lexicon{Lexicon::COMMA, lineNo, charNo}
+        Comma(int lineNo, int charNo) : Lexicon{Lexicon::COMMA, ",", lineNo, charNo}
         {
 
         }

@@ -8,7 +8,7 @@ namespace Lexicons
     class Bool : public Lexicon
     {
         public:
-        Bool(int lineNo, int charNo) : Lexicon{Lexicon::BOOL, lineNo, charNo}
+        Bool(int lineNo, int charNo) : Lexicon{Lexicon::BOOL, "bool", lineNo, charNo}
         {
 
         }

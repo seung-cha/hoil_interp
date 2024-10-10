@@ -8,7 +8,7 @@ namespace Lexicons
     class OpenSquareParen : public Lexicon
     {
         public:
-        OpenSquareParen(int lineNo, int charNo) : Lexicon{Lexicon::OSPAREN, lineNo, charNo}
+        OpenSquareParen(int lineNo, int charNo) : Lexicon{Lexicon::OSPAREN, "[", lineNo, charNo}
         {
 
         }

@@ -8,7 +8,7 @@ namespace Lexicons
     class While : public Lexicon
     {
         public:
-        While(int lineNo, int charNo) : Lexicon{Lexicon::WHILE, lineNo, charNo}
+        While(int lineNo, int charNo) : Lexicon{Lexicon::WHILE, "while", lineNo, charNo}
         {
 
         }

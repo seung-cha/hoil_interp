@@ -8,7 +8,7 @@ namespace Lexicons
     class MulAssign : public Lexicon
     {
         public:
-        MulAssign(int lineNo, int charNo) : Lexicon{Lexicon::MUL_ASSIGN, lineNo, charNo}
+        MulAssign(int lineNo, int charNo) : Lexicon{Lexicon::MUL_ASSIGN, "*=", lineNo, charNo}
         {
 
         }

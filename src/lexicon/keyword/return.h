@@ -8,7 +8,7 @@ namespace Lexicons
     class Return : public Lexicon
     {
         public:
-        Return(int lineNo, int charNo) : Lexicon{Lexicon::RETURN, lineNo, charNo}
+        Return(int lineNo, int charNo) : Lexicon{Lexicon::RETURN, "return", lineNo, charNo}
         {
 
         }

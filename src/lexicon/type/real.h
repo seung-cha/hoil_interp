@@ -8,7 +8,7 @@ namespace Lexicons
     class Real : public Lexicon
     {
         public:
-        Real(int lineNo, int charNo) : Lexicon{Lexicon::REAL, lineNo, charNo}
+        Real(int lineNo, int charNo) : Lexicon{Lexicon::REAL, "real", lineNo, charNo}
         {
 
         }

@@ -8,7 +8,7 @@ namespace Lexicons
     class OpenParen : public Lexicon
     {
         public:
-        OpenParen(int lineNo, int charNo) : Lexicon{Lexicon::OPAREN, lineNo, charNo}
+        OpenParen(int lineNo, int charNo) : Lexicon{Lexicon::OPAREN, "(", lineNo, charNo}
         {
 
         }

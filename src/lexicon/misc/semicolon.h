@@ -8,7 +8,7 @@ namespace Lexicons
     class Semicolon : public Lexicon
     {
         public:
-        Semicolon(int lineNo, int charNo) : Lexicon{Lexicon::SEMICOLON, lineNo, charNo}
+        Semicolon(int lineNo, int charNo) : Lexicon{Lexicon::SEMICOLON, ";", lineNo, charNo}
         {
 
         }

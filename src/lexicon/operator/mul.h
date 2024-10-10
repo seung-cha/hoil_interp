@@ -8,7 +8,7 @@ namespace Lexicons
     class Mul : public Lexicon
     {
         public:
-        Mul(int lineNo, int charNo) : Lexicon{Lexicon::MUL, lineNo, charNo}
+        Mul(int lineNo, int charNo) : Lexicon{Lexicon::MUL, "*", lineNo, charNo}
         {
 
         }

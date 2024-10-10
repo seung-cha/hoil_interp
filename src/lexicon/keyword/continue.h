@@ -8,7 +8,7 @@ namespace Lexicons
     class Continue : public Lexicon
     {
         public:
-        Continue(int lineNo, int charNo) : Lexicon{Lexicon::CONTINUE, lineNo, charNo}
+        Continue(int lineNo, int charNo) : Lexicon{Lexicon::CONTINUE, "continue", lineNo, charNo}
         {
 
         }

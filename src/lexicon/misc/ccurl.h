@@ -8,7 +8,7 @@ namespace Lexicons
     class CloseCurly : public Lexicon
     {
         public:
-        CloseCurly(int lineNo, int charNo) : Lexicon{Lexicon::CCURLY, lineNo, charNo}
+        CloseCurly(int lineNo, int charNo) : Lexicon{Lexicon::CCURLY, "}", lineNo, charNo}
         {
 
         }

@@ -11,7 +11,7 @@ namespace Lexicons
     class False : public Lexicon
     {
         public:
-        False(int lineNo, int charNo) : Lexicon{Lexicon::FALSE, lineNo, charNo}
+        False(int lineNo, int charNo) : Lexicon{Lexicon::FALSE, "false", lineNo, charNo}
         {
 
         }

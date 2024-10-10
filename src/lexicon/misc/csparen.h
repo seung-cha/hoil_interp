@@ -8,7 +8,7 @@ namespace Lexicons
     class CloseSquareParen : public Lexicon
     {
         public:
-        CloseSquareParen(int lineNo, int charNo) : Lexicon{Lexicon::CSPAREN, lineNo, charNo}
+        CloseSquareParen(int lineNo, int charNo) : Lexicon{Lexicon::CSPAREN, "]", lineNo, charNo}
         {
 
         }

@@ -10,7 +10,7 @@ namespace Lexicons
     class True : public Lexicon
     {
         public:
-        True(int lineNo, int charNo) : Lexicon{Lexicon::TRUE, lineNo, charNo}
+        True(int lineNo, int charNo) : Lexicon{Lexicon::TRUE, "true", lineNo, charNo}
         {
 
         }

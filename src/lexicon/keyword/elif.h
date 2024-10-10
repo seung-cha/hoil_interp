@@ -8,7 +8,7 @@ namespace Lexicons
     class Elif : public Lexicon
     {
         public:
-        Elif(int lineNo, int charNo) : Lexicon{Lexicon::ELIF, lineNo, charNo}
+        Elif(int lineNo, int charNo) : Lexicon{Lexicon::ELIF, "elif", lineNo, charNo}
         {
 
         }

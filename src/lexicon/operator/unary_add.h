@@ -8,7 +8,7 @@ namespace Lexicons
     class UnaryAdd : public Lexicon
     {
         public:
-        UnaryAdd(int lineNo, int charNo) : Lexicon{Lexicon::UNARY_ADD, lineNo, charNo}
+        UnaryAdd(int lineNo, int charNo) : Lexicon{Lexicon::UNARY_ADD, "++", lineNo, charNo}
         {
 
         }

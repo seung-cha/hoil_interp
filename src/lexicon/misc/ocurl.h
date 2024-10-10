@@ -8,7 +8,7 @@ namespace Lexicons
     class OpenCurly : public Lexicon
     {
         public:
-        OpenCurly(int lineNo, int charNo) : Lexicon{Lexicon::OCURLY, lineNo, charNo}
+        OpenCurly(int lineNo, int charNo) : Lexicon{Lexicon::OCURLY, "{", lineNo, charNo}
         {
 
         }

@@ -9,7 +9,7 @@ namespace Lexicons
     {
         public:
 
-        Void(int lineNo, int charNo) : Lexicon{Lexicon::VOID, lineNo, charNo}
+        Void(int lineNo, int charNo) : Lexicon{Lexicon::VOID, "void", lineNo, charNo}
         {
 
         }

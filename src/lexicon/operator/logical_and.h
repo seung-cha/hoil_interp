@@ -8,7 +8,7 @@ namespace Lexicons
     class LogicalAnd : public Lexicon
     {
         public:
-        LogicalAnd(int lineNo, int charNo) : Lexicon{Lexicon::LOGICAL_AND, lineNo, charNo}
+        LogicalAnd(int lineNo, int charNo) : Lexicon{Lexicon::LOGICAL_AND, "&&", lineNo, charNo}
         {
 
         }

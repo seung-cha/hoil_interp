@@ -8,7 +8,7 @@ namespace Lexicons
     class Do : public Lexicon
     {
         public:
-        Do(int lineNo, int charNo) : Lexicon{Lexicon::DO, lineNo, charNo}
+        Do(int lineNo, int charNo) : Lexicon{Lexicon::DO, "do", lineNo, charNo}
         {
 
         }

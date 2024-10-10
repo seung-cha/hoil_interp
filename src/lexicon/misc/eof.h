@@ -8,7 +8,7 @@ namespace Lexicons
     class EndOfFile : public Lexicon
     {
         public:
-        EndOfFile(int lineNo, int charNo) : Lexicon{Lexicon::END_OF_FILE, lineNo, charNo}
+        EndOfFile(int lineNo, int charNo) : Lexicon{Lexicon::END_OF_FILE, "$", lineNo, charNo}
         {
 
         }

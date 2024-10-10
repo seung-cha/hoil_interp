@@ -8,7 +8,7 @@ namespace Lexicons
     class Equal : public Lexicon
     {
         public:
-        Equal(int lineNo, int charNo) : Lexicon{Lexicon::EQUAL, lineNo, charNo}
+        Equal(int lineNo, int charNo) : Lexicon{Lexicon::EQUAL, "==", lineNo, charNo}
         {
 
         }
