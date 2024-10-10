@@ -8,7 +8,7 @@ namespace Lexicons
     class Break : public Lexicon
     {
         public:
-        Break(int lineNo, int charNo) : Lexicon{Lexicon::BREAK, lineNo, charNo}
+        Break(int lineNo, int charNo) : Lexicon{Lexicon::BREAK, "break", lineNo, charNo}
         {
 
         }

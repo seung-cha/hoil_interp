@@ -8,7 +8,7 @@ namespace Lexicons
     class Div : public Lexicon
     {
         public:
-        Div(int lineNo, int charNo) : Lexicon{Lexicon::DIV, lineNo, charNo}
+        Div(int lineNo, int charNo) : Lexicon{Lexicon::DIV, "/", lineNo, charNo}
         {
 
         }

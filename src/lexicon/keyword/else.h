@@ -8,7 +8,7 @@ namespace Lexicons
     class Else : public Lexicon
     {
         public:
-        Else(int lineNo, int charNo) : Lexicon{Lexicon::ELSE, lineNo, charNo}
+        Else(int lineNo, int charNo) : Lexicon{Lexicon::ELSE, "else", lineNo, charNo}
         {
 
         }

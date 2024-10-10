@@ -8,7 +8,7 @@ namespace Lexicons
     class Loop : public Lexicon
     {
         public:
-        Loop(int lineNo, int charNo) : Lexicon{Lexicon::LOOP, lineNo, charNo}
+        Loop(int lineNo, int charNo) : Lexicon{Lexicon::LOOP, "loop", lineNo, charNo}
         {
 
         }

@@ -8,7 +8,7 @@ namespace Lexicons
     class DivAssign : public Lexicon
     {
         public:
-        DivAssign(int lineNo, int charNo) : Lexicon{Lexicon::DIV_ASSIGN, lineNo, charNo}
+        DivAssign(int lineNo, int charNo) : Lexicon{Lexicon::DIV_ASSIGN, "/=", lineNo, charNo}
         {
 
         }

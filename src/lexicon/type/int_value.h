@@ -11,7 +11,7 @@ namespace Lexicons
         int32_t const value;
         std::string const spelling;
         IntValue(int32_t const value, std::string spelling, int lineNo, int charNo) : 
-        Lexicon{Lexicon::INTVAL, lineNo, charNo}, value{value}, spelling{spelling}
+        Lexicon{Lexicon::INTVAL, spelling, lineNo, charNo}, value{value}
         {
 
         }

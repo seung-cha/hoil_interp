@@ -8,7 +8,7 @@ namespace Lexicons
     class LogicalOr : public Lexicon
     {
         public:
-        LogicalOr(int lineNo, int charNo) : Lexicon{Lexicon::LOGICAL_OR, lineNo, charNo}
+        LogicalOr(int lineNo, int charNo) : Lexicon{Lexicon::LOGICAL_OR, "||", lineNo, charNo}
         {
 
         }

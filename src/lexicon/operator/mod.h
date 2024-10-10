@@ -8,7 +8,7 @@ namespace Lexicons
     class Mod : public Lexicon
     {
         public:
-        Mod(int lineNo, int charNo) : Lexicon{Lexicon::MOD, lineNo, charNo}
+        Mod(int lineNo, int charNo) : Lexicon{Lexicon::MOD, "%", lineNo, charNo}
         {
 
         }

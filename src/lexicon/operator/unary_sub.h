@@ -8,7 +8,7 @@ namespace Lexicons
     class UnarySub : public Lexicon
     {
         public:
-        UnarySub(int lineNo, int charNo) : Lexicon{Lexicon::UNARY_SUB, lineNo, charNo}
+        UnarySub(int lineNo, int charNo) : Lexicon{Lexicon::UNARY_SUB, "--", lineNo, charNo}
         {
 
         }

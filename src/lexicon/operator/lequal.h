@@ -8,7 +8,7 @@ namespace Lexicons
     class Lequal : public Lexicon
     {
         public:
-        Lequal(int lineNo, int charNo) : Lexicon{Lexicon::LEQUAL, lineNo, charNo}
+        Lequal(int lineNo, int charNo) : Lexicon{Lexicon::LEQUAL, "<=", lineNo, charNo}
         {
 
         }

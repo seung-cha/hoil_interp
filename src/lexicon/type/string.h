@@ -8,7 +8,7 @@ namespace Lexicons
     class String : public Lexicon
     {
         public:
-        String(int lineNo, int charNo) : Lexicon{Lexicon::STRING, lineNo, charNo}
+        String(int lineNo, int charNo) : Lexicon{Lexicon::STRING, "string", lineNo, charNo}
         {
 
         }

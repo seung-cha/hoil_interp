@@ -8,7 +8,7 @@ namespace Lexicons
     class Assign : public Lexicon
     {
         public:
-        Assign(int lineNo, int charNo) : Lexicon{Lexicon::ASSIGN, lineNo, charNo}
+        Assign(int lineNo, int charNo) : Lexicon{Lexicon::ASSIGN, "=", lineNo, charNo}
         {
 
         }

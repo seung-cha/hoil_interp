@@ -8,7 +8,7 @@ namespace Lexicons
     class Until : public Lexicon
     {
         public:
-        Until(int lineNo, int charNo) : Lexicon{Lexicon::UNTIL, lineNo, charNo}
+        Until(int lineNo, int charNo) : Lexicon{Lexicon::UNTIL, "until", lineNo, charNo}
         {
 
         }

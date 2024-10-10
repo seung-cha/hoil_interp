@@ -8,7 +8,7 @@ namespace Lexicons
     class Less : public Lexicon
     {
         public:
-        Less(int lineNo, int charNo) : Lexicon{Lexicon::LESS, lineNo, charNo}
+        Less(int lineNo, int charNo) : Lexicon{Lexicon::LESS, "<", lineNo, charNo}
         {
 
         }

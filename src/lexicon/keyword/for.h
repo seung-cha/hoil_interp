@@ -8,7 +8,7 @@ namespace Lexicons
     class For : public Lexicon
     {
         public:
-        For(int lineNo, int charNo) : Lexicon{Lexicon::FOR, lineNo, charNo}
+        For(int lineNo, int charNo) : Lexicon{Lexicon::FOR, "for", lineNo, charNo}
         {
 
         }

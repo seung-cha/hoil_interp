@@ -8,16 +8,15 @@ namespace Lexicons
     class Identifier : public Lexicon
     {
         public:
-        std::string const value;
-        Identifier(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::IDENTIFIER, lineNo, charNo}, value{value}
+        Identifier(std::string spelling, int lineNo, int charNo) : Lexicon{Lexicon::IDENTIFIER, spelling, lineNo, charNo}
         {
 
         }
 
         std::string const ToString() const override
         {
-            char str[1024 + value.size()];
-            snprintf(str, 1024 + sizeof(value), "< IDENTIFIER, %s >", value.c_str());
+            char str[1024 + spelling.size()];
+            snprintf(str, 1024 + sizeof(spelling), "< IDENTIFIER, %s >", spelling.c_str());
             return str;
         }
     };

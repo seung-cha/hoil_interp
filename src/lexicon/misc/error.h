@@ -8,16 +8,16 @@ namespace Lexicons
     class Error : public Lexicon
     {
         public:
-        std::string value;
-        Error(std::string value, int lineNo, int charNo) : Lexicon{Lexicon::ERR, lineNo, charNo}, value{value}
+
+        Error(std::string spelling, int lineNo, int charNo) : Lexicon{Lexicon::ERR, spelling, lineNo, charNo}
         {
 
         }
 
         std::string const ToString() const override
         {
-            char str[100 + value.size()];
-            snprintf(str, 100, "< ERROR, %s >", value.c_str());
+            char str[100 + spelling.size()];
+            snprintf(str, 100, "< ERROR, %s >", spelling.c_str());
             return str;
         }
     };

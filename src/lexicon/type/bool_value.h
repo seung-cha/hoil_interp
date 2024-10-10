@@ -9,11 +9,10 @@ namespace Lexicons
     {
         public:
         bool const value;
-        std::string const spelling;
         BoolValue(bool const value, std::string spelling, int lineNo, int charNo) : 
-        Lexicon{Lexicon::BOOLVAL, lineNo, charNo}, value{value}, spelling{spelling}
+        Lexicon{Lexicon::BOOLVAL, spelling, lineNo, charNo}, value{value}
         {
-
+            
         }
 
         std::string const ToString() const override

@@ -8,7 +8,7 @@ namespace Lexicons
     class Not : public Lexicon
     {
         public:
-        Not(int lineNo, int charNo) : Lexicon{Lexicon::NOT, lineNo, charNo}
+        Not(int lineNo, int charNo) : Lexicon{Lexicon::NOT, "!", lineNo, charNo}
         {
 
         }

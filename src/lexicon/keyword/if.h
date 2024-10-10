@@ -8,7 +8,7 @@ namespace Lexicons
     class If : public Lexicon
     {
         public:
-        If(int lineNo, int charNo) : Lexicon{Lexicon::IF, lineNo, charNo}
+        If(int lineNo, int charNo) : Lexicon{Lexicon::IF, "if", lineNo, charNo}
         {
 
         }

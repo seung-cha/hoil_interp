@@ -43,9 +43,10 @@ namespace Lexicons
 
         public:
         LexiconId const Id;
+        std::string const spelling;
         int const LineNo;
         int const CharNo;
-        Lexicon(LexiconId t, int lineNo, int charNo) : Id{t}, LineNo{lineNo}, CharNo{charNo}
+        Lexicon(LexiconId t, std::string spelling, int lineNo, int charNo) : Id{t}, LineNo{lineNo}, CharNo{charNo}, spelling{spelling}
         {
 
         }

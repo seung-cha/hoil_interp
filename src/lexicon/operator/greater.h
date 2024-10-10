@@ -8,7 +8,7 @@ namespace Lexicons
     class Greater : public Lexicon
     {
         public:
-        Greater(int lineNo, int charNo) : Lexicon{Lexicon::GREATER, lineNo, charNo}
+        Greater(int lineNo, int charNo) : Lexicon{Lexicon::GREATER, ">", lineNo, charNo}
         {
 
         }
