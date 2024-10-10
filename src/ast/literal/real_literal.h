@@ -7,7 +7,11 @@ namespace ASTs
 {
     class RealLiteral : public Literal
     {
-
+        public:
+        RealLiteral(std::string spelling) : Literal{spelling}
+        {
+            
+        }
     };
 }
 

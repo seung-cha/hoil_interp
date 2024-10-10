@@ -1,11 +1,11 @@
 #ifndef AST_IDENTIFIER_H
 #define AST_IDENTIFIER_H
 
-#include "ast.h"
+#include "terminal.h"
 
 namespace ASTs
 {
-    class Identifier : public AST
+    class Identifier : public Terminal
     {
 
     };

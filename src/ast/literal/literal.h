@@ -1,13 +1,17 @@
 #ifndef AST_LITERAL_H
 #define AST_LITERAL_H
 
-#include "../ast.h"
+#include "../terminal.h"
 
 namespace ASTs
 {
-    class Literal : public AST
+    class Literal : public Terminal
     {
-
+        public:
+        Literal(std::string spelling) : Terminal{spelling}
+        {
+            
+        }
     };
 }
 

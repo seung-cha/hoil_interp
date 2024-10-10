@@ -7,7 +7,11 @@ namespace ASTs
 {
     class DivOp : public Operator
     {
-
+        public:
+        DivOp(std::string spelling) : Operator{spelling}
+        {
+            
+        }
     };
 }
 

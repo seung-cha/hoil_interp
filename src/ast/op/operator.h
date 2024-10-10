@@ -1,12 +1,17 @@
 #ifndef AST_OP_H
 #define AST_OP_H
 
-#include "../ast.h"
+#include "../terminal.h"
 
 namespace ASTs
 {
-    class Operator : public AST
+    class Operator : public Terminal
     {
+        public:
+        Operator(std::string spelling) : Terminal{spelling}
+        {
+
+        }
 
     };
 }

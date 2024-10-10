@@ -7,7 +7,11 @@ namespace ASTs
 {
     class PostUnarySubOp : public Operator
     {
-
+        public:
+        PostUnarySubOp(std::string spelling) : Operator{spelling}
+        {
+            
+        }
     };
 }
 
