@@ -16,6 +16,11 @@
 
 // Statements
 #include "ast/stmt/stmt.h"
+#include "ast/stmt/compound_stmt.h"
+#include "ast/stmt/elif_stmt.h"
+#include "ast/stmt/empty_stmt.h"
+#include "ast/stmt/expr_stmt.h"
+#include "ast/stmt/if_stmt.h"
 
 // Literals
 #include "ast/literal/literal.h"
@@ -61,5 +66,10 @@
 #include "ast/list/empty_arg_list.h"
 #include "ast/list/param_list.h"
 #include "ast/list/param.h"
+#include "ast/list/block_item_list.h"
+#include "ast/list/empty_block_list.h"
+#include "ast/list/block.h"
+#include "ast/list/stmt_block.h"
+#include "ast/list/var_decl_block.h"
 
 #endif
