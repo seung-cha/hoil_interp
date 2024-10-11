@@ -63,7 +63,7 @@ class Parser
     void ParseParamList();
     void ParseParam();
 
-    std::unique_ptr<ASTs::ArgList> ParseArgList();
+    std::unique_ptr<ASTs::List> ParseArgList();
     std::unique_ptr<ASTs::Arg> ParseArg();
 
     // Block
@@ -71,16 +71,16 @@ class Parser
     void ParseItem();
 
     // Expr
-    void ParseExpr();
-    void ParseAssignmentExpr();
-    void ParseLogicalOrExpr();
-    void ParseLogicalAndExpr();
-    void ParseEqualityExpr();
-    void ParseRelationExpr();
-    void ParseAdditiveExpr();
-    void ParseMultiplicativeExpr();
-    void ParseUnaryExpr();
-    void ParsePrimaryExpr();
+    std::unique_ptr<ASTs::Expr> ParseExpr();
+    std::unique_ptr<ASTs::Expr> ParseAssignmentExpr();
+    std::unique_ptr<ASTs::Expr> ParseLogicalOrExpr();
+    std::unique_ptr<ASTs::Expr> ParseLogicalAndExpr();
+    std::unique_ptr<ASTs::Expr> ParseEqualityExpr();
+    std::unique_ptr<ASTs::Expr> ParseRelationExpr();
+    std::unique_ptr<ASTs::Expr> ParseAdditiveExpr();
+    std::unique_ptr<ASTs::Expr> ParseMultiplicativeExpr();
+    std::unique_ptr<ASTs::Expr> ParseUnaryExpr();
+    std::unique_ptr<ASTs::Expr> ParsePrimaryExpr();
 
 
     // Stmt

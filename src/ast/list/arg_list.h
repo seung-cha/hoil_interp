@@ -10,13 +10,13 @@ namespace ASTs
     class ArgList : public List
     {
         public:
-        ArgList(Arg *arg, ArgList *next) : arg{arg}, next{next}
+        ArgList(Arg *arg, List *next) : arg{arg}, next{next}
         {
 
         }
         
         std::unique_ptr<Arg> arg;
-        std::unique_ptr<ArgList> next;
+        std::unique_ptr<List> next;
         
 
     };

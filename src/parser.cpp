@@ -119,25 +119,28 @@ void Parser::ParseParam()
     Match(Lexicon::IDENTIFIER);
 }
 
-std::unique_ptr<ASTs::ArgList> Parser::ParseArgList()
+std::unique_ptr<ASTs::List> Parser::ParseArgList()
 {
-    // TODO: Update
-    ParseArg();
-    while(LexemeIs(Lexicon::COMMA))
+    std::unique_ptr<ASTs::ArgList> list{};
+    auto arg = ParseArg();
+    if(LexemeIs(Lexicon::COMMA))
     {
         Next();
-        ParseArg();
+        auto list2 = ParseArgList();
+
+        list = std::make_unique<ASTs::ArgList>(arg.release(), list2.release());
+    }
+    else
+    {
+        list = std::make_unique<ASTs::ArgList>(arg.release(), new ASTs::EmptyArgList());
     }
 
-    return nullptr;
+    return list;
 }
 
 std::unique_ptr<ASTs::Arg> Parser::ParseArg()
 {
-    // TODO: Update
-    ParseExpr();
-    
-    return nullptr;
+    return std::make_unique<ASTs::Arg>(ParseExpr().release());
 }
 
 std::unique_ptr<ASTs::Type> Parser::ParseType()
@@ -171,14 +174,14 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
     return ptr;
 }
 
-void Parser::ParseExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseExpr()
 {
-    ParseAssignmentExpr();
+    return ParseAssignmentExpr();
 }
 
-void Parser::ParseAssignmentExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseAssignmentExpr()
 {
-    ParseLogicalOrExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseLogicalOrExpr();
 
     while(LexemeIs(Lexicon::ASSIGN) ||
         LexemeIs(Lexicon::ADD_ASSIGN)||
@@ -186,112 +189,118 @@ void Parser::ParseAssignmentExpr()
         LexemeIs(Lexicon::MUL_ASSIGN)||
         LexemeIs(Lexicon::DIV_ASSIGN))
         {
-            Next();
-            ParseLogicalOrExpr();
+            auto op = ParseOperator();
+            auto expr2 = ParseLogicalOrExpr();
+
+            expr1 = std::make_unique<ASTs::AssignExpr>(expr1.release(), expr2.release(), op.release());
         }
+
+    return expr1;
 }
 
-void Parser::ParseLogicalOrExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseLogicalOrExpr()
 {
-    ParseLogicalAndExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseLogicalAndExpr();
     while(LexemeIs(Lexicon::LOGICAL_OR))
     {
-        Next();
-        ParseLogicalAndExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseLogicalAndExpr();
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
+
+    return expr1;
 }
 
-void Parser::ParseLogicalAndExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseLogicalAndExpr()
 {
-    ParseEqualityExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseEqualityExpr();
     while(LexemeIs(Lexicon::LOGICAL_AND))
     {
-        Next();
-        ParseEqualityExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseEqualityExpr();
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
+
+    return expr1;
 }
 
-void Parser::ParseEqualityExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseEqualityExpr()
 {
-    ParseRelationExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseRelationExpr();
+
     while(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
     {
-        Next();
-        ParseRelationExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseRelationExpr();
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
+
+    return expr1;
 }
 
-void Parser::ParseRelationExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseRelationExpr()
 {
-    ParseAdditiveExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseAdditiveExpr();
+
     while(
         LexemeIs(Lexicon::LESS) || LexemeIs(Lexicon::LEQUAL) ||
         LexemeIs(Lexicon::GREATER) || LexemeIs(Lexicon::GEQUAL))
     {
-        Next();
-        ParseAdditiveExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseAdditiveExpr();
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
+
+    return expr1;
 }
 
-void Parser::ParseAdditiveExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseAdditiveExpr()
 {
-    ParseMultiplicativeExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseMultiplicativeExpr();
 
     while(LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB))
     {
-        Next();
-        ParseMultiplicativeExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseMultiplicativeExpr();
+
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
 
+    return expr1;
 }
 
-void Parser::ParseMultiplicativeExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseMultiplicativeExpr()
 {
-    ParseUnaryExpr();
+    std::unique_ptr<ASTs::Expr> expr1 = ParseUnaryExpr();
 
     while(LexemeIs(Lexicon::MUL) || 
           LexemeIs(Lexicon::DIV) || 
           LexemeIs(Lexicon::MOD))
     {
-        Next();
-        ParseUnaryExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseUnaryExpr();
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
+    return expr1;
 }
 
-void Parser::ParseUnaryExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParseUnaryExpr()
 {  
-    if(LexemeIs(Lexicon::UNARY_ADD))
+    if( LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::UNARY_SUB) 
+     || LexemeIs(Lexicon::SUB)       || LexemeIs(Lexicon::NOT))
     {
-        Next();
-        ParseUnaryExpr();
-    }
-    else if(LexemeIs(Lexicon::ADD))
-    {
-        Next();
-        ParseUnaryExpr();
-    }
-    else if(LexemeIs(Lexicon::UNARY_SUB))
-    {
-        Next();
-        ParseUnaryExpr();
-    }
-    else if(LexemeIs(Lexicon::SUB))
-    {
-        Next();
-        ParseUnaryExpr();
-    }
-    else if(LexemeIs(Lexicon::NOT))
-    {
-        Next();
-        ParseUnaryExpr();
+        auto op = ParseOperator();
+        auto expr2 = ParseUnaryExpr();
+
+        return std::make_unique<ASTs::PreUnaryExpr>(expr2.release(), op.release());
     }
     else
     {
-        ParsePrimaryExpr();
+        return ParsePrimaryExpr();
     }
 }
 
-void Parser::ParsePrimaryExpr()
+std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
 {
     std::unique_ptr<ASTs::Expr> expr{};
 
@@ -304,12 +313,18 @@ void Parser::ParsePrimaryExpr()
         {
             // TODO: Handle function call
             Next();
+            ASTs::List *argList = nullptr;
             if(!LexemeIs(Lexicon::CPAREN))
             {
-                ParseArgList();
+                argList = ParseArgList().release();
             }
-
+            else
+            {
+                argList = new ASTs::EmptyArgList();
+            }
             Match(Lexicon::CPAREN);
+
+            expr = std::make_unique<ASTs::FunctionCallExpr>(identifier.release(), argList);
         }
         else if(LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::UNARY_SUB))
         {
@@ -345,6 +360,7 @@ void Parser::ParsePrimaryExpr()
     }
     else if(LexemeIs(Lexicon::OPAREN))
     {
+        // TODO: Update this
         Next();
         ParseExpr();
         Match(Lexicon::CPAREN);
@@ -353,6 +369,8 @@ void Parser::ParsePrimaryExpr()
     {
         ReportMismatch();
     }
+
+    return expr;
 }
 
 void Parser::ParseStmt()

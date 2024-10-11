@@ -11,6 +11,8 @@
 #include "ast/expr/bool_expr.h"
 #include "ast/expr/string_expr.h"
 #include "ast/expr/variable_expr.h"
+#include "ast/expr/function_call_expr.h"
+#include "ast/expr/assign_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"
@@ -56,6 +58,7 @@
 #include "ast/list/list.h"
 #include "ast/list/arg_list.h"
 #include "ast/list/arg.h"
+#include "ast/list/empty_arg_list.h"
 #include "ast/list/param_list.h"
 #include "ast/list/param.h"
 
