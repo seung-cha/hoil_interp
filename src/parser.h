@@ -84,13 +84,14 @@ class Parser
 
 
     // Stmt
-    void ParseStmt();
-    void ParseExprStmt();
-    void ParseIfStmt();
-    void ParseLoopStmt();
-    void ParseJumpStmt();
-    void ParseReturnStmt();
-    void ParseCompoundStmt();
+    std::unique_ptr<ASTs::Stmt> ParseStmt();
+    std::unique_ptr<ASTs::Stmt> ParseExprStmt();
+    std::unique_ptr<ASTs::Stmt> ParseIfStmt();
+    std::unique_ptr<ASTs::List> ParseElifList();
+    std::unique_ptr<ASTs::Stmt> ParseLoopStmt();
+    std::unique_ptr<ASTs::Stmt> ParseJumpStmt();
+    std::unique_ptr<ASTs::Stmt> ParseReturnStmt();
+    std::unique_ptr<ASTs::Stmt> ParseCompoundStmt();
     
     std::unique_ptr<ASTs::Type> ParseType();
     std::unique_ptr<ASTs::Operator> ParseOperator();

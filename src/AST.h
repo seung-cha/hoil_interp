@@ -67,6 +67,8 @@
 
 // Lists
 #include "ast/list/list.h"
+#include "ast/list/elif_list.h"
+#include "ast/list/empty_elif_list.h"
 #include "ast/list/arg_list.h"
 #include "ast/list/arg.h"
 #include "ast/list/empty_arg_list.h"

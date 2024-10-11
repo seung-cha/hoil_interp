@@ -16,8 +16,8 @@ namespace ASTs
 
         }
 
-        std::unique_ptr<Stmt> body;
         std::unique_ptr<Expr> cond;
+        std::unique_ptr<Stmt> body;
 
     };
 }
