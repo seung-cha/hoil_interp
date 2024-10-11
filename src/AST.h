@@ -21,6 +21,12 @@
 #include "ast/stmt/empty_stmt.h"
 #include "ast/stmt/expr_stmt.h"
 #include "ast/stmt/if_stmt.h"
+#include "ast/stmt/break_stmt.h"
+#include "ast/stmt/continue_stmt.h"
+#include "ast/stmt/return_stmt.h"
+#include "ast/stmt/loop_for_stmt.h"
+#include "ast/stmt/loop_while_stmt.h"
+#include "ast/stmt/loop_do_while_stmt.h"
 
 // Literals
 #include "ast/literal/literal.h"
