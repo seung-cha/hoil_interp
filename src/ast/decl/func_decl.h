@@ -11,10 +11,10 @@
 
 namespace ASTs
 {
-    class VarDecl : public Decl
+    class FuncDecl : public Decl
     {
         public:
-        VarDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : type{type}, identifier{identifier},
+        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : type{type}, identifier{identifier},
         params{params}, stmt{stmt}
         {
 
