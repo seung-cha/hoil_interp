@@ -13,6 +13,12 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "[Operator, " << spelling << "]" << std::endl;
+        }
+
     };
 }
 

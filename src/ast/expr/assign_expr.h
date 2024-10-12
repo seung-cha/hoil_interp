@@ -15,6 +15,15 @@ namespace ASTs
             
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Assignment Expression>" << std::endl;
+            lhs->Print(ident + 1);
+            op->Print(ident + 1);
+            rhs->Print(ident + 1);
+        }
+
         std::unique_ptr<Expr> lhs, rhs;
         std::unique_ptr<Operator> op;
     };

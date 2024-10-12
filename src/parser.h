@@ -21,9 +21,9 @@ class Parser
         return errorMsgs;
     }
 
-    private:
     std::unique_ptr<ASTs::Program> program;
 
+    private:
     /**
      * Return true if the current lexeme is of type Id.
      * Does not consume lexeme.

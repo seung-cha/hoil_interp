@@ -15,6 +15,14 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Function Declaration List>" << std::endl;
+            decl->Print(ident + 1);
+            list->Print(ident + 1);
+        }
+
         std::unique_ptr<Decl> decl;
         std::unique_ptr<List> list;
     };

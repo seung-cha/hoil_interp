@@ -15,6 +15,14 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Block Item List>" << std::endl;
+            block->Print(ident + 1);
+            next->Print(ident);
+        }
+
         std::unique_ptr<Block> block;
         std::unique_ptr<List> next;
     };

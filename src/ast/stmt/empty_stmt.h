@@ -7,6 +7,13 @@ namespace ASTs
 {
     class EmptyStmt : public Stmt
     {
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Stmt>" << std::endl;
+
+        }
 
     };
 }

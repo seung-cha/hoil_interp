@@ -15,6 +15,14 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Elif List>" << std::endl;
+            elif->Print(ident + 1);
+            next->Print(ident);
+        }
+
         std::unique_ptr<Stmt> elif;
         std::unique_ptr<List> next;
 

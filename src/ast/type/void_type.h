@@ -7,7 +7,12 @@ namespace ASTs
 {
     class VoidType : public Type
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Void Type>" << std::endl;
+        }
     };
 }
 

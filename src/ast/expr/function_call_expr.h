@@ -10,13 +10,21 @@ namespace ASTs
     class FunctionCallExpr : public Expr
     {
         public:
-        FunctionCallExpr(Identifier *identifier, List *list) : identifier{identifier}, list{list}
+        FunctionCallExpr(Identifier *identifier, List *params) : identifier{identifier}, params{params}
         {
 
         }
+        
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Function Call Expression>" << std::endl;
+            identifier->Print(ident + 1);
+            params->Print(ident + 1);
+        }
 
         std::unique_ptr<Identifier> identifier;
-        std::unique_ptr<List> list;
+        std::unique_ptr<List> params;
 
     };
 

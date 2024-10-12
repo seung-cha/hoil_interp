@@ -14,6 +14,14 @@ namespace ASTs
         {
 
         }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Integer Expression>" << std::endl;
+            literal->Print(ident + 1);
+        }
+
         std::unique_ptr<IntLiteral> literal;
     };
 }

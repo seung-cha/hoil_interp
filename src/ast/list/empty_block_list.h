@@ -7,7 +7,12 @@ namespace ASTs
 {
     class EmptyBlockList : public List
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Block List>" << std::endl;
+        }
     };
 }
 

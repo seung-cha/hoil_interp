@@ -19,6 +19,7 @@ int main(int argc, char** argv)
     bool lexer_verbose = false;
     bool lexer_no_err = false;
     bool parser_no_err = false;
+    bool draw_ast = false;
 
     for(int i = 0; i < argc; i++)
     {
@@ -31,7 +32,8 @@ int main(int argc, char** argv)
             "--flags can be any of the following:\n\n"
             "--lexer-verbose    Print lexemes obtained by lexer\n"
             "--lexer-no-err           Fail on obtaining error lexeme\n"
-            "--parser-no-err       Fail if source file is syntactically ill-formed" << std::endl;
+            "--parser-no-err       Fail if source file is syntactically ill-formed\n"
+            "--ast          Print Abstract Syntax Tree"<< std::endl;
 
             return EXIT_SUCCESS;
         }
@@ -47,6 +49,10 @@ int main(int argc, char** argv)
         else if(strcmp(str, "--parser-no-err") == 0)
         {
             parser_no_err = true;
+        }
+        else if(strcmp(str, "--ast") == 0)
+        {
+            draw_ast = true;
         }
     }
 
@@ -93,6 +99,11 @@ int main(int argc, char** argv)
     if(parser_no_err && parser.ErrorMsgs().size() > 0)
     {
         return EXIT_FAILURE;
+    }
+
+    if(draw_ast)
+    {
+        parser.program->Print(0);   
     }
 
 

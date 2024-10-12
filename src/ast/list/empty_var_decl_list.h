@@ -8,6 +8,12 @@ namespace ASTs
 {
     class EmptyVarDeclList : public List
     {
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Variable Declaration List>" << std::endl;
+        }
     };
 }
 

@@ -15,6 +15,13 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Variable Expression>" << std::endl;
+            variable->Print(ident + 1);
+        }
+
         std::unique_ptr<Variable> variable;
     };
 

@@ -7,6 +7,12 @@ namespace ASTs
 {
     class EmptyParamList : public List
     {
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Parameter List>" << std::endl;
+        }
 
     };
 }

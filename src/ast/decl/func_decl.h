@@ -20,6 +20,17 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Function Declaration>" << std::endl;
+            type->Print(ident + 1);
+            identifier->Print(ident + 1);
+            params->Print(ident + 1);
+            stmt->Print(ident + 1);
+
+        }
+
         std::unique_ptr<Type> type;
         std::unique_ptr<Identifier> identifier;
         std::unique_ptr<List> params;

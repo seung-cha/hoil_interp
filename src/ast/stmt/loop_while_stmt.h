@@ -16,6 +16,14 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<While Stmt>" << std::endl;
+            cond->Print(ident + 1);
+            stmt->Print(ident + 1);
+        }
+
         std::unique_ptr<Expr> cond;
         std::unique_ptr<Stmt> stmt;
     };

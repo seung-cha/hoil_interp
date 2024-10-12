@@ -7,7 +7,12 @@ namespace ASTs
 {
     class EmptyFuncDeclList : public List
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Function Declaration List>" << std::endl;
+        }
     };
 }
 

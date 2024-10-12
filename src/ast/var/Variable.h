@@ -15,6 +15,14 @@ namespace ASTs
         {
 
         }
+
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Variable>" << std::endl;
+            identifier->Print(ident + 1);
+        }
         
         std::unique_ptr<Identifier> identifier;
     };

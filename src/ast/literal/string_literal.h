@@ -12,6 +12,13 @@ namespace ASTs
         {
             
         }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "[String Literal, " << spelling << "]" << std::endl;
+        }
+
     };
 }
 

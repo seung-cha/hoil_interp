@@ -14,6 +14,14 @@ namespace ASTs
         {
 
         }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Arg List>" << std::endl;
+            arg->Print(ident + 1);
+            next->Print(ident);
+        }
         
         std::unique_ptr<Arg> arg;
         std::unique_ptr<List> next;

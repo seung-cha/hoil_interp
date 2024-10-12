@@ -15,6 +15,14 @@ namespace ASTs
         {
 
         }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Pre Unary Expression>" << std::endl;
+            op->Print(ident + 1);
+            expr->Print(ident + 1);
+        }
         
         std::unique_ptr<Expr> expr;
         std::unique_ptr<Operator> op;

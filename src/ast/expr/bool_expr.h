@@ -14,6 +14,13 @@ namespace ASTs
         {
 
         }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Boolean Expression>" << std::endl;
+            literal->Print(ident + 1);
+        }
         
         std::unique_ptr<BoolLiteral> literal;
     };

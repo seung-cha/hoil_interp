@@ -646,6 +646,7 @@ std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
 {
     // TODO: Handle
     auto op = std::make_unique<ASTs::Operator>(currentLexicon->spelling);
+
     Next();
     return op;
 }
@@ -655,8 +656,10 @@ std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
     if(!LexemeIs(Lexicon::INTVAL))
         return std::unique_ptr<ASTs::IntLiteral>{};
 
+    auto literal = std::make_unique<ASTs::IntLiteral>(currentLexicon->spelling);
     Next();
-    return std::make_unique<ASTs::IntLiteral>(currentLexicon->spelling);
+
+    return literal;
 }
 
 std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
@@ -664,8 +667,10 @@ std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
     if(!LexemeIs(Lexicon::REALVAL))
         return std::unique_ptr<ASTs::RealLiteral>{};
 
+    auto literal = std::make_unique<ASTs::RealLiteral>(currentLexicon->spelling);
     Next();
-    return std::make_unique<ASTs::RealLiteral>(currentLexicon->spelling);
+
+    return literal;
 }
 
 std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
@@ -673,8 +678,10 @@ std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
     if(!LexemeIs(Lexicon::BOOLVAL))
         return std::unique_ptr<ASTs::BoolLiteral>{};
 
+    auto literal = std::make_unique<ASTs::BoolLiteral>(currentLexicon->spelling);
     Next();
-    return std::make_unique<ASTs::BoolLiteral>(currentLexicon->spelling);
+
+    return literal;
 }
 
 std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
@@ -682,8 +689,10 @@ std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
     if(!LexemeIs(Lexicon::STRINGVAL))
         return std::unique_ptr<ASTs::StringLiteral>{};
 
+    auto literal = std::make_unique<ASTs::StringLiteral>(currentLexicon->spelling);
     Next();
-    return std::make_unique<ASTs::StringLiteral>(currentLexicon->spelling);
+
+    return literal;
 }
 
 std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
@@ -691,6 +700,8 @@ std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
     if(!LexemeIs(Lexicon::IDENTIFIER))
         return std::unique_ptr<ASTs::Identifier>{};
     
+    auto ident = std::make_unique<ASTs::Identifier>(currentLexicon->spelling);
     Next();
-    return std::make_unique<ASTs::Identifier>(currentLexicon->spelling);
+
+    return ident;
 }

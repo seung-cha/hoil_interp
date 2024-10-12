@@ -7,7 +7,12 @@ namespace ASTs
 {
     class StringType : public Type
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<String Type>" << std::endl;
+        }
     };
 }
 

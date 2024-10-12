@@ -15,6 +15,13 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Compound Stmt>" << std::endl;
+            list->Print(ident + 1);
+        }
+
         std::unique_ptr<List> list;
     };
 

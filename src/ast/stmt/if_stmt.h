@@ -17,6 +17,16 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<If Stmt>" << std::endl;
+            cond->Print(ident + 1);
+            ifStmt->Print(ident + 1);
+            elifList->Print(ident + 1);
+            elseStmt->Print(ident + 1);
+        }
+
         std::unique_ptr<Expr> cond;
         std::unique_ptr<Stmt> ifStmt, elseStmt;
         std::unique_ptr<List> elifList;

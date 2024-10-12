@@ -14,6 +14,14 @@ namespace ASTs
         {
 
         }
+        
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Variable Declaration Expression>" << std::endl;
+            identifier->Print(ident + 1);
+            expr->Print(ident + 1);
+        }
 
         std::unique_ptr<Identifier> identifier;
         std::unique_ptr<Expr> expr;

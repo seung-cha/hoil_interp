@@ -18,6 +18,16 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<For Stmt>" << std::endl;
+            decl->Print(ident + 1);
+            cond->Print(ident + 1);
+            postOp->Print(ident + 1);
+            body->Print(ident + 1);
+        }
+
         std::unique_ptr<Decl> decl;
         std::unique_ptr<Stmt> cond;
         std::unique_ptr<Expr> postOp;

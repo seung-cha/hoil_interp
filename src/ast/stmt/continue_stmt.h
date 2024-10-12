@@ -7,7 +7,12 @@ namespace ASTs
 {
     class ContinueStmt : public Stmt
     {
-        
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Continue Stmt>" << std::endl;
+        }
     };
 
 }

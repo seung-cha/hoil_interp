@@ -7,7 +7,12 @@ namespace ASTs
 {
     class IntType : public Type
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Int Type>" << std::endl;
+        }
     };
 }
 

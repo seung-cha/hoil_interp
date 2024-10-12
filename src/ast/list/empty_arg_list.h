@@ -7,6 +7,12 @@ namespace ASTs
 {
     class EmptyArgList : public List
     {
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Empty Arg List>" << std::endl;
+        }
 
     };
 }

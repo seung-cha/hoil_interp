@@ -16,6 +16,13 @@ namespace ASTs
 
         }
 
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Variable Declaration Block>" << std::endl;
+            decl->Print(ident + 1);
+        }
+
         std::unique_ptr<Decl> decl;
     };
 }

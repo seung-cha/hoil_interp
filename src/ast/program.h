@@ -15,6 +15,14 @@ namespace ASTs
 
         }
 
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Program>" << std::endl;
+            list->Print(ident + 1);
+        }
+
         std::unique_ptr<List> list;
 
     };
