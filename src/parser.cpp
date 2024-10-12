@@ -97,7 +97,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseVarDeclExpr()
 std::unique_ptr<ASTs::List> Parser::ParseFuncDeclList()
 {
     auto decl = ParseFuncDecl();
-    std::unique_ptr<ASTs::List> list = std::unique_ptr<ASTs::EmptyFuncDeclList>();
+    std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyFuncDeclList>();
 
     if( LexemeIs(Lexicon::INT)  ||
         LexemeIs(Lexicon::REAL) ||
