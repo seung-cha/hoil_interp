@@ -43,6 +43,11 @@
 #include "ast/type/bool_type.h"
 #include "ast/type/void_type.h"
 
+// Decl
+#include "ast/decl/decl.h"
+#include "ast/decl/var_decl.h"
+#include "ast/decl/func_decl.h"
+
 // Operators
 #include "ast/op/operator.h"
 #include "ast/op/assign_op.h"
@@ -73,11 +78,14 @@
 #include "ast/list/arg.h"
 #include "ast/list/empty_arg_list.h"
 #include "ast/list/param_list.h"
+#include "ast/list/empty_param_list.h"
 #include "ast/list/param.h"
 #include "ast/list/block_item_list.h"
 #include "ast/list/empty_block_list.h"
 #include "ast/list/block.h"
 #include "ast/list/stmt_block.h"
 #include "ast/list/var_decl_block.h"
+#include "ast/list/var_decl_list.h"
+#include "ast/list/empty_var_decl_list.h"
 
 #endif
