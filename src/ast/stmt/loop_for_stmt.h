@@ -4,13 +4,25 @@
 #include "stmt.h"
 #include "../expr/expr.h"
 #include "../list/list.h"
+#include "../decl/decl.h"
 #include <memory>
 
 namespace ASTs
 {
     class ForStmt : public Stmt
     {
-        // TODO
+        public:
+        ForStmt(Decl *decl, Stmt *cond, Expr *postOp, Stmt *body) : decl{decl}, cond{cond},
+        postOp{postOp}, body{body}
+        {
+
+        }
+
+        std::unique_ptr<Decl> decl;
+        std::unique_ptr<Stmt> cond;
+        std::unique_ptr<Expr> postOp;
+        std::unique_ptr<Stmt> body;
+
     };
 }
 

@@ -22,6 +22,8 @@ class Parser
     }
 
     private:
+    std::unique_ptr<ASTs::Program> program;
+
     /**
      * Return true if the current lexeme is of type Id.
      * Does not consume lexeme.
@@ -49,26 +51,27 @@ class Parser
     // Parse functions
     // TODO: Build AST out of parse functions
     private:
-    void ParseProgram();
+    std::unique_ptr<ASTs::Program> ParseProgram();
 
     // Variable Decl
-    void ParseVarDecl();
-    void ParseVarDeclList();
-    void ParseVarDeclExpr();
+    std::unique_ptr<ASTs::Decl> ParseVarDecl();
+    std::unique_ptr<ASTs::List> ParseVarDeclList();
+    std::unique_ptr<ASTs::Expr>  ParseVarDeclExpr();
 
     // Func decl
-    void ParseFuncDecl();
+    std::unique_ptr<ASTs::List> ParseFuncDeclList();
+    std::unique_ptr<ASTs::Decl> ParseFuncDecl();
 
     // Param & Arg
-    void ParseParamList();
-    void ParseParam();
+    std::unique_ptr<ASTs::List> ParseParamList();
+    std::unique_ptr<ASTs::Param> ParseParam();
 
     std::unique_ptr<ASTs::List> ParseArgList();
     std::unique_ptr<ASTs::Arg> ParseArg();
 
     // Block
-    void ParseItemList();
-    void ParseItem();
+    std::unique_ptr<ASTs::List> ParseItemList();
+    std::unique_ptr<ASTs::Block> ParseItem();
 
     // Expr
     std::unique_ptr<ASTs::Expr> ParseExpr();

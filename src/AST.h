@@ -1,6 +1,8 @@
 #ifndef AST_H
 #define AST_H
 
+#include "ast/program.h"
+
 // Expressions
 #include "ast/expr/expr.h"
 #include "ast/expr/binary_expr.h"
@@ -13,6 +15,8 @@
 #include "ast/expr/variable_expr.h"
 #include "ast/expr/function_call_expr.h"
 #include "ast/expr/assign_expr.h"
+#include "ast/expr/var_decl_expr.h"
+#include "ast/expr/empty_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"
@@ -87,5 +91,7 @@
 #include "ast/list/var_decl_block.h"
 #include "ast/list/var_decl_list.h"
 #include "ast/list/empty_var_decl_list.h"
+#include "ast/list/func_decl_list.h"
+#include "ast/list/empty_func_decl_list.h"
 
 #endif

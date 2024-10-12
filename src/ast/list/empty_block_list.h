@@ -5,7 +5,7 @@
 
 namespace ASTs
 {
-    class EmptyBlock : public Block
+    class EmptyBlockList : public List
     {
 
     };

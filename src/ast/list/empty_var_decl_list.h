@@ -6,7 +6,7 @@
 
 namespace ASTs
 {
-    class EmptyVarDeclList : List
+    class EmptyVarDeclList : public List
     {
     };
 }

@@ -11,13 +11,12 @@ namespace ASTs
     class VarDeclBlock : public Block
     {
         public:
-        VarDeclBlock(Decl *decl, List *next) : decl{decl}, next{next}
+        VarDeclBlock(Decl *decl) : decl{decl}
         {
 
         }
 
         std::unique_ptr<Decl> decl;
-        std::unique_ptr<List> next;
     };
 }
 

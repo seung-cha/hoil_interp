@@ -11,13 +11,12 @@ namespace ASTs
     class StmtBlock : public Block
     {
         public:
-        StmtBlock(Stmt *stmt, List *next) : stmt{stmt}, next{next}
+        StmtBlock(Stmt *stmt) : stmt{stmt}
         {
 
         }
 
         std::unique_ptr<Stmt> stmt;
-        std::unique_ptr<List> next;
 
     };
 }

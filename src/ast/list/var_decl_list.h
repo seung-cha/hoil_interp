@@ -8,15 +8,14 @@
 
 namespace ASTs
 {
-    class VarDeclList : List
+    class VarDeclList : public List
     {
         public:
-        VarDeclList(Identifier *identifier, Expr *expr, List *next) : identifier{identifier}, expr{expr}, next{next}
+        VarDeclList(Expr *expr, List *next) : expr{expr}, next{next}
         {
 
         }
 
-        std::unique_ptr<Identifier> identifier;
         std::unique_ptr<Expr> expr;
         std::unique_ptr<List> next;
     };

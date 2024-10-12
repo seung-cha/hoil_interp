@@ -10,13 +10,13 @@ namespace ASTs
     class ParamList : public List
     {
         public:
-        ParamList(Param *param, ParamList *next) : param{param}, next{next} 
+        ParamList(Param *param, List *next) : param{param}, next{next} 
         {
 
         }
         
         std::unique_ptr<Param> param;
-        std::unique_ptr<ParamList> next;
+        std::unique_ptr<List> next;
 
     };
 }
