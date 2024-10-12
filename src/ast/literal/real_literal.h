@@ -7,6 +7,17 @@ namespace ASTs
 {
     class RealLiteral : public Literal
     {
+        public:
+        RealLiteral(std::string spelling) : Literal{spelling}
+        {
+            
+        }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "[Real Literal, " << spelling << "]" << std::endl;
+        }
 
     };
 }

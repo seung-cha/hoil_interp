@@ -21,6 +21,8 @@ class Parser
         return errorMsgs;
     }
 
+    std::unique_ptr<ASTs::Program> program;
+
     private:
     /**
      * Return true if the current lexeme is of type Id.
@@ -49,57 +51,59 @@ class Parser
     // Parse functions
     // TODO: Build AST out of parse functions
     private:
-    void ParseProgram();
+    std::unique_ptr<ASTs::Program> ParseProgram();
 
     // Variable Decl
-    void ParseVarDecl();
-    void ParseVarDeclList();
-    void ParseVarDeclExpr();
+    std::unique_ptr<ASTs::Decl> ParseVarDecl();
+    std::unique_ptr<ASTs::List> ParseVarDeclList();
+    std::unique_ptr<ASTs::Expr>  ParseVarDeclExpr();
 
     // Func decl
-    void ParseFuncDecl();
+    std::unique_ptr<ASTs::List> ParseFuncDeclList();
+    std::unique_ptr<ASTs::Decl> ParseFuncDecl();
 
     // Param & Arg
-    void ParseParamList();
-    void ParseParam();
+    std::unique_ptr<ASTs::List> ParseParamList();
+    std::unique_ptr<ASTs::Param> ParseParam();
 
-    void ParseArgList();
-    void ParseArg();
+    std::unique_ptr<ASTs::List> ParseArgList();
+    std::unique_ptr<ASTs::Arg> ParseArg();
 
     // Block
-    void ParseItemList();
-    void ParseItem();
+    std::unique_ptr<ASTs::List> ParseItemList();
+    std::unique_ptr<ASTs::Block> ParseItem();
 
     // Expr
-    void ParseExpr();
-    void ParseAssignmentExpr();
-    void ParseLogicalOrExpr();
-    void ParseLogicalAndExpr();
-    void ParseEqualityExpr();
-    void ParseRelationExpr();
-    void ParseAdditiveExpr();
-    void ParseMultiplicativeExpr();
-    void ParseUnaryExpr();
-    void ParsePrimaryExpr();
+    std::unique_ptr<ASTs::Expr> ParseExpr();
+    std::unique_ptr<ASTs::Expr> ParseAssignmentExpr();
+    std::unique_ptr<ASTs::Expr> ParseLogicalOrExpr();
+    std::unique_ptr<ASTs::Expr> ParseLogicalAndExpr();
+    std::unique_ptr<ASTs::Expr> ParseEqualityExpr();
+    std::unique_ptr<ASTs::Expr> ParseRelationExpr();
+    std::unique_ptr<ASTs::Expr> ParseAdditiveExpr();
+    std::unique_ptr<ASTs::Expr> ParseMultiplicativeExpr();
+    std::unique_ptr<ASTs::Expr> ParseUnaryExpr();
+    std::unique_ptr<ASTs::Expr> ParsePrimaryExpr();
 
 
     // Stmt
-    void ParseStmt();
-    void ParseExprStmt();
-    void ParseIfStmt();
-    void ParseLoopStmt();
-    void ParseJumpStmt();
-    void ParseReturnStmt();
-    void ParseCompoundStmt();
+    std::unique_ptr<ASTs::Stmt> ParseStmt();
+    std::unique_ptr<ASTs::Stmt> ParseExprStmt();
+    std::unique_ptr<ASTs::Stmt> ParseIfStmt();
+    std::unique_ptr<ASTs::List> ParseElifList();
+    std::unique_ptr<ASTs::Stmt> ParseLoopStmt();
+    std::unique_ptr<ASTs::Stmt> ParseJumpStmt();
+    std::unique_ptr<ASTs::Stmt> ParseReturnStmt();
+    std::unique_ptr<ASTs::Stmt> ParseCompoundStmt();
     
     std::unique_ptr<ASTs::Type> ParseType();
     std::unique_ptr<ASTs::Operator> ParseOperator();
 
     // Literals
-    std::unique_ptr<ASTs::Literal> ParseIntLiteral();
-    std::unique_ptr<ASTs::Literal> ParseRealLiteral();
-    std::unique_ptr<ASTs::Literal> ParseBoolLiteral();
-    std::unique_ptr<ASTs::Literal> ParseStringLiteral();
+    std::unique_ptr<ASTs::IntLiteral> ParseIntLiteral();
+    std::unique_ptr<ASTs::RealLiteral> ParseRealLiteral();
+    std::unique_ptr<ASTs::BoolLiteral> ParseBoolLiteral();
+    std::unique_ptr<ASTs::StringLiteral> ParseStringLiteral();
 
     //Identifier
     std::unique_ptr<ASTs::Identifier> ParseIdentifier();

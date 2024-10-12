@@ -7,6 +7,17 @@ namespace ASTs
 {
     class BoolLiteral : public Literal
     {
+        public:
+        BoolLiteral(std::string spelling) : Literal{spelling}
+        {
+            
+        }
+
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "[Boolean Literal, " << spelling << "]" << std::endl;
+        }
 
     };
 }

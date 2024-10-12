@@ -7,7 +7,12 @@ namespace ASTs
 {
     class BoolType : public Type
     {
-
+        public:
+        void Print(int ident) override
+        {
+            PrintIdent(ident);
+            std::cout << "<Bool Type>" << std::endl;
+        }
     };
 }
 

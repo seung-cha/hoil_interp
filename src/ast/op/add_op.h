@@ -7,7 +7,11 @@ namespace ASTs
 {
     class AddOp : public Operator
     {
-
+        public:
+        AddOp(std::string spelling) : Operator{spelling}
+        {
+            
+        }
     };
 }
 

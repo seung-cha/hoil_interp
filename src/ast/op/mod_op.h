@@ -7,7 +7,11 @@ namespace ASTs
 {
     class ModOp : public Operator
     {
-
+        public:
+        ModOp(std::string spelling) : Operator{spelling}
+        {
+            
+        }
     };
 }
 
