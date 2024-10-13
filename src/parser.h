@@ -37,7 +37,7 @@ class Parser
      * Match the current lexicon and get the next one.
      * Raise an error if Id doesn't match but don't terminate.
      */
-    void Match(Lexicons::LexiconId id);
+    bool Match(Lexicons::LexiconId id);
     /**
      * append a str to errorMsgs regarding current lexeme
      * and accept the next lexeme.

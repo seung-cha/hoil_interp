@@ -17,6 +17,7 @@
 #include "ast/expr/assign_expr.h"
 #include "ast/expr/var_decl_expr.h"
 #include "ast/expr/empty_expr.h"
+#include "ast/expr/error_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"
@@ -31,6 +32,7 @@
 #include "ast/stmt/loop_for_stmt.h"
 #include "ast/stmt/loop_while_stmt.h"
 #include "ast/stmt/loop_do_while_stmt.h"
+#include "ast/stmt/error_stmt.h"
 
 // Literals
 #include "ast/literal/literal.h"
@@ -46,6 +48,7 @@
 #include "ast/type/string_type.h"
 #include "ast/type/bool_type.h"
 #include "ast/type/void_type.h"
+#include "ast/type/error_type.h"
 
 // Decl
 #include "ast/decl/decl.h"

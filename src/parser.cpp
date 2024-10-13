@@ -17,28 +17,42 @@ void Parser::Next()
 
 bool Parser::LexemeIs(Lexicons::LexiconId id)
 {
+    if(!currentLexicon)
+        return false;
+
     return currentLexicon->Id == id;
 }
 
-void Parser::Match(Lexicons::LexiconId id)
+bool Parser::Match(Lexicons::LexiconId id)
 {
-    if(currentLexicon->Id != id)
+    bool matched = true;
+    if(!currentLexicon || currentLexicon->Id != id)
     {
         ReportMismatch();
+        matched = false;
     }
-    else
+    
+    if(currentLexicon)
     {
         Next();
     }
 
+    return matched;
 }
 
 void Parser::ReportMismatch()
 {
-    std::ostringstream ss;
-    ss << "Unexpected Token: " << currentLexicon->Verbose();
-    errorMsgs.push_back(ss.str());
-    //Next();
+    if(!currentLexicon)
+    {
+        errorMsgs.push_back("Found No more tokens while processing");
+    }
+    else
+    {
+        std::ostringstream ss;
+        ss << "Unexpected Token: " << currentLexicon->Verbose();
+        errorMsgs.push_back(ss.str());
+        //Next();
+    }
 }
 
 
@@ -206,7 +220,7 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         ptr = std::make_unique<ASTs::StringType>();
         break;
         default:
-        ReportMismatch();
+        ptr = std::make_unique<ASTs::ErrorType>();
     }
     return ptr;
 }
@@ -403,6 +417,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
     else
     {
         ReportMismatch();
+        expr = std::make_unique<ASTs::ErrorExpr>();
     }
 
     return expr;
@@ -589,7 +604,11 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseReturnStmt()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
 {
-    Match(Lexicon::OCURLY);
+    if(!Match(Lexicon::OCURLY))
+    {
+        return std::make_unique<ASTs::ErrorStmt>();
+    }
+
     std::unique_ptr<ASTs::List> list = std::unique_ptr<ASTs::EmptyBlockList>();
     if(!LexemeIs(Lexicon::CCURLY))
     {
