@@ -1,10 +1,72 @@
 #ifndef AST_VISITOR_H
 #define AST_VISITOR_H
 
-#include "../AST.h"
-
 namespace ASTs
 {
+    class FuncDecl;
+    class VarDecl;
+    class AssignExpr;
+    class BinaryExpr;
+    class BoolExpr;
+    class EmptyExpr;
+    class ErrorExpr;
+    class FunctionCallExpr;
+    class IntExpr;
+    class PostUnaryExpr;
+    class PreUnaryExpr;
+    class RealExpr;
+    class StringExpr;
+    class VarDeclExpr;
+    class VariableExpr;
+
+    class BreakStmt;
+    class CompoundStmt;
+    class ContinueStmt;
+    class ElifStmt;
+    class EmptyStmt;
+    class ErrorStmt;
+    class ExprStmt;
+    class IfStmt;
+    class DoWhileStmt;
+    class ForStmt;
+    class WhileStmt;
+    class ReturnStmt;
+    
+    class ArgList;
+    class Arg;
+    class BlockItemList;
+    class ElifList;
+    class EmptyArgList;
+    class EmptyBlockList;
+    class EmptyElifList;
+    class EmptyFuncDeclList;
+    class EmptyParamList;
+    class EmptyVarDeclList;
+    class FuncDeclList;
+    class ParamList;
+    class Param;
+    class StmtBlock;
+    class VarDeclBlock;
+    class VarDeclList;
+
+    class BoolType;
+    class ErrorType;
+    class IntType;
+    class RealType;
+    class VoidType;
+    class StringType; 
+
+    class BoolLiteral;
+    class IntLiteral;
+    class RealLiteral;
+    class StringLiteral;
+
+    class Operator;
+    class Variable;
+    class Identifier;
+
+    class Program;
+
     class Visitor
     {
         public:
@@ -81,6 +143,8 @@ namespace ASTs
         
         // Ident
         virtual void VisitIdentifier(Identifier *ident) = 0;
+
+        virtual void VisitProgram(Program *program) = 0;
 
     };
 }
