@@ -234,14 +234,14 @@ std::unique_ptr<ASTs::Expr> Parser::ParseAssignmentExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseLogicalOrExpr();
 
-    while(LexemeIs(Lexicon::ASSIGN) ||
+    if(LexemeIs(Lexicon::ASSIGN) ||
         LexemeIs(Lexicon::ADD_ASSIGN)||
         LexemeIs(Lexicon::SUB_ASSIGN)||
         LexemeIs(Lexicon::MUL_ASSIGN)||
         LexemeIs(Lexicon::DIV_ASSIGN))
         {
             auto op = ParseOperator();
-            auto expr2 = ParseLogicalOrExpr();
+            auto expr2 = ParseAssignmentExpr();
 
             expr1 = std::make_unique<ASTs::AssignExpr>(expr1.release(), expr2.release(), op.release());
         }
@@ -252,10 +252,10 @@ std::unique_ptr<ASTs::Expr> Parser::ParseAssignmentExpr()
 std::unique_ptr<ASTs::Expr> Parser::ParseLogicalOrExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseLogicalAndExpr();
-    while(LexemeIs(Lexicon::LOGICAL_OR))
+    if(LexemeIs(Lexicon::LOGICAL_OR))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseLogicalAndExpr();
+        auto expr2 = ParseLogicalOrExpr();
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
 
@@ -265,10 +265,10 @@ std::unique_ptr<ASTs::Expr> Parser::ParseLogicalOrExpr()
 std::unique_ptr<ASTs::Expr> Parser::ParseLogicalAndExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseEqualityExpr();
-    while(LexemeIs(Lexicon::LOGICAL_AND))
+    if(LexemeIs(Lexicon::LOGICAL_AND))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseEqualityExpr();
+        auto expr2 = ParseLogicalAndExpr();
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
 
@@ -279,10 +279,10 @@ std::unique_ptr<ASTs::Expr> Parser::ParseEqualityExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseRelationExpr();
 
-    while(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
+    if(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseRelationExpr();
+        auto expr2 = ParseEqualityExpr();
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
 
@@ -293,12 +293,12 @@ std::unique_ptr<ASTs::Expr> Parser::ParseRelationExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseAdditiveExpr();
 
-    while(
+    if(
         LexemeIs(Lexicon::LESS) || LexemeIs(Lexicon::LEQUAL) ||
         LexemeIs(Lexicon::GREATER) || LexemeIs(Lexicon::GEQUAL))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseAdditiveExpr();
+        auto expr2 = ParseRelationExpr();
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
 
@@ -309,10 +309,10 @@ std::unique_ptr<ASTs::Expr> Parser::ParseAdditiveExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseMultiplicativeExpr();
 
-    while(LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB))
+    if(LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseMultiplicativeExpr();
+        auto expr2 = ParseAdditiveExpr();
 
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
@@ -324,12 +324,12 @@ std::unique_ptr<ASTs::Expr> Parser::ParseMultiplicativeExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseUnaryExpr();
 
-    while(LexemeIs(Lexicon::MUL) || 
+    if(LexemeIs(Lexicon::MUL) || 
           LexemeIs(Lexicon::DIV) || 
           LexemeIs(Lexicon::MOD))
     {
         auto op = ParseOperator();
-        auto expr2 = ParseUnaryExpr();
+        auto expr2 = ParseMultiplicativeExpr();
         expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
     }
     return expr1;
