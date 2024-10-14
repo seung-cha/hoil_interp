@@ -8,6 +8,12 @@ namespace ASTs
     class VoidType : public Type
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitVoidType(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

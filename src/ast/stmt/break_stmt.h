@@ -8,6 +8,12 @@ namespace ASTs
     class BreakStmt : public Stmt
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitBreakStmt(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

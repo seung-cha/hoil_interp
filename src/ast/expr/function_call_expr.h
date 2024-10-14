@@ -14,6 +14,11 @@ namespace ASTs
         {
 
         }
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitFuncCallExpr(this);
+        }
         
         void Print(int ident) override
         {

@@ -8,6 +8,12 @@ namespace ASTs
     class EmptyBlockList : public List
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyBlockList(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

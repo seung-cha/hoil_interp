@@ -8,6 +8,13 @@ namespace ASTs
     class EmptyParamList : public List
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyParamList(this);
+        }
+
+
         void Print(int ident) override
         {
             PrintIdent(ident);

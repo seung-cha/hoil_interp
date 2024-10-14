@@ -16,6 +16,11 @@ namespace ASTs
 
         }
 
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitPreUnaryExpr(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -8,6 +8,12 @@ namespace ASTs
     class RealType : public Type
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitRealType(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -16,7 +16,11 @@ namespace ASTs
 
         }
 
-        public:
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitVariable(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -8,6 +8,12 @@ namespace ASTs
     class EmptyStmt : public Stmt
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyStmt(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -8,6 +8,12 @@ namespace ASTs
     class ErrorStmt : public Stmt
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitErrorStmt(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

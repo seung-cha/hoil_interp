@@ -20,7 +20,12 @@ namespace ASTs
 
         }
 
-        void Print(int ident) override
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitFuncDecl(this);
+        }
+
+        void inline Print(int ident) override
         {
             PrintIdent(ident);
             std::cout << "<Function Declaration>" << std::endl;

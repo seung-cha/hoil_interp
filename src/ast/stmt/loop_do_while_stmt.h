@@ -16,6 +16,11 @@ namespace ASTs
 
         }
 
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitDoWhileStmt(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

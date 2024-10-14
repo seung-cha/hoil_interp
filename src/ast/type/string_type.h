@@ -8,6 +8,12 @@ namespace ASTs
     class StringType : public Type
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitStringType(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

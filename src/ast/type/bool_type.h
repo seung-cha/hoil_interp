@@ -8,6 +8,12 @@ namespace ASTs
     class BoolType : public Type
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitBoolType(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

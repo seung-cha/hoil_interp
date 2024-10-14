@@ -8,6 +8,12 @@ namespace ASTs
     class EmptyFuncDeclList : public List
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyFuncDeclList(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

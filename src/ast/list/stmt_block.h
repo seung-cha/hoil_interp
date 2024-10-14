@@ -16,6 +16,11 @@ namespace ASTs
 
         }
 
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitStmtBlock(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

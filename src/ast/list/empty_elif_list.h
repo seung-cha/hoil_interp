@@ -10,6 +10,13 @@ namespace ASTs
     class EmptyElifList : public List
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyElifList(this);
+        }
+
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -15,7 +15,11 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Error Expression>" << std::endl;
+        }
 
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitErrorExpr(this);
         }
 
     };

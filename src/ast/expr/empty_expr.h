@@ -13,6 +13,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Empty Expression>" << std::endl;
         }
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyExpr(this);
+        }
     };
 }
 

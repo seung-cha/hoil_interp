@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "visitor.h"
 
 namespace ASTs
 {
@@ -10,6 +11,7 @@ namespace ASTs
     {
         public:
         virtual void Print(int indent) = 0;
+        virtual void Visit(Visitor *visitor) = 0;
 
         protected:
         void inline PrintIdent(int ident)

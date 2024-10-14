@@ -8,6 +8,12 @@ namespace ASTs
     class ContinueStmt : public Stmt
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitContinueStmt(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

@@ -9,6 +9,12 @@ namespace ASTs
     class EmptyVarDeclList : public List
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitEmptyVarDeclList(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);

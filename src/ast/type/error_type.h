@@ -8,6 +8,12 @@ namespace ASTs
     class ErrorType : public Type
     {
         public:
+
+        void Visit(Visitor *visitor) override
+        {
+            visitor->VisitErrorType(this);
+        }
+
         void Print(int ident) override
         {
             PrintIdent(ident);
