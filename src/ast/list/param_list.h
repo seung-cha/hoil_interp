@@ -1,7 +1,7 @@
 #ifndef AST_PARAM_LIST_H
 #define AST_PARAM_LIST_H
 
-#include "param.h"
+#include "../decl/param.h"
 #include "list.h"
 #include <memory>
 

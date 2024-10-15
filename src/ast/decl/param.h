@@ -4,11 +4,12 @@
 #include "../ast.h"
 #include "../type/type.h"
 #include "../identifier.h"
+#include "decl.h"
 #include <memory>
 
 namespace ASTs
 {
-    class Param : public AST
+    class Param : public Decl
     {
         public:
         Param(Type *type, Identifier *identifier) : type{type}, identifier{identifier}
