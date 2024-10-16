@@ -40,9 +40,9 @@ class SymbolTable
         return decl;
     }
 
+    int level = -1;
     private:
     std::vector<PageScope> scope;
-    int level = -1;
     
 
 };
