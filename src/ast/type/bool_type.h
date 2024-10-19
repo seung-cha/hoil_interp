@@ -8,6 +8,10 @@ namespace ASTs
     class BoolType : public Type
     {
         public:
+        BoolType() : Type{VarType::BOOL}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

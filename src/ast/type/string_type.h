@@ -8,6 +8,10 @@ namespace ASTs
     class StringType : public Type
     {
         public:
+        StringType() : Type{VarType::STRING}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

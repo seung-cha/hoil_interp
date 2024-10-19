@@ -8,6 +8,10 @@ namespace ASTs
     class ErrorType : public Type
     {
         public:
+        ErrorType() : Type{VarType::ERROR}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

@@ -8,6 +8,10 @@ namespace ASTs
     class RealType : public Type
     {
         public:
+        RealType() : Type{VarType::REAL}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

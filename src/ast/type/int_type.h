@@ -8,6 +8,10 @@ namespace ASTs
     class IntType : public Type
     {
         public:
+        IntType() : Type{VarType::INT}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

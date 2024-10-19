@@ -8,6 +8,10 @@ namespace ASTs
     class VoidType : public Type
     {
         public:
+        VoidType() : Type{VarType::VOID}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

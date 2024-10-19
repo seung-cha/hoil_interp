@@ -73,9 +73,9 @@ Non terminals are represented with a capital letter.
                   program -> (func_decl)*
 
        # Variable declaration
-      local_var_decl_list -> var_decl_list ";"
+      local_var_decl_list -> type var_decl_list ";"
             var_decl_list -> var_decl ("," var_decl_list)*
-                 var_decl -> type Identifier var_decl_expr
+                 var_decl -> Identifier var_decl_expr
             var_decl_expr -> ("=" expr)?
 
        # Function declaration, params and args

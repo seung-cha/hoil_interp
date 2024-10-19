@@ -75,8 +75,48 @@ std::unique_ptr<ASTs::Program> Parser::ParseProgram()
 
 std::unique_ptr<ASTs::List> Parser::ParseLocalVarDeclList()
 {
+    auto type = ParseType();
     auto list = ParseVarDeclList();
     Match(Lexicon::SEMICOLON);
+
+    // Assign type to each decl
+    for(ASTs::VarDeclList *declList = dynamic_cast<ASTs::VarDeclList*>(list.get()); declList; declList = dynamic_cast<ASTs::VarDeclList*>(declList->next.get()))
+    {
+        std::unique_ptr<ASTs::Type> varType{};
+
+        if(type->IsIntType())
+        {
+            varType = std::make_unique<ASTs::IntType>();
+        }
+        else if(type->IsRealType())
+        {
+            varType = std::make_unique<ASTs::RealType>();
+
+        }
+        else if(type->IsBoolType())
+        {
+            varType = std::make_unique<ASTs::BoolType>();
+
+        }
+        else if(type->IsStringType())
+        {
+            varType = std::make_unique<ASTs::StringType>();
+
+        }
+        else if(type->IsVoidType())
+        {
+            varType = std::make_unique<ASTs::VoidType>();
+
+        }
+        else if(type->IsErrorType())
+        {
+            varType = std::make_unique<ASTs::ErrorType>();
+
+        }
+
+        declList->decl->type = std::move(varType);
+    }
+
     return list;
 }
 
@@ -96,12 +136,11 @@ std::unique_ptr<ASTs::List> Parser::ParseVarDeclList()
 
 std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
 {
-    auto type = ParseType();
     auto ident = ParseIdentifier();
     auto expr = ParseVarDeclExpr();
 
-
-    return std::make_unique<ASTs::VarDecl>(type.release(), ident.release(), expr.release());
+    // Fill Type later
+    return std::make_unique<ASTs::VarDecl>(nullptr, ident.release(), expr.release());
 }
 
 
@@ -234,6 +273,7 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         break;
         default:
         ptr = std::make_unique<ASTs::ErrorType>();
+        ReportMismatch();
     }
     return ptr;
 }
