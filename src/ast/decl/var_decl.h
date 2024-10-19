@@ -11,7 +11,7 @@ namespace ASTs
     class VarDecl : public Decl
     {
         public:
-        VarDecl(Type *type, List *decl) : type{type}, decl{decl}
+        VarDecl(Type *type, List *list) : type{type}, list{list}
         {
 
         }
@@ -26,11 +26,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Variable Declaration>" << std::endl;
             type->Print(ident + 1);
-            decl->Print(ident + 1);
+            list->Print(ident + 1);
         }
 
         std::unique_ptr<Type> type;
-        std::unique_ptr<List> decl;
+        std::unique_ptr<List> list;
     };
 }
 
