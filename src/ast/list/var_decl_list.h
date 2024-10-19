@@ -4,6 +4,7 @@
 #include "list.h"
 #include "../expr/expr.h"
 #include "../identifier.h"
+#include "../decl/decl.h"
 #include <memory>
 
 namespace ASTs
@@ -11,7 +12,7 @@ namespace ASTs
     class VarDeclList : public List
     {
         public:
-        VarDeclList(Expr *expr, List *next) : expr{expr}, next{next}
+        VarDeclList(Decl *decl, List *next) : decl{decl}, next{next}
         {
 
         }
@@ -25,11 +26,11 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Variable Declaration List>" << std::endl;
-            expr->Print(ident + 1);
+            decl->Print(ident + 1);
             next->Print(ident); 
         }
 
-        std::unique_ptr<Expr> expr;
+        std::unique_ptr<Decl> decl;
         std::unique_ptr<List> next;
     };
 }

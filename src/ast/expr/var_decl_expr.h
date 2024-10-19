@@ -2,7 +2,6 @@
 #define AST_VAR_DELC_EXPR_H
 
 #include "expr.h"
-#include "../identifier.h"
 #include <memory>
 
 namespace ASTs
@@ -10,7 +9,7 @@ namespace ASTs
     class VarDeclExpr : public Expr
     {
         public:
-        VarDeclExpr(Identifier *identifier, Expr *expr) : identifier{identifier}, expr{expr}
+        VarDeclExpr(Expr *expr) : expr{expr}
         {
 
         }
@@ -24,11 +23,9 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Variable Declaration Expression>" << std::endl;
-            identifier->Print(ident + 1);
             expr->Print(ident + 1);
         }
 
-        std::unique_ptr<Identifier> identifier;
         std::unique_ptr<Expr> expr;
     };
 

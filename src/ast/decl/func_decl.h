@@ -14,7 +14,7 @@ namespace ASTs
     class FuncDecl : public Decl
     {
         public:
-        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : type{type}, identifier{identifier},
+        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : Decl{type, identifier},
         params{params}, stmt{stmt}
         {
 
@@ -36,8 +36,6 @@ namespace ASTs
 
         }
 
-        std::unique_ptr<Type> type;
-        std::unique_ptr<Identifier> identifier;
         std::unique_ptr<List> params;
         std::unique_ptr<Stmt> stmt;
 

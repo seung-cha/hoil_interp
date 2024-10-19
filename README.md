@@ -73,9 +73,10 @@ Non terminals are represented with a capital letter.
                   program -> (func_decl)*
 
        # Variable declaration
-                 var_decl -> type var_decl_list ";"
-            var_decl_list -> var_decl_expr ("," var_decl_list)*
-            var_decl_expr -> Identifier ("=" expr)?
+      local_var_decl_list -> var_decl_list ";"
+            var_decl_list -> var_decl ("," var_decl_list)*
+                 var_decl -> type Identifier var_decl_expr
+            var_decl_expr -> ("=" expr)?
 
        # Function declaration, params and args
                 func_decl -> type Identifier "(" param_list? ")" compound_stmt
@@ -138,7 +139,7 @@ Non terminals are represented with a capital letter.
                            | expr ";"
                   if_stmt -> If "(" expr" )" stmt ( Elif "(" expr ")" stmt )* ( Else stmt )?
                 loop_stmt -> Loop "(" expr ")" stmt
-                           | Loop "(" var_decl expr_stmt expr ")" stmt
+                           | Loop "(" local_var_decl_list expr_stmt expr ")" stmt
                            | Loop stmt Until "(" expr ")" ";"
                 jump_stmt -> Continue ";"
                            | Break ";"
@@ -146,7 +147,7 @@ Non terminals are represented with a capital letter.
             compound_stmt -> "{" item_list? "}"
 
                item_list -> item (item_list)*
-                     item -> var_decl | stmt
+                    item -> local_var_decl_list | stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
                      type -> Int | Real | String | Bool | Void

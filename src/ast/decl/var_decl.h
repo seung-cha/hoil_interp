@@ -2,8 +2,7 @@
 #define AST_VAR_DECL_H
 
 #include "decl.h"
-#include "../type/type.h"
-#include "../list/list.h"
+#include "../expr/expr.h"
 #include <memory>
 
 namespace ASTs
@@ -11,7 +10,7 @@ namespace ASTs
     class VarDecl : public Decl
     {
         public:
-        VarDecl(Type *type, List *list) : type{type}, list{list}
+        VarDecl(Type *type, Identifier *identifier, Expr *expr) : Decl{type, identifier}, expr{expr}
         {
 
         }
@@ -26,11 +25,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Variable Declaration>" << std::endl;
             type->Print(ident + 1);
-            list->Print(ident + 1);
+            identifier->Print(ident + 1);
+            expr->Print(ident + 1);
         }
 
-        std::unique_ptr<Type> type;
-        std::unique_ptr<List> list;
+        std::unique_ptr<Expr> expr;
     };
 }
 

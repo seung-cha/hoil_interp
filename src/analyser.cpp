@@ -23,33 +23,26 @@ AST *Analyser::VisitProgram(Program *program, AST *obj)
 AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
 {
     symbolTable.Insert(decl->identifier->spelling, decl);
+    decl->stmt->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
-    // Iterate through decl expr and map idents to this
-    VarDeclList *list = dynamic_cast<VarDeclList*>(decl->list.get());
-
-    if(!list)
-    {
-        std::cerr << "Downcasting failed on VarDeclList?" << std::endl;
-        exit(1);
-    }
-
-    for(VarDeclList *ptr = list; ptr; ptr = dynamic_cast<VarDeclList*>(ptr->next.get()))
-    {
-        VarDeclExpr *expr = dynamic_cast<VarDeclExpr*>(ptr->expr.get());
-        if(!expr)
-        {
-            std::cerr << "Downcasting failed on VarDelExpr?" << std::endl;
-            exit(1);
-        }
-
-        symbolTable.Insert(expr->identifier->spelling, decl);
-    }
-
+    decl->list->Visit(this, decl);
     return nullptr;
+}
+
+AST *Analyser::VisitVarDeclList(VarDeclList *list, AST *obj)
+{
+    list->expr->Visit(this, obj);
+    list->next->Visit(this, obj);
+    return nullptr;
+}
+
+AST *Analyser::VisitVarDeclExpr(VarDeclExpr *expr, AST *obj)
+{
+    
 }
 
 

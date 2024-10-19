@@ -12,7 +12,7 @@ namespace ASTs
     class Param : public Decl
     {
         public:
-        Param(Type *type, Identifier *identifier) : type{type}, identifier{identifier}
+        Param(Type *type, Identifier *identifier) : Decl{type, identifier}
         {
 
         }
@@ -29,9 +29,6 @@ namespace ASTs
             type->Print(ident + 1);
             identifier->Print(ident + 1);
         }
-
-        std::unique_ptr<Type> type;
-        std::unique_ptr<Identifier> identifier;
     };
 }
 
