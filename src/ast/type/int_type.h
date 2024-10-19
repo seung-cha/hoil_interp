@@ -9,9 +9,9 @@ namespace ASTs
     {
         public:
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitIntType(this);
+            return visitor->VisitIntType(this, obj);
         }
 
         void Print(int ident) override

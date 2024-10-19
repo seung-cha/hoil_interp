@@ -20,9 +20,9 @@ namespace ASTs
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitFuncDecl(this);
+            return visitor->VisitFuncDecl(this, this);
         }
 
         void inline Print(int ident) override

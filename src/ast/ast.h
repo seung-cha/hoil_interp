@@ -11,7 +11,7 @@ namespace ASTs
     {
         public:
         virtual void Print(int indent) = 0;
-        virtual void Visit(Visitor *visitor) = 0;
+        virtual AST *Visit(Visitor *visitor, AST *obj) = 0;
 
         protected:
         void inline PrintIdent(int ident)

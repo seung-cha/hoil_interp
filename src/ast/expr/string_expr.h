@@ -15,9 +15,9 @@ namespace ASTs
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitStringExpr(this);
+            return visitor->VisitStringExpr(this, obj);
         }
 
         void Print(int ident) override

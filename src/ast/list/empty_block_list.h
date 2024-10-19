@@ -9,9 +9,9 @@ namespace ASTs
     {
         public:
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitEmptyBlockList(this);
+            return visitor->VisitEmptyBlockList(this, obj);
         }
 
         void Print(int ident) override

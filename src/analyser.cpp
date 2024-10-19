@@ -5,7 +5,7 @@ using namespace ASTs;
 Analyser::Analyser(Program *program) : program{program}
 {
     symbolTable.OpenScope();
-    program->Visit(this);
+    program->Visit(this, nullptr);
     symbolTable.CloseScope();
 
     if(symbolTable.level != -1)
@@ -15,17 +15,18 @@ Analyser::Analyser(Program *program) : program{program}
     }
 }
 
-void Analyser::VisitProgram(Program *program)
+AST *Analyser::VisitProgram(Program *program, AST *obj)
 {
-    program->Visit(this);
+    return program->Visit(this, obj);
 }
 
-void Analyser::VisitFuncDecl(FuncDecl *decl)
+AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
 {
     symbolTable.Insert(decl->identifier->spelling, decl);
+    return nullptr;
 }
 
-void Analyser::VisitVarDecl(VarDecl *decl)
+AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
     // Iterate through decl expr and map idents to this
     VarDeclList *list = dynamic_cast<VarDeclList*>(decl->list.get());
@@ -47,6 +48,8 @@ void Analyser::VisitVarDecl(VarDecl *decl)
 
         symbolTable.Insert(expr->identifier->spelling, decl);
     }
+
+    return nullptr;
 }
 
 

@@ -17,9 +17,9 @@ namespace ASTs
             std::cout << "<Error Expression>" << std::endl;
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitErrorExpr(this);
+            return visitor->VisitErrorExpr(this, obj);
         }
 
     };

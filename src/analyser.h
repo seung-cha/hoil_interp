@@ -11,80 +11,80 @@ class Analyser : public ASTs::Visitor
     Analyser(ASTs::Program *program);
 
     // Decl
-        void VisitFuncDecl(ASTs::FuncDecl *decl) override;
-        void VisitVarDecl(ASTs::VarDecl *decl) override;
+    virtual AST *VisitFuncDecl(FuncDecl *decl, AST *obj) override;
+    virtual AST *VisitVarDecl(VarDecl *decl, AST *obj) override;
 
-        // Expr
-        void VisitAssignExpr(ASTs::AssignExpr *expr) override;
-        void VisitBinaryExpr(ASTs::BinaryExpr *expr) override;
-        void VisitBoolExpr(ASTs::BoolExpr *expr) override;
-        void VisitEmptyExpr(ASTs::EmptyExpr *expr) override;
-        void VisitErrorExpr(ASTs::ErrorExpr *expr) override;
-        void VisitFuncCallExpr(ASTs::FunctionCallExpr *expr) override;
-        void VisitIntExpr(ASTs::IntExpr *expr) override;
-        void VisitPostUnaryExpr(ASTs::PostUnaryExpr *expr) override;
-        void VisitPreUnaryExpr(ASTs::PreUnaryExpr *expr) override;
-        void VisitRealExpr(ASTs::RealExpr *expr) override;
-        void VisitStringExpr(ASTs::StringExpr *expr) override;
-        void VisitVarDeclExpr(ASTs::VarDeclExpr *expr) override;
-        void VisitVarExpr(ASTs::VariableExpr *expr) override;
+    // Expr
+    virtual AST *VisitAssignExpr(AssignExpr *expr, AST *obj) override;
+    virtual AST *VisitBinaryExpr(BinaryExpr *expr, AST *obj) override;
+    virtual AST *VisitBoolExpr(BoolExpr *expr, AST *obj) override;
+    virtual AST *VisitEmptyExpr(EmptyExpr *expr, AST *obj) override;
+    virtual AST *VisitErrorExpr(ErrorExpr *expr, AST *obj) override;
+    virtual AST *VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj) override;
+    virtual AST *VisitIntExpr(IntExpr *expr, AST *obj) override;
+    virtual AST *VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj) override;
+    virtual AST *VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj) override;
+    virtual AST *VisitRealExpr(RealExpr *expr, AST *obj) override;
+    virtual AST *VisitStringExpr(StringExpr *expr, AST *obj) override;
+    virtual AST *VisitVarDeclExpr(VarDeclExpr *expr, AST *obj) override;
+    virtual AST *VisitVarExpr(VariableExpr *expr, AST *obj) override;
 
-        // Stmt
-        void VisitBreakStmt(ASTs::BreakStmt *stmt) override;
-        void VisitCompoundStmt(ASTs::CompoundStmt *stmt) override;
-        void VisitContinueStmt(ASTs::ContinueStmt *stmt) override;
-        void VisitElifStmt(ASTs::ElifStmt *stmt) override;
-        void VisitEmptyStmt(ASTs::EmptyStmt *stmt) override;
-        void VisitErrorStmt(ASTs::ErrorStmt *stmt) override;
-        void VisitExprStmt(ASTs::ExprStmt *stmt) override;
-        void VisitIfStmt(ASTs::IfStmt *stmt) override;
-        void VisitDoWhileStmt(ASTs::DoWhileStmt *stmt) override;
-        void VisitForStmt(ASTs::ForStmt *stmt) override;
-        void VisitWhileStmt(ASTs::WhileStmt* Stmt) override;
-        void VisitReturnStmt(ASTs::ReturnStmt *stmt) override;
+    // Stmt
+    virtual AST *VisitBreakStmt(BreakStmt *stmt, AST *obj) override;
+    virtual AST *VisitCompoundStmt(CompoundStmt *stmt, AST *obj) override;
+    virtual AST *VisitContinueStmt(ContinueStmt *stmt, AST *obj) override;
+    virtual AST *VisitElifStmt(ElifStmt *stmt, AST *obj) override;
+    virtual AST *VisitEmptyStmt(EmptyStmt *stmt, AST *obj) override;
+    virtual AST *VisitErrorStmt(ErrorStmt *stmt, AST *obj) override;
+    virtual AST *VisitExprStmt(ExprStmt *stmt, AST *obj) override;
+    virtual AST *VisitIfStmt(IfStmt *stmt, AST *obj) override;
+    virtual AST *VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj) override;
+    virtual AST *VisitForStmt(ForStmt *stmt, AST *obj) override;
+    virtual AST *VisitWhileStmt(WhileStmt* Stmt, AST *obj) override;
+    virtual AST *VisitReturnStmt(ReturnStmt *stmt, AST *obj) override;
 
-        // Lists
-        void VisitArgList(ASTs::ArgList *list) override;
-        void VisitArg(ASTs::Arg *arg) override;
-        void VisitBlockItemList(ASTs::BlockItemList *list) override;
-        void VisitElifList(ASTs::ElifList *list) override;
-        void VisitEmptyArgList(ASTs::EmptyArgList *list) override;
-        void VisitEmptyBlockList(ASTs::EmptyBlockList *list) override;
-        void VisitEmptyElifList(ASTs::EmptyElifList *list) override;
-        void VisitEmptyFuncDeclList(ASTs::EmptyFuncDeclList *list) override;
-        void VisitEmptyParamList(ASTs::EmptyParamList *list) override;
-        void VisitEmptyVarDeclList(ASTs::EmptyVarDeclList *list) override;
-        void VisitFuncDeclList(ASTs::FuncDeclList *list) override;
-        void VisitParamList(ASTs::ParamList *list) override;
-        void VisitParam(ASTs::Param *param) override;
-        void VisitStmtBlock(ASTs::StmtBlock *block) override;
-        void VisitVarDeclBlock(ASTs::VarDeclBlock *block) override;
-        void VisitVarDeclList(ASTs::VarDeclList *list) override;
+    // Lists
+    virtual AST *VisitArgList(ArgList *list, AST *obj) override;
+    virtual AST *VisitArg(Arg *arg, AST *obj) override;
+    virtual AST *VisitBlockItemList(BlockItemList *list, AST *obj) override;
+    virtual AST *VisitElifList(ElifList *list, AST *obj) override;
+    virtual AST *VisitEmptyArgList(EmptyArgList *list, AST *obj) override;
+    virtual AST *VisitEmptyBlockList(EmptyBlockList *list, AST *obj) override;
+    virtual AST *VisitEmptyElifList(EmptyElifList *list, AST *obj) override;
+    virtual AST *VisitEmptyFuncDeclList(EmptyFuncDeclList *list, AST *obj) override;
+    virtual AST *VisitEmptyParamList(EmptyParamList *list, AST *obj) override;
+    virtual AST *VisitEmptyVarDeclList(EmptyVarDeclList *list, AST *obj) override;
+    virtual AST *VisitFuncDeclList(FuncDeclList *list, AST *obj) override;
+    virtual AST *VisitParamList(ParamList *list, AST *obj) override;
+    virtual AST *VisitParam(Param *param, AST *obj) override;
+    virtual AST *VisitStmtBlock(StmtBlock *block, AST *obj) override;
+    virtual AST *VisitVarDeclBlock(VarDeclBlock *block, AST *obj) override;
+    virtual AST *VisitVarDeclList(VarDeclList *list, AST *obj) override;
 
-        // Types
-        void VisitBoolType(ASTs::BoolType *type) override;
-        void VisitErrorType(ASTs::ErrorType *type) override;
-        void VisitIntType(ASTs::IntType *type) override;
-        void VisitRealType(ASTs::RealType *type) override;
-        void VisitVoidType(ASTs::VoidType *type) override;
-        void VisitStringType(ASTs::StringType *type) override;
+    // Types
+    virtual AST *VisitBoolType(BoolType *type, AST *obj) override;
+    virtual AST *VisitErrorType(ErrorType *type, AST *obj) override;
+    virtual AST *VisitIntType(IntType *type, AST *obj) override;
+    virtual AST *VisitRealType(RealType *type, AST *obj) override;
+    virtual AST *VisitVoidType(VoidType *type, AST *obj) override;
+    virtual AST *VisitStringType(StringType *type, AST *obj) override;
 
-        // Literals
-        void VisitBoolLiteral(ASTs::BoolLiteral *literal) override;
-        void VisitIntLiteral(ASTs::IntLiteral *literal) override;
-        void VisitRealLiteral(ASTs::RealLiteral *literal) override;
-        void VisitStringLiteral(ASTs::StringLiteral *literal) override;
+    // Literals
+    virtual AST *VisitBoolLiteral(BoolLiteral *literal, AST *obj) override;
+    virtual AST *VisitIntLiteral(IntLiteral *literal, AST *obj) override;
+    virtual AST *VisitRealLiteral(RealLiteral *literal, AST *obj) override;
+    virtual AST *VisitStringLiteral(StringLiteral *literal, AST *obj) override;
 
-        // Operators
-        void VisitOperator(ASTs::Operator *op) override;
+    // Operators
+    virtual AST *VisitOperator(Operator *op, AST *obj) override;
 
-        // Variables
-        void VisitVariable(ASTs::Variable *type) override;
-        
-        // Ident
-        void VisitIdentifier(ASTs::Identifier *ident) override;
+    // Variables
+    virtual AST *VisitVariable(Variable *type, AST *obj) override;
+    
+    // Ident
+    virtual AST *VisitIdentifier(Identifier *ident, AST *obj) override;
 
-        void VisitProgram(ASTs::Program *program) override;
+    virtual AST *VisitProgram(Program *program, AST *obj) override;
 
     private:
     ASTs::Program *program;

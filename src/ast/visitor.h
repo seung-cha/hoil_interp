@@ -3,6 +3,7 @@
 
 namespace ASTs
 {
+    class AST;
     class FuncDecl;
     class VarDecl;
     class AssignExpr;
@@ -53,7 +54,7 @@ namespace ASTs
     class ErrorType;
     class IntType;
     class RealType;
-    class VoidType;
+    class ASTT*ype;
     class StringType; 
 
     class BoolLiteral;
@@ -71,80 +72,80 @@ namespace ASTs
     {
         public:
         // Decl
-        virtual void VisitFuncDecl(FuncDecl *decl) = 0;
-        virtual void VisitVarDecl(VarDecl *decl) = 0;
+        virtual AST *VisitFuncDecl(FuncDecl *decl, AST *obj) = 0;
+        virtual AST *VisitVarDecl(VarDecl *decl, AST *obj) = 0;
 
         // Expr
-        virtual void VisitAssignExpr(AssignExpr *expr) = 0;
-        virtual void VisitBinaryExpr(BinaryExpr *expr) = 0;
-        virtual void VisitBoolExpr(BoolExpr *expr) = 0;
-        virtual void VisitEmptyExpr(EmptyExpr *expr) = 0;
-        virtual void VisitErrorExpr(ErrorExpr *expr) = 0;
-        virtual void VisitFuncCallExpr(FunctionCallExpr *expr) = 0;
-        virtual void VisitIntExpr(IntExpr *expr) = 0;
-        virtual void VisitPostUnaryExpr(PostUnaryExpr *expr) = 0;
-        virtual void VisitPreUnaryExpr(PreUnaryExpr *expr) = 0;
-        virtual void VisitRealExpr(RealExpr *expr) = 0;
-        virtual void VisitStringExpr(StringExpr *expr) = 0;
-        virtual void VisitVarDeclExpr(VarDeclExpr *expr) = 0;
-        virtual void VisitVarExpr(VariableExpr *expr) = 0;
+        virtual AST *VisitAssignExpr(AssignExpr *expr, AST *obj) = 0;
+        virtual AST *VisitBinaryExpr(BinaryExpr *expr, AST *obj) = 0;
+        virtual AST *VisitBoolExpr(BoolExpr *expr, AST *obj) = 0;
+        virtual AST *VisitEmptyExpr(EmptyExpr *expr, AST *obj) = 0;
+        virtual AST *VisitErrorExpr(ErrorExpr *expr, AST *obj) = 0;
+        virtual AST *VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj) = 0;
+        virtual AST *VisitIntExpr(IntExpr *expr, AST *obj) = 0;
+        virtual AST *VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj) = 0;
+        virtual AST *VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj) = 0;
+        virtual AST *VisitRealExpr(RealExpr *expr, AST *obj) = 0;
+        virtual AST *VisitStringExpr(StringExpr *expr, AST *obj) = 0;
+        virtual AST *VisitVarDeclExpr(VarDeclExpr *expr, AST *obj) = 0;
+        virtual AST *VisitVarExpr(VariableExpr *expr, AST *obj) = 0;
 
         // Stmt
-        virtual void VisitBreakStmt(BreakStmt *stmt) = 0;
-        virtual void VisitCompoundStmt(CompoundStmt *stmt) = 0;
-        virtual void VisitContinueStmt(ContinueStmt *stmt) = 0;
-        virtual void VisitElifStmt(ElifStmt *stmt) = 0;
-        virtual void VisitEmptyStmt(EmptyStmt *stmt) = 0;
-        virtual void VisitErrorStmt(ErrorStmt *stmt) = 0;
-        virtual void VisitExprStmt(ExprStmt *stmt) = 0;
-        virtual void VisitIfStmt(IfStmt *stmt) = 0;
-        virtual void VisitDoWhileStmt(DoWhileStmt *stmt) = 0;
-        virtual void VisitForStmt(ForStmt *stmt) = 0;
-        virtual void VisitWhileStmt(WhileStmt* Stmt) = 0;
-        virtual void VisitReturnStmt(ReturnStmt *stmt) = 0;
+        virtual AST *VisitBreakStmt(BreakStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitCompoundStmt(CompoundStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitContinueStmt(ContinueStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitElifStmt(ElifStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitEmptyStmt(EmptyStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitErrorStmt(ErrorStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitExprStmt(ExprStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitIfStmt(IfStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitForStmt(ForStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitWhileStmt(WhileStmt* Stmt, AST *obj) = 0;
+        virtual AST *VisitReturnStmt(ReturnStmt *stmt, AST *obj) = 0;
 
         // Lists
-        virtual void VisitArgList(ArgList *list) = 0;
-        virtual void VisitArg(Arg *arg) = 0;
-        virtual void VisitBlockItemList(BlockItemList *list) = 0;
-        virtual void VisitElifList(ElifList *list) = 0;
-        virtual void VisitEmptyArgList(EmptyArgList *list) = 0;
-        virtual void VisitEmptyBlockList(EmptyBlockList *list) = 0;
-        virtual void VisitEmptyElifList(EmptyElifList *list) = 0;
-        virtual void VisitEmptyFuncDeclList(EmptyFuncDeclList *list) = 0;
-        virtual void VisitEmptyParamList(EmptyParamList *list) = 0;
-        virtual void VisitEmptyVarDeclList(EmptyVarDeclList *list) = 0;
-        virtual void VisitFuncDeclList(FuncDeclList *list) = 0;
-        virtual void VisitParamList(ParamList *list) = 0;
-        virtual void VisitParam(Param *param) = 0;
-        virtual void VisitStmtBlock(StmtBlock *block) = 0;
-        virtual void VisitVarDeclBlock(VarDeclBlock *block) = 0;
-        virtual void VisitVarDeclList(VarDeclList *list) = 0;
+        virtual AST *VisitArgList(ArgList *list, AST *obj) = 0;
+        virtual AST *VisitArg(Arg *arg, AST *obj) = 0;
+        virtual AST *VisitBlockItemList(BlockItemList *list, AST *obj) = 0;
+        virtual AST *VisitElifList(ElifList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyArgList(EmptyArgList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyBlockList(EmptyBlockList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyElifList(EmptyElifList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyFuncDeclList(EmptyFuncDeclList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyParamList(EmptyParamList *list, AST *obj) = 0;
+        virtual AST *VisitEmptyVarDeclList(EmptyVarDeclList *list, AST *obj) = 0;
+        virtual AST *VisitFuncDeclList(FuncDeclList *list, AST *obj) = 0;
+        virtual AST *VisitParamList(ParamList *list, AST *obj) = 0;
+        virtual AST *VisitParam(Param *param, AST *obj) = 0;
+        virtual AST *VisitStmtBlock(StmtBlock *block, AST *obj) = 0;
+        virtual AST *VisitVarDeclBlock(VarDeclBlock *block, AST *obj) = 0;
+        virtual AST *VisitVarDeclList(VarDeclList *list, AST *obj) = 0;
 
         // Types
-        virtual void VisitBoolType(BoolType *type) = 0;
-        virtual void VisitErrorType(ErrorType *type) = 0;
-        virtual void VisitIntType(IntType *type) = 0;
-        virtual void VisitRealType(RealType *type) = 0;
-        virtual void VisitVoidType(VoidType *type) = 0;
-        virtual void VisitStringType(StringType *type) = 0;
+        virtual AST *VisitBoolType(BoolType *type, AST *obj) = 0;
+        virtual AST *VisitErrorType(ErrorType *type, AST *obj) = 0;
+        virtual AST *VisitIntType(IntType *type, AST *obj) = 0;
+        virtual AST *VisitRealType(RealType *type, AST *obj) = 0;
+        virtual AST *VisitVoidType(VoidType *type, AST *obj) = 0;
+        virtual AST *VisitStringType(StringType *type, AST *obj) = 0;
 
         // Literals
-        virtual void VisitBoolLiteral(BoolLiteral *literal) = 0;
-        virtual void VisitIntLiteral(IntLiteral *literal) = 0;
-        virtual void VisitRealLiteral(RealLiteral *literal) = 0;
-        virtual void VisitStringLiteral(StringLiteral *literal) = 0;
+        virtual AST *VisitBoolLiteral(BoolLiteral *literal, AST *obj) = 0;
+        virtual AST *VisitIntLiteral(IntLiteral *literal, AST *obj) = 0;
+        virtual AST *VisitRealLiteral(RealLiteral *literal, AST *obj) = 0;
+        virtual AST *VisitStringLiteral(StringLiteral *literal, AST *obj) = 0;
 
         // Operators
-        virtual void VisitOperator(Operator *op) = 0;
+        virtual AST *VisitOperator(Operator *op, AST *obj) = 0;
 
         // Variables
-        virtual void VisitVariable(Variable *type) = 0;
+        virtual AST *VisitVariable(Variable *type, AST *obj) = 0;
         
         // Ident
-        virtual void VisitIdentifier(Identifier *ident) = 0;
+        virtual AST *VisitIdentifier(Identifier *ident, AST *obj) = 0;
 
-        virtual void VisitProgram(Program *program) = 0;
+        virtual AST *VisitProgram(Program *program, AST *obj) = 0;
 
     };
 }
