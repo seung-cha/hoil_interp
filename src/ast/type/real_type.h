@@ -29,6 +29,11 @@ namespace ASTs
             return std::make_unique<RealType>();
         }
 
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsIntType() || type->IsErrorType() || type->IsRealType();
+        }
+
     };
 }
 

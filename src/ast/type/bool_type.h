@@ -28,6 +28,11 @@ namespace ASTs
         {
             return std::make_unique<BoolType>();
         }
+
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsBoolType() || type->IsErrorType();
+        }
     };
 }
 

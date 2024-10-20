@@ -29,6 +29,11 @@ namespace ASTs
             return std::make_unique<StringType>();
         }
 
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsStringType() || type->IsErrorType();
+        }
+
     };
 }
 

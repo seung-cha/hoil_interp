@@ -59,6 +59,7 @@ namespace ASTs
          * Return a deep copy of this object.
          */
         virtual std::unique_ptr<Type> DeepCopy() = 0;
+        virtual bool Compatible(Type *type) = 0;
         
 
         protected:

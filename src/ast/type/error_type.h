@@ -28,7 +28,11 @@ namespace ASTs
         {
             return std::make_unique<ErrorType>();
         }
-        
+
+        virtual bool Compatible(Type *type)
+        {
+            return true;
+        }
     };
 }
 
