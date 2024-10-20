@@ -4,11 +4,14 @@
 #include "symbol_table.h"
 #include "ast/visitor.h"
 #include "AST.h"
+#include <vector>
+#include <string>
 
 class Analyser : public ASTs::Visitor
 {
     public:
     Analyser(ASTs::Program *program);
+    std::vector<std::string> errorMsgs;
 
     // Decl
     virtual AST *VisitFuncDecl(FuncDecl *decl, AST *obj) override;
@@ -58,7 +61,7 @@ class Analyser : public ASTs::Visitor
     virtual AST *VisitParamList(ParamList *list, AST *obj) override;
     virtual AST *VisitParam(Param *param, AST *obj) override;
     virtual AST *VisitStmtBlock(StmtBlock *block, AST *obj) override;
-    virtual AST *VisitVarDeclBlock(VarDeclBlock *block, AST *obj) override;
+    virtual AST *VisitVarDeclListBlock(VarDeclListBlock *block, AST *obj) override;
     virtual AST *VisitVarDeclList(VarDeclList *list, AST *obj) override;
 
     // Types
@@ -89,6 +92,12 @@ class Analyser : public ASTs::Visitor
     private:
     ASTs::Program *program;
     SymbolTable symbolTable;
+
+    void ReportError(std::string str)
+    {
+        errorMsgs.push_back(str);
+    }
+    
 };
 
 

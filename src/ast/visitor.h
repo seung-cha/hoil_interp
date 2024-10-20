@@ -47,14 +47,14 @@ namespace ASTs
     class ParamList;
     class Param;
     class StmtBlock;
-    class VarDeclBlock;
+    class VarDeclListBlock;
     class VarDeclList;
 
     class BoolType;
     class ErrorType;
     class IntType;
     class RealType;
-    class ASTT*ype;
+    class VoidType;
     class StringType; 
 
     class BoolLiteral;
@@ -119,7 +119,7 @@ namespace ASTs
         virtual AST *VisitParamList(ParamList *list, AST *obj) = 0;
         virtual AST *VisitParam(Param *param, AST *obj) = 0;
         virtual AST *VisitStmtBlock(StmtBlock *block, AST *obj) = 0;
-        virtual AST *VisitVarDeclBlock(VarDeclBlock *block, AST *obj) = 0;
+        virtual AST *VisitVarDeclListBlock(VarDeclListBlock *block, AST *obj) = 0;
         virtual AST *VisitVarDeclList(VarDeclList *list, AST *obj) = 0;
 
         // Types
