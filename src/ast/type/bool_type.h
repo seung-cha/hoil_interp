@@ -23,6 +23,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Bool Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<BoolType>();
+        }
     };
 }
 

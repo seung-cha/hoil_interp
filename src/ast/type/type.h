@@ -2,6 +2,7 @@
 #define AST_TYPE_H
 
 #include "../ast.h"
+#include <memory>
 
 namespace ASTs
 {
@@ -19,43 +20,49 @@ namespace ASTs
     class Type : public AST
     {
         public:
-        Type(enum VarType type) : type{type}
+        Type(enum VarType type) : dataType{type}
         {
 
         }
         
         bool inline IsIntType()
         {
-            return type == VarType::INT;
+            return dataType == VarType::INT;
         }
 
         bool inline IsRealType()
         {
-            return type == VarType::REAL;
+            return dataType == VarType::REAL;
         }
 
         bool inline IsBoolType()
         {
-            return type == VarType::BOOL;
+            return dataType == VarType::BOOL;
         }
 
         bool inline IsStringType()
         {
-            return type == VarType::STRING;
+            return dataType == VarType::STRING;
         }
 
         bool inline IsVoidType()
         {
-            return type == VarType::VOID;
+            return dataType == VarType::VOID;
         }
 
         bool inline IsErrorType()
         {
-            return type == VarType::ERROR;
+            return dataType == VarType::ERROR;
         }
 
+        /**
+         * Return a deep copy of this object.
+         */
+        virtual std::unique_ptr<Type> DeepCopy() = 0;
+        
+
         protected:
-        enum VarType type;
+        enum VarType dataType;
 
     };
 }

@@ -23,6 +23,12 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<String Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<StringType>();
+        }
+
     };
 }
 
