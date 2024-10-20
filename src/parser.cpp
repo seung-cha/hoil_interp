@@ -82,39 +82,7 @@ std::unique_ptr<ASTs::List> Parser::ParseLocalVarDeclList()
     // Assign type to each decl
     for(ASTs::VarDeclList *declList = dynamic_cast<ASTs::VarDeclList*>(list.get()); declList; declList = dynamic_cast<ASTs::VarDeclList*>(declList->next.get()))
     {
-        std::unique_ptr<ASTs::Type> varType{};
-
-        if(type->IsIntType())
-        {
-            varType = std::make_unique<ASTs::IntType>();
-        }
-        else if(type->IsRealType())
-        {
-            varType = std::make_unique<ASTs::RealType>();
-
-        }
-        else if(type->IsBoolType())
-        {
-            varType = std::make_unique<ASTs::BoolType>();
-
-        }
-        else if(type->IsStringType())
-        {
-            varType = std::make_unique<ASTs::StringType>();
-
-        }
-        else if(type->IsVoidType())
-        {
-            varType = std::make_unique<ASTs::VoidType>();
-
-        }
-        else if(type->IsErrorType())
-        {
-            varType = std::make_unique<ASTs::ErrorType>();
-
-        }
-
-        declList->decl->type = std::move(varType);
+        declList->decl->type = std::move(type->DeepCopy());
     }
 
     return list;
