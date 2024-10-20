@@ -38,7 +38,8 @@ namespace ASTs
                 return type1->Compatible(type2);
             }
             else if(spelling == "+" || spelling == "-" || spelling == "*" || spelling == "/" ||
-            spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=")
+            spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=" || spelling == "-=",
+            spelling == "+=" || spelling == "/=" || spelling == "*=")
             {
                 return type1->Compatible(type2) && (type1->IsIntType() || type2->IsRealType());
             }
@@ -61,7 +62,7 @@ namespace ASTs
         {
             return boolOp;
         }
-        
+
         private:
         bool boolOp = false;
 
