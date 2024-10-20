@@ -2,6 +2,7 @@
 #define AST_OP_H
 
 #include "../terminal.h"
+#include "../type/type.h"
 
 namespace ASTs
 {
@@ -10,7 +11,13 @@ namespace ASTs
         public:
         Operator(std::string spelling) : Terminal{spelling}
         {
-
+            if(spelling == "==" || spelling == "!=" ||
+            spelling == "<=" || spelling == ">=" || 
+            spelling == "<" || spelling == ">" ||
+            spelling == "!")
+            {
+                boolOp = true;
+            }
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override
@@ -23,6 +30,40 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "[Operator, " << spelling << "]" << std::endl;
         }
+
+        bool Compatible(Type *type1, Type *type2)
+        {
+            if(spelling == "=" || spelling == "==" || spelling == "!=")
+            {
+                return type1->Compatible(type2);
+            }
+            else if(spelling == "+" || spelling == "-" || spelling == "*" || spelling == "/" ||
+            spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=")
+            {
+                return type1->Compatible(type2) && (type1->IsIntType() || type2->IsRealType());
+            }
+            else if(spelling == "%")
+            {
+                return (type1->IsIntType() && type2->IsIntType()) || (type1->IsErrorType() || type2->IsErrorType());
+            }
+            else if(spelling == "!")
+            {
+                return type1->IsBoolType() || type1->IsErrorType();
+            }
+            else
+            {
+                // unary add, sub ops left
+                return type1->IsRealType() || type1->IsIntType() || type1->IsErrorType();
+            }
+        }
+
+        bool IsBoolOp()
+        {
+            return boolOp;
+        }
+        
+        private:
+        bool boolOp = false;
 
     };
 }
