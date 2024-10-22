@@ -82,7 +82,7 @@ class Analyser : public ASTs::Visitor
     virtual AST *VisitOperator(Operator *op, AST *obj) override;
 
     // Variables
-    virtual AST *VisitVariable(Variable *type, AST *obj) override;
+    virtual AST *VisitVariable(Variable *variable, AST *obj) override;
     
     // Ident
     virtual AST *VisitIdentifier(Identifier *ident, AST *obj) override;

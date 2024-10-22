@@ -10,7 +10,7 @@ namespace ASTs
     class Expr : public AST
     {
         public:
-        std::unique_ptr<Type> type;
+        std::unique_ptr<Type> type{};
     };
 }
 

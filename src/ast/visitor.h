@@ -140,7 +140,7 @@ namespace ASTs
         virtual AST *VisitOperator(Operator *op, AST *obj) = 0;
 
         // Variables
-        virtual AST *VisitVariable(Variable *type, AST *obj) = 0;
+        virtual AST *VisitVariable(Variable *variable, AST *obj) = 0;
         
         // Ident
         virtual AST *VisitIdentifier(Identifier *ident, AST *obj) = 0;
