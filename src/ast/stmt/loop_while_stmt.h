@@ -13,7 +13,7 @@ namespace ASTs
         public:
         WhileStmt(Expr *cond, Stmt *stmt) : cond{cond}, stmt{stmt}
         {
-
+        
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override
