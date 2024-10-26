@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "lexemes.h"
 #include "parser.h"
+#include "analyser.h"
 
 
 int main(int argc, char** argv)
@@ -106,6 +107,8 @@ int main(int argc, char** argv)
         parser.program->Print(0);   
     }
 
+    Analyser analyser{parser.program.get()};
+    
 
     return EXIT_SUCCESS;
 }

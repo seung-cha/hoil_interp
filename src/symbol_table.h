@@ -6,6 +6,48 @@
 #include <vector>
 #include <string>
 
+
+class PageScope
+{
+    public:
+    PageScope(int level) : level{level}
+    {
+
+    }
+
+    int level;
+
+    
+    /**
+     * Insert a Decl. Return false if an identifier exists.
+     */
+    inline bool Insert(std::string ident, ASTs::Decl *decl)
+    {
+        if(table.find(ident) != table.end())
+        {
+            return false;
+        }
+
+        table[ident] = decl;
+        return true;
+    }
+
+    inline ASTs::Decl *Lookup(std::string ident)
+    {
+        if(table.find(ident) != table.end())
+        {
+            return nullptr;
+        }
+
+        return table[ident];
+    }
+
+    private:
+    std::unordered_map<std::string, ASTs::Decl*> table; 
+
+};
+
+
 class SymbolTable
 {
     public: 
@@ -49,46 +91,6 @@ class SymbolTable
     private:
     std::vector<PageScope> scope;
     
-
-};
-
-class PageScope
-{
-    public:
-    PageScope(int level) : level{level}
-    {
-
-    }
-
-    int level;
-
-    
-    /**
-     * Insert a Decl. Return false if an identifier exists.
-     */
-    inline bool Insert(std::string ident, ASTs::Decl *decl)
-    {
-        if(table.find(ident) != table.end())
-        {
-            return false;
-        }
-
-        table[ident] = decl;
-        return true;
-    }
-
-    inline ASTs::Decl *Lookup(std::string ident)
-    {
-        if(table.find(ident) != table.end())
-        {
-            return nullptr;
-        }
-
-        return table[ident];
-    }
-
-    private:
-    std::unordered_map<std::string, ASTs::Decl*> table; 
 
 };
 

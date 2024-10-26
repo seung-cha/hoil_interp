@@ -19,11 +19,6 @@ Analyser::Analyser(Program *program) : program{program}
     }
 }
 
-AST *Analyser::VisitProgram(Program *program, AST *obj)
-{
-    return program->Visit(this, obj);
-}
-
 // Decls
 AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
 {
@@ -37,6 +32,13 @@ AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
     }
 
     decl->stmt->Visit(this, nullptr);
+    return nullptr;
+}
+
+AST *Analyser::VisitFuncDeclList(FuncDeclList *list, AST *obj)
+{
+    list->decl->Visit(this, nullptr);
+    list->next->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -62,13 +64,6 @@ AST *Analyser::VisitVarDeclExpr(VarDeclExpr *expr, AST *obj)
     expr->type = std::move(expr->expr->type->DeepCopy());
 
     return expr->type.get();
-}
-
-AST *Analyser::VisitVarDeclList(VarDeclList *list, AST *obj)
-{
-    list->decl->Visit(this, nullptr);
-    list->next->Visit(this, nullptr);
-    return nullptr;
 }
 
 // Exprs
