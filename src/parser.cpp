@@ -630,7 +630,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
         return std::make_unique<ASTs::ErrorStmt>();
     }
 
-    std::unique_ptr<ASTs::List> list = std::unique_ptr<ASTs::EmptyBlockList>();
+    std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
     if(!LexemeIs(Lexicon::CCURLY))
     {
         list = ParseItemList();
