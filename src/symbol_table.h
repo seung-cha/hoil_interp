@@ -40,6 +40,11 @@ class SymbolTable
         return decl;
     }
 
+    inline ASTs::Decl *LookupCurrentScope(std::string ident)
+    {
+        return scope[level].Lookup(ident);
+    }
+
     int level = -1;
     private:
     std::vector<PageScope> scope;

@@ -18,6 +18,9 @@ namespace ASTs
 
         std::unique_ptr<Type> type;
         std::unique_ptr<Identifier> identifier;
+        bool isFuncDecl = false;
+        bool isParamDecl = false;
+        bool isVarDecl = false;
     };
 }
 

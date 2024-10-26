@@ -27,6 +27,8 @@ AST *Analyser::VisitProgram(Program *program, AST *obj)
 // Decls
 AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
 {
+    decl->isFuncDecl = true;
+
     if(!symbolTable.Insert(decl->identifier->spelling, decl))
     {
         std::stringstream ss;
@@ -40,6 +42,8 @@ AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
 
 AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
+    decl->isVarDecl = true;
+
     if(!symbolTable.Insert(decl->identifier->spelling, decl))
     {
         std::stringstream ss;
@@ -48,8 +52,6 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
     }
 
     // TODO: Check LHS, RHS compatibility
-
-
     return nullptr;
 }
 
@@ -131,7 +133,19 @@ AST *Analyser::VisitErrorExpr(ErrorExpr *expr, AST *obj)
 
 AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
 {
-    //TODO
+    Decl *decl = symbolTable.Lookup(expr->identifier->spelling);
+
+    if(!decl || !decl->isFuncDecl)
+    {
+        std::ostringstream ss;
+        ss << "Unknown Function Identifier: " << expr->identifier->spelling;
+        ReportError(ss.str());
+    }
+
+    expr->type = decl->type->DeepCopy();
+
+    expr->args->Visit(this, dynamic_cast<FuncDecl*>(decl)->params.get());
+
     return nullptr;
 }
 
@@ -201,16 +215,17 @@ AST *Analyser::VisitStringExpr(StringExpr *expr, AST *obj)
 
 AST *Analyser::VisitVarExpr(VariableExpr *expr, AST *obj)
 {
-    if(Decl *decl = symbolTable.Lookup(expr->variable->identifier->spelling))
+    Decl *decl = symbolTable.Lookup(expr->variable->identifier->spelling);
+    
+    if(!decl || !(decl->isVarDecl || decl->isParamDecl))
     {
-        expr->type = decl->type->DeepCopy();
+        std::ostringstream ss;
+        ss << "Identifier not found: " << expr->variable->identifier->spelling;
+        ReportError(ss.str());
     }
     else
     {
-        std::ostringstream ss;
-        ss << "Unknown variable: " << expr->variable->identifier->spelling;
-        ReportError(ss.str());
-        expr->type = std::make_unique<ErrorType>();
+        expr->type = decl->type->DeepCopy();
     }
 
     return expr->type.get();
@@ -396,23 +411,44 @@ AST *Analyser::VisitExprStmt(ExprStmt *stmt, AST *obj)
 // Function args
 AST *Analyser::VisitArgList(ArgList *list, AST *obj)
 {
-    // Expect ParamList to match.
-    // Mismatched ParamList implies wrong no. args passed.
-    // TODO: Complete
 
-    list->arg->Visit(this, obj);
-    list->next->Visit(this, obj);
+    assert(!obj && "No list passed to VisitArgList?");
+
+    if(ParamList *paramList = dynamic_cast<ParamList*>(obj))
+    {
+        list->arg->Visit(this, paramList->param.get());
+        list->next->Visit(this, paramList->next.get());
+    }
+    else if(EmptyParamList *paramList = dynamic_cast<EmptyParamList*>(obj))
+    {
+        ReportError("Expected less arguments!");
+    }
+    else
+    {
+        assert(false && "VisitArgList() couldn't typecast obj to EmptyParamList or ParamList.");
+    }
+
     return nullptr;
 }
 
 AST *Analyser::VisitArg(Arg *arg, AST *obj)
 {
-    // TODO: Complete
-    // Expect Param as obj
-    FunctionCallExpr *callExpr;
+
+    Param *param;
     assert(!obj && "Nothing has been passed to VisitArg()? Expect Param.");
-    assert(!(callExpr = dynamic_cast<FunctionCallExpr*>(obj)) 
+    assert(!(param = dynamic_cast<Param*>(obj)) 
     && "Obj passed to VisitArg() is not Param?");
+
+
+    arg->expr->Visit(this, nullptr);
+    
+    if(!arg->expr->type->Compatible(param->type.get()))
+    {
+        std::ostringstream ss;
+        ss << "Argument type mismatch: " << param->identifier->spelling;
+        ReportError(ss.str());
+    }
+
 
     return nullptr;
 }
@@ -433,6 +469,21 @@ AST *Analyser::VisitElifList(ElifList *list, AST *obj)
 
 AST *Analyser::VisitEmptyArgList(EmptyArgList *list, AST *obj)
 {
+    assert(!obj && "VisitEmptyArgList() received nullptr.");
+
+    if(EmptyParamList *param = dynamic_cast<EmptyParamList*>(obj))
+    {
+        
+    }
+    else if(ParamList *param = dynamic_cast<ParamList*>(obj))
+    {
+        ReportError("Argument list mismatch, expect more arguments");
+    }
+    else
+    {
+        assert(false && "VisitEmptyArgList() couldn't convert obj to ParamList or EmptyParamList");
+    }
+
     return nullptr;
 }
 
@@ -463,7 +514,6 @@ AST *Analyser::VisitEmptyParamList(EmptyParamList *list, AST *obj)
 
 AST *Analyser::VisitParamList(ParamList *list, AST *obj)
 {
-    // TODO: Complete
     list->param->Visit(this, obj);
     list->next->Visit(this, obj);
     return nullptr;
@@ -471,7 +521,14 @@ AST *Analyser::VisitParamList(ParamList *list, AST *obj)
 
 AST *Analyser::VisitParam(Param *param, AST *obj)
 {
-    // TODO?
+    param->isParamDecl = true;
+    if(!symbolTable.Insert(param->identifier->spelling, param))
+    {
+        std::ostringstream ss;
+        ss << "Trying to declare a param. Identifier exists: " << param->identifier->spelling;
+        ReportError(ss.str());
+    }
+
     return nullptr;
 }
 
@@ -554,7 +611,6 @@ AST *Analyser::VisitOperator(Operator *op, AST *obj)
 
 AST *Analyser::VisitVariable(Variable *variable, AST *obj)
 {
-    // TODO: Check decl
     return nullptr;
 }
 
