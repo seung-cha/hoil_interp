@@ -5,7 +5,6 @@
 
 using namespace ASTs;
 
-
 Analyser::Analyser(Program *program) : program{program}
 {
     symbolTable.OpenScope();
@@ -31,7 +30,7 @@ AST *Analyser::VisitFuncDecl(FuncDecl *decl, AST *obj)
         ReportError(ss.str());
     }
 
-    decl->stmt->Visit(this, nullptr);
+    decl->stmt->Visit(this, decl);
     return nullptr;
 }
 
@@ -230,8 +229,8 @@ AST *Analyser::VisitBreakStmt(BreakStmt *stmt, AST *obj)
 {
     Stmt *loopStmt;
     
-    assert((obj == nullptr) && "Nothing has been passed to VisitBreakStmt()");
-    assert(!(loopStmt = dynamic_cast<Stmt*>(obj)) &&
+    assert(obj && "Nothing has been passed to VisitBreakStmt()");
+    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
     "Passed a non stmt to VisitBreakStmt()");
 
     if(!loopStmt->isLoopBody)
@@ -247,8 +246,8 @@ AST *Analyser::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
     // Do the same as BreakStmt
     Stmt *loopStmt;
     
-    assert((obj == nullptr) && "Nothing has been passed to VisitContinueStmt()");
-    assert(!(loopStmt = dynamic_cast<Stmt*>(obj)) &&
+    assert(obj && "Nothing has been passed to VisitContinueStmt()");
+    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
     "Passed a non stmt to VisitContinueStmt()");
 
     if(!loopStmt->isLoopBody)
@@ -264,8 +263,8 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
     // Do the same as BreakStmt
     Stmt *loopStmt;
     
-    assert((obj == nullptr) && "Nothing has been passed to VisitReturnStmt()");
-    assert(!(loopStmt = dynamic_cast<Stmt*>(obj)) &&
+    assert(obj && "Nothing has been passed to VisitReturnStmt()");
+    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
     "Passed a non stmt to VisitReturnStmt()");
 
     if(!loopStmt->isFuncBody)
@@ -280,15 +279,24 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 
 AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
 {
-    Stmt *parentStmt;
-
     // Accept args decl and initialise it here?
-    assert((obj == nullptr) && "Nothing has been passed to VisitCompoundStmt()");
-    assert(!(parentStmt = dynamic_cast<Stmt*>(obj)) &&
-    "Passed a non stmt to VisitCompoundStmt()");
+    assert(obj && "Nothing has been passed to VisitCompoundStmt()");
 
-    stmt->isFuncBody = parentStmt->isFuncStmt;
-    stmt->isLoopBody = parentStmt->isLoopStmt;
+    if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
+    {
+
+    }
+    else if(Stmt *parentStmt = dynamic_cast<Stmt*>(obj))
+    {
+        stmt->isFuncBody = parentStmt->isFuncStmt;
+        stmt->isLoopBody = parentStmt->isLoopStmt;
+    }
+    else
+    {
+        assert(false && 
+        "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
+    }
+
 
     symbolTable.OpenScope();
 
@@ -326,7 +334,7 @@ AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
     symbolTable.CloseScope();
 
     ExprStmt *condStmt = dynamic_cast<ExprStmt*>(stmt->cond.get());
-    assert(!condStmt && 
+    assert(condStmt && 
     "Conditional stmt for the ForStmt does not evaluate to ExprStmt");
 
     if(!(!condStmt->expr->type || condStmt->expr->type->IsBoolType() || condStmt->expr->type->IsErrorType()))
@@ -407,7 +415,7 @@ AST *Analyser::VisitExprStmt(ExprStmt *stmt, AST *obj)
 AST *Analyser::VisitArgList(ArgList *list, AST *obj)
 {
 
-    assert(!obj && "No list passed to VisitArgList?");
+    assert(obj && "No list passed to VisitArgList?");
 
     if(ParamList *paramList = dynamic_cast<ParamList*>(obj))
     {
@@ -430,8 +438,8 @@ AST *Analyser::VisitArg(Arg *arg, AST *obj)
 {
 
     Param *param;
-    assert(!obj && "Nothing has been passed to VisitArg()? Expect Param.");
-    assert(!(param = dynamic_cast<Param*>(obj)) 
+    assert(obj && "Nothing has been passed to VisitArg()? Expect Param.");
+    assert((param = dynamic_cast<Param*>(obj)) 
     && "Obj passed to VisitArg() is not Param?");
 
 
@@ -464,7 +472,7 @@ AST *Analyser::VisitElifList(ElifList *list, AST *obj)
 
 AST *Analyser::VisitEmptyArgList(EmptyArgList *list, AST *obj)
 {
-    assert(!obj && "VisitEmptyArgList() received nullptr.");
+    assert(obj && "VisitEmptyArgList() received nullptr.");
 
     if(EmptyParamList *param = dynamic_cast<EmptyParamList*>(obj))
     {
