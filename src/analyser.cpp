@@ -135,10 +135,11 @@ AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
         ss << "Unknown Function Identifier: " << expr->identifier->spelling;
         ReportError(ss.str());
     }
-
-    expr->type = decl->type->DeepCopy();
-
-    expr->args->Visit(this, dynamic_cast<FuncDecl*>(decl)->params.get());
+    else
+    {
+        expr->type = decl->type->DeepCopy();
+        expr->args->Visit(this, dynamic_cast<FuncDecl*>(decl)->params.get());
+    }
 
     return nullptr;
 }

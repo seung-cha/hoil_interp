@@ -34,7 +34,7 @@ class PageScope
 
     inline ASTs::Decl *Lookup(std::string ident)
     {
-        if(table.find(ident) != table.end())
+        if(table.find(ident) == table.end())
         {
             return nullptr;
         }
