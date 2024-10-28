@@ -228,13 +228,8 @@ AST *Analyser::VisitVarExpr(VariableExpr *expr, AST *obj)
 
 AST *Analyser::VisitBreakStmt(BreakStmt *stmt, AST *obj)
 {
-    Stmt *loopStmt;
-    
-    assert(obj && "Nothing has been passed to VisitBreakStmt()");
-    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
-    "Passed a non stmt to VisitBreakStmt()");
 
-    if(!loopStmt->isLoopBody)
+    if(!symbolTable.peek().isLoopScope)
     {
         ReportError("break is called inside a non-loop scope.");
     }
@@ -244,14 +239,7 @@ AST *Analyser::VisitBreakStmt(BreakStmt *stmt, AST *obj)
 
 AST *Analyser::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
 {
-    // Do the same as BreakStmt
-    Stmt *loopStmt;
-    
-    assert(obj && "Nothing has been passed to VisitContinueStmt()");
-    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
-    "Passed a non stmt to VisitContinueStmt()");
-
-    if(!loopStmt->isLoopBody)
+    if(!symbolTable.peek().isLoopScope)
     {
         ReportError("break is called inside a non-loop scope.");
     }
@@ -261,14 +249,8 @@ AST *Analyser::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
 
 AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 {
-    // Do the same as BreakStmt
-    Stmt *loopStmt;
-    
-    assert(obj && "Nothing has been passed to VisitReturnStmt()");
-    assert((loopStmt = dynamic_cast<Stmt*>(obj)) &&
-    "Passed a non stmt to VisitReturnStmt()");
 
-    if(!loopStmt->isFuncBody)
+    if(!symbolTable.peek().isFunctionScope)
     {
         ReportError("return is called inside a non-function scope.");
     }
@@ -282,15 +264,16 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
 {
     // Accept args decl and initialise it here?
     assert(obj && "Nothing has been passed to VisitCompoundStmt()");
+    symbolTable.OpenScope();
 
     if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
     {
-
+        symbolTable.peek().isFunctionScope = true;
     }
     else if(Stmt *parentStmt = dynamic_cast<Stmt*>(obj))
     {
-        stmt->isFuncBody = parentStmt->isFuncStmt;
         stmt->isLoopBody = parentStmt->isLoopStmt;
+        symbolTable.peek().isLoopScope = stmt->isLoopBody;
     }
     else
     {
@@ -299,7 +282,6 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
     }
 
 
-    symbolTable.OpenScope();
 
     //
 
@@ -327,7 +309,7 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
 AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
 {
     stmt->isLoopStmt = true;
-    symbolTable.OpenScope();
+    symbolTable.OpenScope();    // TODO: Consider refactoring this
     stmt->list->Visit(this, stmt);
     stmt->cond->Visit(this, stmt);
     stmt->postOp->Visit(this, stmt);

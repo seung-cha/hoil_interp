@@ -16,6 +16,8 @@ class PageScope
     }
 
     int level;
+    bool isLoopScope = false;
+    bool isFunctionScope = false;
 
     
     /**
@@ -50,11 +52,24 @@ class PageScope
 
 class SymbolTable
 {
-    public: 
+    public:
+
+    PageScope &peek()
+    {
+        return scope.back();
+    }
+
     inline void OpenScope()
     {
         level++;
-        scope.push_back({level});
+        PageScope pageScope{level};
+        if(!scope.empty())
+        {
+            pageScope.isFunctionScope = scope.back().isFunctionScope;
+            pageScope.isLoopScope = scope.back().isLoopScope;
+        }
+
+        scope.push_back(pageScope);
     }
 
     inline void CloseScope()
