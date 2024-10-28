@@ -18,8 +18,8 @@ int main(int argc, char** argv)
     }
 
     bool lexer_verbose = false;
-    bool lexer_no_err = false;
-    bool parser_no_err = false;
+    bool test_lexer = false;
+    bool test_parser = false;
     bool draw_ast = false;
 
     for(int i = 0; i < argc; i++)
@@ -32,8 +32,8 @@ int main(int argc, char** argv)
             " [source_file] --flags\n" 
             "--flags can be any of the following:\n\n"
             "--lexer-verbose    Print lexemes obtained by lexer\n"
-            "--lexer-no-err           Fail on obtaining error lexeme\n"
-            "--parser-no-err       Fail if source file is syntactically ill-formed\n"
+            "--test-lexer           Terminate after lexer. Fail on obtaining error lexeme.\n"
+            "--test-parser       Terminate after parser. Fail if source file is syntactically ill-formed\n"
             "--ast          Print Abstract Syntax Tree"<< std::endl;
 
             return EXIT_SUCCESS;
@@ -43,13 +43,13 @@ int main(int argc, char** argv)
         {
             lexer_verbose = true;
         }
-        else if(strcmp(str, "--lexer-no-err") == 0)
+        else if(strcmp(str, "--test-lexer") == 0)
         {
-            lexer_no_err = true;
+            test_lexer = true;
         }
-        else if(strcmp(str, "--parser-no-err") == 0)
+        else if(strcmp(str, "--test-parser") == 0)
         {
-            parser_no_err = true;
+            test_parser = true;
         }
         else if(strcmp(str, "--ast") == 0)
         {
@@ -74,19 +74,21 @@ int main(int argc, char** argv)
         lexer.Verbose();
     }
 
-    if(lexer_no_err)
-    {
-        const auto lexemes = lexer.Lexemes();
+    const auto lexemes = lexer.Lexemes();
 
-        for(auto& lexeme : lexemes)
+    for(auto& lexeme : lexemes)
+    {
+        if(lexeme->Id == Lexicons::Lexicon::ERR)
         {
-            if(lexeme->Id == Lexicons::Lexicon::ERR)
-            {
-                std::cout << "Error lexeme detected!" << std::endl;
-                std::cout << lexeme->Verbose() << std::endl;
-                return EXIT_FAILURE;
-            }
+            std::cout << "Error lexeme detected!" << std::endl;
+            std::cout << lexeme->Verbose() << std::endl;
+            return EXIT_FAILURE;
         }
+    }
+
+    if(test_lexer)
+    {
+        return EXIT_SUCCESS;
     }
 
 
@@ -97,7 +99,7 @@ int main(int argc, char** argv)
         std::cout << str << std::endl;
     }
 
-    if(parser_no_err && parser.ErrorMsgs().size() > 0)
+    if(parser.ErrorMsgs().size() > 0)
     {
         return EXIT_FAILURE;
     }
@@ -107,7 +109,18 @@ int main(int argc, char** argv)
         parser.program->Print(0);   
     }
 
+    if(test_parser)
+    {
+        return EXIT_SUCCESS;
+    }
+
+
     Analyser analyser{parser.program.get()};
+
+    for(auto& msg : analyser.errorMsgs)
+    {
+        std::cout << msg << std::endl;
+    }
     
 
     return EXIT_SUCCESS;
