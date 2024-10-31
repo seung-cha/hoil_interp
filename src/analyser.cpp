@@ -54,9 +54,14 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 
     decl->expr->Visit(this, nullptr);
     
-    if(!decl->type->Compatible(decl->expr->type.get()))
+    // TODO: Checking for nullptr is because of EmptyExpr from VarDecl
+    // come up with a better way to handle empty expr
+    if(decl->expr->type)
     {
-        ReportError("Incompatible Variable type and expression type");
+        if(!decl->type->Compatible(decl->expr->type.get()))
+        {
+            ReportError("Incompatible Variable type and expression type");
+        }
     }
 
     return nullptr;
@@ -66,7 +71,11 @@ AST *Analyser::VisitVarDeclExpr(VarDeclExpr *expr, AST *obj)
 {
     // Visit underlying expr, return type
     expr->expr->Visit(this, nullptr);
-    expr->type = std::move(expr->expr->type->DeepCopy());
+
+    if(expr->expr->type)
+    {
+        expr->type = expr->expr->type->DeepCopy();
+    }
 
     return expr->type.get();
 }
@@ -97,7 +106,7 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
 
     if(!expr->op->Compatible(expr->lhs->type.get(), expr->rhs->type.get()))
     {
-        ReportError("Assignment Expression Type is Incompatible!");
+        ReportError("Binary Expression Type is Incompatible!");
         expr->type = std::make_unique<ErrorType>();
     }
     else

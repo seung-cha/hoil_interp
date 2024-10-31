@@ -23,7 +23,7 @@ namespace ASTs
         void Print(int ident) override
         {
             PrintIdent(ident);
-            std::cout << "<String Literal>" << std::endl;
+            std::cout << "<String Expr>" << std::endl;
             literal->Print(ident + 1); 
         }
         

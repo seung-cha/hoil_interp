@@ -33,15 +33,16 @@ namespace ASTs
 
         bool Compatible(Type *type1, Type *type2)
         {
+
             if(spelling == "=" || spelling == "==" || spelling == "!=")
             {
                 return type1->Compatible(type2);
             }
             else if(spelling == "+" || spelling == "-" || spelling == "*" || spelling == "/" ||
-            spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=" || spelling == "-=",
+            spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=" || spelling == "-=" ||
             spelling == "+=" || spelling == "/=" || spelling == "*=")
             {
-                return type1->Compatible(type2) && (type1->IsIntType() || type2->IsRealType());
+                return type1->Compatible(type2) && (type1->IsIntType() || type1->IsRealType());
             }
             else if(spelling == "%")
             {

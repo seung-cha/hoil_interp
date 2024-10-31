@@ -9,9 +9,8 @@ set_property(TEST analyser_duplicate_variables PROPERTY WILL_FAIL True)
 add_test(NAME analyser_type_mismatch COMMAND "${EXEC}" "${DIR}/test3.tl" "--test-analyser")
 set_property(TEST analyser_type_mismatch PROPERTY WILL_FAIL True)
 
-add_test(NAME analyser_multi_expr COMMAND "${EXEC}" "${DIR}/test4.tl" "--test-analyser")
-
 add_test(NAME analyser_multi_expr_invalid_type COMMAND "${EXEC}" "${DIR}/test4.tl" "--test-analyser")
 set_property(TEST analyser_multi_expr_invalid_type PROPERTY WILL_FAIL True)
 
+add_test(NAME analyser_multi_expr COMMAND "${EXEC}" "${DIR}/test5.tl" "--test-analyser")
 
