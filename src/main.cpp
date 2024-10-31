@@ -20,6 +20,7 @@ int main(int argc, char** argv)
     bool lexer_verbose = false;
     bool test_lexer = false;
     bool test_parser = false;
+    bool test_analyser = false;
     bool draw_ast = false;
 
     for(int i = 0; i < argc; i++)
@@ -34,6 +35,7 @@ int main(int argc, char** argv)
             "--lexer-verbose    Print lexemes obtained by lexer\n"
             "--test-lexer           Terminate after lexer. Fail on obtaining error lexeme.\n"
             "--test-parser       Terminate after parser. Fail if source file is syntactically ill-formed\n"
+            "--test-analyser      Terminate after analyser. Fail if source file is semantically ill-formed\n"
             "--ast          Print Abstract Syntax Tree"<< std::endl;
 
             return EXIT_SUCCESS;
@@ -117,10 +119,22 @@ int main(int argc, char** argv)
 
     Analyser analyser{parser.program.get()};
 
-    for(auto& msg : analyser.errorMsgs)
+    if(analyser.errorMsgs.size() != 0)
     {
-        std::cout << msg << std::endl;
+        for(auto& msg : analyser.errorMsgs)
+        {
+            std::cout << msg << std::endl;
+        }
+
+        return EXIT_FAILURE;
     }
+
+    if(test_analyser)
+    {
+        return EXIT_SUCCESS;
+    }
+
+    
     
 
     return EXIT_SUCCESS;
