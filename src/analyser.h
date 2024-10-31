@@ -10,7 +10,7 @@
 class Analyser : public ASTs::Visitor
 {
     public:
-    Analyser(ASTs::Program *program);
+    Analyser(ASTs::Program *program, std::vector<std::unique_ptr<ASTs::FuncDecl>>& reserve);
     std::vector<std::string> errorMsgs;
 
     // Decl

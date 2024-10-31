@@ -5,9 +5,16 @@
 
 using namespace ASTs;
 
-Analyser::Analyser(Program *program) : program{program}
+Analyser::Analyser(Program *program, std::vector<std::unique_ptr<ASTs::FuncDecl>>& reserve) : program{program}
 {
     symbolTable.OpenScope();
+
+    // Copy over reserved functions
+    for(auto& decl : reserve)
+    {
+        symbolTable.Insert(decl->identifier->spelling, decl.get());
+    }
+
     program->Visit(this, nullptr);
     symbolTable.CloseScope();
 

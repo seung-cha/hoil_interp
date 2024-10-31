@@ -64,7 +64,6 @@ namespace ASTs
 
         protected:
         enum VarType dataType;
-
     };
 }
 
