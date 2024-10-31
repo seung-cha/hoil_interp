@@ -52,7 +52,13 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
         ReportError(ss.str());
     }
 
-    // TODO: Check LHS, RHS compatibility
+    decl->expr->Visit(this, nullptr);
+    
+    if(!decl->type->Compatible(decl->expr->type.get()))
+    {
+        ReportError("Incompatible Variable type and expression type");
+    }
+
     return nullptr;
 }
 
