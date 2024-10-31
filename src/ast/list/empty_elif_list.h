@@ -11,9 +11,9 @@ namespace ASTs
     {
         public:
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitEmptyElifList(this);
+            return visitor->VisitEmptyElifList(this, obj);
         }
 
 

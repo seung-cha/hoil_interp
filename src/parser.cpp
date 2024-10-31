@@ -73,18 +73,25 @@ std::unique_ptr<ASTs::Program> Parser::ParseProgram()
     return std::make_unique<ASTs::Program>(list.release());
 }
 
-std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
+std::unique_ptr<ASTs::List> Parser::ParseLocalVarDeclList()
 {
     auto type = ParseType();
     auto list = ParseVarDeclList();
     Match(Lexicon::SEMICOLON);
 
-    return std::make_unique<ASTs::VarDecl>(type.release(), list.release());
+    // Assign type to each decl
+    for(ASTs::VarDeclList *declList = dynamic_cast<ASTs::VarDeclList*>(list.get()); declList; declList = dynamic_cast<ASTs::VarDeclList*>(declList->next.get()))
+    {
+        declList->decl->type = std::move(type->DeepCopy());
+    }
+
+    return list;
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseVarDeclList()
 {
-    auto expr = ParseVarDeclExpr();
+    auto expr = ParseVarDecl();
+
     std::unique_ptr<ASTs::List> next = std::make_unique<ASTs::EmptyVarDeclList>();
     if(currentLexicon->Id == Lexicon::COMMA)
     {
@@ -95,17 +102,30 @@ std::unique_ptr<ASTs::List> Parser::ParseVarDeclList()
     return std::make_unique<ASTs::VarDeclList>(expr.release(), next.release());
 }
 
-std::unique_ptr<ASTs::Expr> Parser::ParseVarDeclExpr()
+std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
 {
     auto ident = ParseIdentifier();
-    std::unique_ptr<ASTs::Expr> expr = std::make_unique<ASTs::EmptyExpr>();
-    if(currentLexicon->Id == Lexicon::ASSIGN)
+    auto expr = ParseVarDeclExpr();
+
+    // Fill Type later
+    return std::make_unique<ASTs::VarDecl>(nullptr, ident.release(), expr.release());
+}
+
+
+std::unique_ptr<ASTs::Expr> Parser::ParseVarDeclExpr()
+{
+    std::unique_ptr<ASTs::Expr> expr{};
+    if(LexemeIs(Lexicon::ASSIGN))
     {
         Next();
         expr = ParseExpr();
     }
+    else
+    {
+        expr = std::make_unique<ASTs::EmptyExpr>();
+    }
 
-    return std::make_unique<ASTs::VarDeclExpr>(ident.release(), expr.release());
+    return std::make_unique<ASTs::VarDeclExpr>(expr.release());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseFuncDeclList()
@@ -221,6 +241,7 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         break;
         default:
         ptr = std::make_unique<ASTs::ErrorType>();
+        ReportMismatch();
     }
     return ptr;
 }
@@ -552,14 +573,14 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
         LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon:: VOID))
         {
             // For-loop like form
-            auto decl = ParseVarDecl();
+            auto list = ParseLocalVarDeclList();
             auto cond = ParseExprStmt();
             auto postOp = ParseExpr();
             Match(Lexicon::CPAREN);
 
             auto body = ParseStmt();
 
-            stmt = std::make_unique<ASTs::ForStmt>(decl.release(), cond.release(), postOp.release(), body.release());
+            stmt = std::make_unique<ASTs::ForStmt>(list.release(), cond.release(), postOp.release(), body.release());
 
         }
         else
@@ -609,7 +630,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
         return std::make_unique<ASTs::ErrorStmt>();
     }
 
-    std::unique_ptr<ASTs::List> list = std::unique_ptr<ASTs::EmptyBlockList>();
+    std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
     if(!LexemeIs(Lexicon::CCURLY))
     {
         list = ParseItemList();
@@ -649,8 +670,8 @@ std::unique_ptr<ASTs::Block> Parser::ParseItem()
         LexemeIs(Lexicon::STRING) ||
         LexemeIs(Lexicon::VOID))
     {
-        auto decl = ParseVarDecl();
-        block = std::make_unique<ASTs::VarDeclBlock>(decl.release());
+        auto list = ParseLocalVarDeclList();
+        block = std::make_unique<ASTs::VarDeclListBlock>(list.release());
     }
     else
     {

@@ -15,15 +15,15 @@ namespace ASTs
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitStringExpr(this);
+            return visitor->VisitStringExpr(this, obj);
         }
 
         void Print(int ident) override
         {
             PrintIdent(ident);
-            std::cout << "<String Literal>" << std::endl;
+            std::cout << "<String Expr>" << std::endl;
             literal->Print(ident + 1); 
         }
         

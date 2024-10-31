@@ -13,12 +13,12 @@ namespace ASTs
         public:
         WhileStmt(Expr *cond, Stmt *stmt) : cond{cond}, stmt{stmt}
         {
-
+        
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitWhileStmt(this);
+            return visitor->VisitWhileStmt(this, obj);
         }
 
         void Print(int ident) override

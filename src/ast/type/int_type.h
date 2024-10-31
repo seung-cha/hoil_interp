@@ -8,10 +8,14 @@ namespace ASTs
     class IntType : public Type
     {
         public:
-
-        void Visit(Visitor *visitor) override
+        IntType() : Type{VarType::INT}
         {
-            visitor->VisitIntType(this);
+            
+        }
+
+        AST *Visit(Visitor *visitor, AST *obj) override
+        {
+            return visitor->VisitIntType(this, obj);
         }
 
         void Print(int ident) override
@@ -19,6 +23,18 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Int Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<IntType>();
+        }
+
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsIntType() || type->IsErrorType() || type->IsRealType();
+        }
+
+
     };
 }
 

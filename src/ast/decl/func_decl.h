@@ -14,15 +14,15 @@ namespace ASTs
     class FuncDecl : public Decl
     {
         public:
-        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : type{type}, identifier{identifier},
+        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : Decl{type, identifier},
         params{params}, stmt{stmt}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitFuncDecl(this);
+            return visitor->VisitFuncDecl(this, this);
         }
 
         void inline Print(int ident) override
@@ -36,8 +36,6 @@ namespace ASTs
 
         }
 
-        std::unique_ptr<Type> type;
-        std::unique_ptr<Identifier> identifier;
         std::unique_ptr<List> params;
         std::unique_ptr<Stmt> stmt;
 

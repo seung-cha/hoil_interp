@@ -8,10 +8,14 @@ namespace ASTs
     class VoidType : public Type
     {
         public:
-
-        void Visit(Visitor *visitor) override
+        VoidType() : Type{VarType::VOID}
         {
-            visitor->VisitVoidType(this);
+            
+        }
+
+        AST *Visit(Visitor *visitor, AST *obj) override
+        {
+            return visitor->VisitVoidType(this, obj);
         }
 
         void Print(int ident) override
@@ -19,6 +23,17 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Void Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<VoidType>();
+        }
+
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsErrorType();
+        }
+
     };
 }
 

@@ -7,7 +7,11 @@ namespace ASTs
 {
     class Stmt : public AST
     {
-
+        public:
+        bool isLoopBody = false;
+        bool isFuncBody = false;
+        bool isLoopStmt = false;
+        bool isFuncStmt = false;
     };
 }
 

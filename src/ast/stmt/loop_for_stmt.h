@@ -4,7 +4,6 @@
 #include "stmt.h"
 #include "../expr/expr.h"
 #include "../list/list.h"
-#include "../decl/decl.h"
 #include <memory>
 
 namespace ASTs
@@ -12,28 +11,28 @@ namespace ASTs
     class ForStmt : public Stmt
     {
         public:
-        ForStmt(Decl *decl, Stmt *cond, Expr *postOp, Stmt *body) : decl{decl}, cond{cond},
+        ForStmt(List *list, Stmt *cond, Expr *postOp, Stmt *body) : list{list}, cond{cond},
         postOp{postOp}, body{body}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitForStmt(this);
+            return visitor->VisitForStmt(this, obj);
         }
 
         void Print(int ident) override
         {
             PrintIdent(ident);
             std::cout << "<For Stmt>" << std::endl;
-            decl->Print(ident + 1);
+            list->Print(ident + 1);
             cond->Print(ident + 1);
             postOp->Print(ident + 1);
             body->Print(ident + 1);
         }
 
-        std::unique_ptr<Decl> decl;
+        std::unique_ptr<List> list;
         std::unique_ptr<Stmt> cond;
         std::unique_ptr<Expr> postOp;
         std::unique_ptr<Stmt> body;

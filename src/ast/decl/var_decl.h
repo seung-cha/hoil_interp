@@ -2,8 +2,7 @@
 #define AST_VAR_DECL_H
 
 #include "decl.h"
-#include "../type/type.h"
-#include "../list/list.h"
+#include "../expr/expr.h"
 #include <memory>
 
 namespace ASTs
@@ -11,14 +10,14 @@ namespace ASTs
     class VarDecl : public Decl
     {
         public:
-        VarDecl(Type *type, List *decl) : type{type}, decl{decl}
+        VarDecl(Type *type, Identifier *identifier, Expr *expr) : Decl{type, identifier}, expr{expr}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitVarDecl(this);
+            return visitor->VisitVarDecl(this, obj);
         }
 
         void Print(int ident) override
@@ -26,11 +25,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Variable Declaration>" << std::endl;
             type->Print(ident + 1);
-            decl->Print(ident + 1);
+            identifier->Print(ident + 1);
+            expr->Print(ident + 1);
         }
 
-        std::unique_ptr<Type> type;
-        std::unique_ptr<List> decl;
+        std::unique_ptr<Expr> expr;
     };
 }
 

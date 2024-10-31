@@ -54,6 +54,8 @@ class Parser
     std::unique_ptr<ASTs::Program> ParseProgram();
 
     // Variable Decl
+    std::unique_ptr<ASTs::List> ParseLocalVarDeclList();    // ATM this is just a wrapper to VarDeclList
+
     std::unique_ptr<ASTs::Decl> ParseVarDecl();
     std::unique_ptr<ASTs::List> ParseVarDeclList();
     std::unique_ptr<ASTs::Expr>  ParseVarDeclExpr();

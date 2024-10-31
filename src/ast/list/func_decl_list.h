@@ -10,14 +10,14 @@ namespace ASTs
     class FuncDeclList : public List
     {
         public:
-        FuncDeclList(Decl *decl, List *list) : decl{decl}, list{list}
+        FuncDeclList(Decl *decl, List *next) : decl{decl}, next{next}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitFuncDeclList(this);
+            return visitor->VisitFuncDeclList(this, obj);
         }
 
         void Print(int ident) override
@@ -25,11 +25,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Function Declaration List>" << std::endl;
             decl->Print(ident + 1);
-            list->Print(ident);
+            next->Print(ident);
         }
 
         std::unique_ptr<Decl> decl;
-        std::unique_ptr<List> list;
+        std::unique_ptr<List> next;
     };
 }
 

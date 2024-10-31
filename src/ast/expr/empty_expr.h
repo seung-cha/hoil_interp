@@ -14,9 +14,9 @@ namespace ASTs
             std::cout << "<Empty Expression>" << std::endl;
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitEmptyExpr(this);
+            return visitor->VisitEmptyExpr(this, obj);
         }
     };
 }

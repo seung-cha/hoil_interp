@@ -8,10 +8,14 @@ namespace ASTs
     class RealType : public Type
     {
         public:
-
-        void Visit(Visitor *visitor) override
+        RealType() : Type{VarType::REAL}
         {
-            visitor->VisitRealType(this);
+            
+        }
+
+        AST *Visit(Visitor *visitor, AST *obj) override
+        {
+            return visitor->VisitRealType(this, obj);
         }
 
         void Print(int ident) override
@@ -19,6 +23,17 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Real Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<RealType>();
+        }
+
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsIntType() || type->IsErrorType() || type->IsRealType();
+        }
+
     };
 }
 

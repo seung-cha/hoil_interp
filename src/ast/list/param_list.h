@@ -1,7 +1,7 @@
 #ifndef AST_PARAM_LIST_H
 #define AST_PARAM_LIST_H
 
-#include "param.h"
+#include "../decl/param.h"
 #include "list.h"
 #include <memory>
 
@@ -15,9 +15,9 @@ namespace ASTs
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitParamList(this);
+            return visitor->VisitParamList(this, obj);
         }
 
         void Print(int ident) override

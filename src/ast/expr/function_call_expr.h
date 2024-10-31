@@ -10,14 +10,14 @@ namespace ASTs
     class FunctionCallExpr : public Expr
     {
         public:
-        FunctionCallExpr(Identifier *identifier, List *params) : identifier{identifier}, params{params}
+        FunctionCallExpr(Identifier *identifier, List *args) : identifier{identifier}, args{args}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitFuncCallExpr(this);
+            return visitor->VisitFuncCallExpr(this, obj);
         }
         
         void Print(int ident) override
@@ -25,11 +25,11 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<Function Call Expression>" << std::endl;
             identifier->Print(ident + 1);
-            params->Print(ident + 1);
+            args->Print(ident + 1);
         }
 
         std::unique_ptr<Identifier> identifier;
-        std::unique_ptr<List> params;
+        std::unique_ptr<List> args;
 
     };
 

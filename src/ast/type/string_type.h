@@ -8,10 +8,14 @@ namespace ASTs
     class StringType : public Type
     {
         public:
-
-        void Visit(Visitor *visitor) override
+        StringType() : Type{VarType::STRING}
         {
-            visitor->VisitStringType(this);
+            
+        }
+
+        AST *Visit(Visitor *visitor, AST *obj) override
+        {
+            return visitor->VisitStringType(this, obj);
         }
 
         void Print(int ident) override
@@ -19,6 +23,17 @@ namespace ASTs
             PrintIdent(ident);
             std::cout << "<String Type>" << std::endl;
         }
+
+        std::unique_ptr<Type> DeepCopy() override
+        {
+            return std::make_unique<StringType>();
+        }
+
+        virtual bool Compatible(Type *type)
+        {
+            return type->IsStringType() || type->IsErrorType();
+        }
+
     };
 }
 

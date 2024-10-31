@@ -4,21 +4,22 @@
 #include "../ast.h"
 #include "../type/type.h"
 #include "../identifier.h"
+#include "decl.h"
 #include <memory>
 
 namespace ASTs
 {
-    class Param : public AST
+    class Param : public Decl
     {
         public:
-        Param(Type *type, Identifier *identifier) : type{type}, identifier{identifier}
+        Param(Type *type, Identifier *identifier) : Decl{type, identifier}
         {
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitParam(this);
+            return visitor->VisitParam(this, obj);
         }
 
         void Print(int ident) override
@@ -28,9 +29,6 @@ namespace ASTs
             type->Print(ident + 1);
             identifier->Print(ident + 1);
         }
-
-        std::unique_ptr<Type> type;
-        std::unique_ptr<Identifier> identifier;
     };
 }
 

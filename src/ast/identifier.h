@@ -13,9 +13,9 @@ namespace ASTs
 
         }
 
-        void Visit(Visitor *visitor) override
+        AST *Visit(Visitor *visitor, AST *obj) override
         {
-            visitor->VisitIdentifier(this);
+            return visitor->VisitIdentifier(this, obj);
         }
 
         void Print(int ident) override
