@@ -98,10 +98,17 @@ AST *Analyser::VisitAssignExpr(AssignExpr *expr, AST *obj)
         ReportError("Assignment Expression Type is Incompatible!");
         expr->type = std::make_unique<ErrorType>();
     }
+    else if(!expr->lhs->assignable)
+    {
+        ReportError("Left-hand-side of the expression is unassignable!");
+        expr->type = std::make_unique<ErrorType>();
+    }
     else
     {
         expr->type = expr->lhs->type->DeepCopy();
     }
+
+
 
     return expr->type.get();
 }
@@ -156,6 +163,7 @@ AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
         std::ostringstream ss;
         ss << "Unknown Function Identifier: " << expr->identifier->spelling;
         ReportError(ss.str());
+        expr->type = std::move(std::make_unique<ErrorType>());
     }
     else
     {
@@ -233,12 +241,14 @@ AST *Analyser::VisitStringExpr(StringExpr *expr, AST *obj)
 AST *Analyser::VisitVarExpr(VariableExpr *expr, AST *obj)
 {
     Decl *decl = symbolTable.Lookup(expr->variable->identifier->spelling);
+    expr->assignable = true;
     
     if(!decl || !(decl->isVarDecl || decl->isParamDecl))
     {
         std::ostringstream ss;
         ss << "Identifier not found: " << expr->variable->identifier->spelling;
         ReportError(ss.str());
+        expr->type = std::move(std::make_unique<ErrorType>());
     }
     else
     {

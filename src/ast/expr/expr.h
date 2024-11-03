@@ -11,6 +11,7 @@ namespace ASTs
     {
         public:
         std::unique_ptr<Type> type{};
+        bool assignable = false;
     };
 }
 
