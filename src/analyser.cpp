@@ -182,6 +182,8 @@ AST *Analyser::VisitIntExpr(IntExpr *expr, AST *obj)
 
 AST *Analyser::VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj)
 {
+    expr->expr->Visit(this, nullptr);
+
     // TODO: Make sure expr is a variable
     if(!expr->op->Compatible(expr->expr->type.get(), nullptr))
     {
@@ -205,6 +207,9 @@ AST *Analyser::VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj)
 
 AST *Analyser::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
 {
+    expr->expr->Visit(this, nullptr);
+
+
     // TODO: Make sure expr is a variable
     if(!expr->op->Compatible(expr->expr->type.get(), nullptr))
     {
