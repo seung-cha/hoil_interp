@@ -24,6 +24,9 @@ class Parser
     std::unique_ptr<ASTs::Program> program;
 
     private:
+    int LineNo();
+    int CharNo();
+    std::string Spelling();
     /**
      * Return true if the current lexeme is of type Id.
      * Does not consume lexeme.

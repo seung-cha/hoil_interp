@@ -10,7 +10,7 @@ namespace ASTs
     class ExprStmt : public Stmt
     {
         public:
-        ExprStmt(Expr *expr) : expr{expr}
+        ExprStmt(Expr *expr, int lineNo, int charNo) : expr{expr}, Stmt{lineNo, charNo}
         {
 
         }

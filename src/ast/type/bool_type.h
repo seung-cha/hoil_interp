@@ -8,7 +8,7 @@ namespace ASTs
     class BoolType : public Type
     {
         public:
-        BoolType() : Type{VarType::BOOL}
+        BoolType(int lineNo, int charNo) : Type{VarType::BOOL, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<BoolType>();
+            return std::make_unique<BoolType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

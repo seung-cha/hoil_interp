@@ -8,6 +8,10 @@ namespace ASTs
     class BreakStmt : public Stmt
     {
         public:
+        BreakStmt(int lineNo, int charNo) : Stmt{lineNo, charNo}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

@@ -8,6 +8,11 @@ namespace ASTs
     class Stmt : public AST
     {
         public:
+        Stmt(int lineNo, int charNo) : AST{lineNo, charNo}
+        {
+
+        }
+        
         bool isLoopBody = false;
         bool isFuncBody = false;
         bool isLoopStmt = false;

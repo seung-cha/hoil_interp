@@ -10,7 +10,7 @@ namespace ASTs
     class ElifStmt : public Stmt
     {
         public:
-        ElifStmt(Expr *cond, Stmt *stmt): cond{cond}, stmt{stmt}
+        ElifStmt(Expr *cond, Stmt *stmt, int lineNo, int charNo): cond{cond}, stmt{stmt}, Stmt{lineNo, charNo}
         {
 
         }

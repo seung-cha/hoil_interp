@@ -8,6 +8,10 @@ namespace ASTs
     class ContinueStmt : public Stmt
     {
         public:
+        ContinueStmt(int lineNo, int charNo) : Stmt{lineNo, charNo}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

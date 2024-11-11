@@ -12,7 +12,7 @@ namespace ASTs
     class Param : public Decl
     {
         public:
-        Param(Type *type, Identifier *identifier) : Decl{type, identifier}
+        Param(Type *type, Identifier *identifier, int lineNo, int charNo) : Decl{type, identifier, lineNo, charNo}
         {
 
         }

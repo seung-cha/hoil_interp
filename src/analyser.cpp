@@ -96,12 +96,12 @@ AST *Analyser::VisitAssignExpr(AssignExpr *expr, AST *obj)
     if(!expr->op->Compatible(expr->lhs->type.get(), expr->rhs->type.get()))
     {
         ReportError("Assignment Expression Type is Incompatible!");
-        expr->type = std::make_unique<ErrorType>();
+        expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
     }
     else if(!expr->lhs->assignable)
     {
         ReportError("Left-hand-side of the expression is unassignable!");
-        expr->type = std::make_unique<ErrorType>();
+        expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
     }
     else
     {
@@ -121,13 +121,13 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
     if(!expr->op->Compatible(expr->lhs->type.get(), expr->rhs->type.get()))
     {
         ReportError("Binary Expression Type is Incompatible!");
-        expr->type = std::make_unique<ErrorType>();
+        expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
     }
     else
     {
         if(expr->op->IsBoolOp())
         {
-            expr->type = std::make_unique<BoolType>();
+            expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
         }
         else
         {
@@ -140,7 +140,7 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
 
 AST *Analyser::VisitBoolExpr(BoolExpr *expr, AST *obj)
 {
-    expr->type = std::make_unique<BoolType>();
+    expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
     return expr->type.get();
 }
 
@@ -163,7 +163,7 @@ AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
         std::ostringstream ss;
         ss << "Unknown Function Identifier: " << expr->identifier->spelling;
         ReportError(ss.str());
-        expr->type = std::move(std::make_unique<ErrorType>());
+        expr->type = std::move(std::make_unique<ErrorType>(expr->type->lineNo, expr->type->charNo));
     }
     else
     {
@@ -176,7 +176,7 @@ AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
 
 AST *Analyser::VisitIntExpr(IntExpr *expr, AST *obj)
 {
-    expr->type = std::make_unique<IntType>();
+    expr->type = std::make_unique<IntType>(expr->lineNo, expr->charNo);
     return expr->type.get();
 }
 
@@ -187,14 +187,16 @@ AST *Analyser::VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj)
     // TODO: Make sure expr is a variable
     if(!expr->op->Compatible(expr->expr->type.get(), nullptr))
     {
-        ReportError("Unary Expression Type is incompatible!");
-        expr->type = std::make_unique<ErrorType>();
+        char c[1024];
+        snprintf(c, sizeof(c), "Unary expression type is incompatible! %d:%d", expr->lineNo, expr->charNo);
+        ReportError(c);
+        expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
     }
     else
     {
         if(expr->op->IsBoolOp())
         {
-            expr->type = std::make_unique<BoolType>();
+            expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
         }
         else
         {
@@ -214,13 +216,13 @@ AST *Analyser::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
     if(!expr->op->Compatible(expr->expr->type.get(), nullptr))
     {
         ReportError("Unary Expression Type is incompatible!");
-        expr->type = std::make_unique<ErrorType>();
+        expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
     }
     else
     {
         if(expr->op->IsBoolOp())
         {
-            expr->type = std::make_unique<BoolType>();
+            expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
         }
         else
         {
@@ -233,13 +235,13 @@ AST *Analyser::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
 
 AST *Analyser::VisitRealExpr(RealExpr *expr, AST *obj)
 {
-    expr->type = std::make_unique<RealType>();
+    expr->type = std::make_unique<RealType>(expr->lineNo, expr->charNo);
     return expr->type.get();
 }
 
 AST *Analyser::VisitStringExpr(StringExpr *expr, AST *obj)
 {
-    expr->type = std::make_unique<StringType>();
+    expr->type = std::make_unique<StringType>(expr->lineNo, expr->charNo);
     return expr->type.get();
 }
 
@@ -253,7 +255,7 @@ AST *Analyser::VisitVarExpr(VariableExpr *expr, AST *obj)
         std::ostringstream ss;
         ss << "Identifier not found: " << expr->variable->identifier->spelling;
         ReportError(ss.str());
-        expr->type = std::move(std::make_unique<ErrorType>());
+        expr->type = std::move(std::make_unique<ErrorType>(expr->type->lineNo, expr->type->charNo));
     }
     else
     {
@@ -337,7 +339,7 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("While conditional expr does not evaluate to bool");
-        stmt->cond->type = std::move(std::make_unique<ErrorType>());
+        stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
     return nullptr;
@@ -360,7 +362,7 @@ AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
     if(!(!condStmt->expr->type || condStmt->expr->type->IsBoolType() || condStmt->expr->type->IsErrorType()))
     {
         ReportError("For conditional expr does not evaluate to bool");
-        condStmt->expr->type = std::move(std::make_unique<ErrorType>());
+        condStmt->expr->type = std::move(std::make_unique<ErrorType>(condStmt->expr->type->lineNo, condStmt->expr->type->charNo));
     }
 
 
@@ -378,7 +380,7 @@ AST *Analyser::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
     if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("Do While conditional expr does not evaluate to bool");
-        stmt->cond->type = std::move(std::make_unique<ErrorType>());
+        stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
     return nullptr;
@@ -391,7 +393,7 @@ AST *Analyser::VisitIfStmt(IfStmt *stmt, AST *obj)
     if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("If conditional expr does not evaluate to bool");
-        stmt->cond->type = std::move(std::make_unique<ErrorType>());
+        stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
     stmt->ifStmt->Visit(this, obj);
@@ -408,7 +410,7 @@ AST *Analyser::VisitElifStmt(ElifStmt *stmt, AST *obj)
     if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("Elif conditional expr does not evaluate to bool");
-        stmt->cond->type = std::move(std::make_unique<ErrorType>());
+        stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
     stmt->stmt->Visit(this, obj);

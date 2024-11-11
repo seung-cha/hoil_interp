@@ -11,7 +11,7 @@ namespace ASTs
     class DoWhileStmt : public Stmt
     {
         public:
-        DoWhileStmt(Expr *cond, Stmt *body) : body{body}, cond{cond}
+        DoWhileStmt(Expr *cond, Stmt *body, int lineNo, int charNo) : body{body}, cond{cond}, Stmt{lineNo, charNo}
         {
 
         }

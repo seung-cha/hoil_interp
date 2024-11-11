@@ -10,7 +10,7 @@ namespace ASTs
     class CompoundStmt : public Stmt
     {
         public:
-        CompoundStmt(List *list) : list{list}
+        CompoundStmt(List *list, int lineNo, int charNo) : list{list}, Stmt{lineNo, charNo}
         {
 
         }

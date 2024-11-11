@@ -11,7 +11,7 @@ namespace ASTs
     class PostUnaryExpr : public Expr
     {
         public:
-        PostUnaryExpr(Expr *expr, Operator *op) : expr{expr}, op{op}
+        PostUnaryExpr(Expr *expr, Operator *op, int lineNo, int charNo) : expr{expr}, op{op}, Expr{lineNo, charNo}
         {
 
         }

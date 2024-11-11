@@ -8,7 +8,7 @@ namespace ASTs
     class StringLiteral : public Literal
     {
         public:
-        StringLiteral(std::string spelling) : Literal{spelling}
+        StringLiteral(std::string spelling, int lineNo, int charNo) : Literal{spelling, lineNo, charNo}
         {
             
         }

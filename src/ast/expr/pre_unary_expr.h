@@ -11,7 +11,7 @@ namespace ASTs
     class PreUnaryExpr : public Expr
     {
         public:
-        PreUnaryExpr(Expr *expr, Operator *op) : expr{expr}, op{op}
+        PreUnaryExpr(Expr *expr, Operator *op, int lineNo, int charNo) : expr{expr}, op{op}, Expr{lineNo, charNo}
         {
 
         }

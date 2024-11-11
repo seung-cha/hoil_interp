@@ -10,7 +10,7 @@ namespace ASTs
     class Program : public AST
     {
         public:
-        Program(List *list) : list{list}
+        Program(List *list, int lineNo, int charNo) : list{list}, AST{lineNo, charNo}
         {
 
         }

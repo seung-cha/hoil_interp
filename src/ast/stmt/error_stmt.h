@@ -8,6 +8,10 @@ namespace ASTs
     class ErrorStmt : public Stmt
     {
         public:
+        ErrorStmt(int lineNo, int charNo) : Stmt{lineNo, charNo}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

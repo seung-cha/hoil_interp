@@ -11,8 +11,8 @@ namespace ASTs
     class ForStmt : public Stmt
     {
         public:
-        ForStmt(List *list, Stmt *cond, Expr *postOp, Stmt *body) : list{list}, cond{cond},
-        postOp{postOp}, body{body}
+        ForStmt(List *list, Stmt *cond, Expr *postOp, Stmt *body, int lineNo, int charNo) : list{list}, cond{cond},
+        postOp{postOp}, body{body}, Stmt{lineNo, charNo}
         {
 
         }

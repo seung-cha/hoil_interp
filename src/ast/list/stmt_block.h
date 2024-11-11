@@ -11,7 +11,7 @@ namespace ASTs
     class StmtBlock : public Block
     {
         public:
-        StmtBlock(Stmt *stmt) : stmt{stmt}
+        StmtBlock(Stmt *stmt, int lineNo, int charNo) : stmt{stmt}, Block{lineNo, charNo}
         {
 
         }

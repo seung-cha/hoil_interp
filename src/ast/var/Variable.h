@@ -11,7 +11,7 @@ namespace ASTs
     class Variable : public AST
     {
         public: 
-        Variable(Identifier *identifier) : identifier{identifier}
+        Variable(Identifier *identifier, int lineNo, int charNo) : identifier{identifier}, AST{lineNo, charNo}
         {
 
         }

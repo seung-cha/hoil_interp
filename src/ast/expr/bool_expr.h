@@ -12,7 +12,8 @@ namespace ASTs
         public:
         BoolExpr(BoolLiteral *literal) : literal{literal}
         {
-
+            lineNo = literal->lineNo;
+            charNo = literal->charNo;
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override

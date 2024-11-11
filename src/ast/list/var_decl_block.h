@@ -10,7 +10,7 @@ namespace ASTs
     class VarDeclListBlock : public Block
     {
         public:
-        VarDeclListBlock(List *list) : list{list}
+        VarDeclListBlock(List *list, int lineNo, int charNo) : list{list}, Block{lineNo, charNo}
         {
 
         }

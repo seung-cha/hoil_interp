@@ -8,7 +8,7 @@ namespace ASTs
     class StringType : public Type
     {
         public:
-        StringType() : Type{VarType::STRING}
+        StringType(int lineNo, int charNo) : Type{VarType::STRING, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<StringType>();
+            return std::make_unique<StringType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

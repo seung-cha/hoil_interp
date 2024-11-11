@@ -8,6 +8,11 @@ namespace ASTs
     class EmptyExpr : public Expr
     {
         public:
+        EmptyExpr(int lineNo, int charNo) : Expr{lineNo, charNo}
+        {
+
+        }
+        
         void Print(int ident) override
         {
             PrintIdent(ident);

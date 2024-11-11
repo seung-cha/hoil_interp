@@ -9,7 +9,7 @@ namespace ASTs
     class Terminal : public AST
     {
         public:
-        Terminal(std::string spelling) : spelling{spelling}
+        Terminal(std::string spelling, int lineNo, int charNo) : spelling{spelling}, AST{lineNo, charNo}
         {
 
         }

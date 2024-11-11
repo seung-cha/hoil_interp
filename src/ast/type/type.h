@@ -20,7 +20,7 @@ namespace ASTs
     class Type : public AST
     {
         public:
-        Type(enum VarType type) : dataType{type}
+        Type(enum VarType type, int lineNo, int charNo) : dataType{type}, AST{lineNo, charNo}
         {
 
         }

@@ -11,7 +11,7 @@ namespace ASTs
     class WhileStmt : public Stmt
     {
         public:
-        WhileStmt(Expr *cond, Stmt *stmt) : cond{cond}, stmt{stmt}
+        WhileStmt(Expr *cond, Stmt *stmt, int lineNo, int charNo) : cond{cond}, stmt{stmt}, Stmt{lineNo, charNo}
         {
         
         }

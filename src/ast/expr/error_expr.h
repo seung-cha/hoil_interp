@@ -10,7 +10,11 @@ namespace ASTs
     class ErrorExpr : public Expr
     {
         public:
+        ErrorExpr(int lineNo, int charNo) : Expr{lineNo, charNo}
+        {
 
+        }
+        
         void Print(int ident) override
         {
             PrintIdent(ident);

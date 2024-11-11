@@ -10,7 +10,7 @@ namespace ASTs
     class BinaryExpr : public Expr
     {
         public:
-        BinaryExpr(Expr *lhs, Expr *rhs, Operator *op) : lhs{lhs}, rhs{rhs}, op{op}
+        BinaryExpr(Expr *lhs, Expr *rhs, Operator *op, int lineNo, int charNo) : lhs{lhs}, rhs{rhs}, op{op}, Expr{lineNo, charNo}
         {
 
         }

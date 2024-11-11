@@ -10,7 +10,7 @@ namespace ASTs
     class FunctionCallExpr : public Expr
     {
         public:
-        FunctionCallExpr(Identifier *identifier, List *args) : identifier{identifier}, args{args}
+        FunctionCallExpr(Identifier *identifier, List *args, int lineNo, int charNo) : identifier{identifier}, args{args}, Expr{lineNo, charNo}
         {
 
         }

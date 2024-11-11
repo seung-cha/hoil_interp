@@ -15,6 +15,30 @@ void Parser::Next()
     currentLexicon = lexer->GetLexicon();
 }
 
+int Parser::LineNo()
+{
+    if(!currentLexicon)
+        return 0;
+
+    return currentLexicon->LineNo;
+}
+
+int Parser::CharNo()
+{
+    if(!currentLexicon)
+        return 0;
+    
+    return currentLexicon->CharNo;
+}
+
+std::string Parser::Spelling()
+{
+    if(!currentLexicon)
+        return 0;
+        
+    return currentLexicon->spelling;
+}
+
 bool Parser::LexemeIs(Lexicons::LexiconId id)
 {
     if(!currentLexicon)
@@ -49,7 +73,7 @@ void Parser::ReportMismatch()
     else
     {
         std::ostringstream ss;
-        ss << "Unexpected Token: " << currentLexicon->Verbose();
+        ss << "Unexpected Token: " << currentLexicon->Verbose() << " (" << LineNo() << ", " << CharNo() << ")";
         errorMsgs.push_back(ss.str());
         //Next();
     }
@@ -70,7 +94,7 @@ std::unique_ptr<ASTs::Program> Parser::ParseProgram()
 
     Match(Lexicon::END_OF_FILE);
 
-    return std::make_unique<ASTs::Program>(list.release());
+    return std::make_unique<ASTs::Program>(list.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseLocalVarDeclList()
@@ -108,7 +132,7 @@ std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
     auto expr = ParseVarDeclExpr();
 
     // Fill Type later
-    return std::make_unique<ASTs::VarDecl>(nullptr, ident.release(), expr.release());
+    return std::make_unique<ASTs::VarDecl>(nullptr, ident.release(), expr.release(), LineNo(), CharNo());
 }
 
 
@@ -122,10 +146,10 @@ std::unique_ptr<ASTs::Expr> Parser::ParseVarDeclExpr()
     }
     else
     {
-        expr = std::make_unique<ASTs::EmptyExpr>();
+        expr = std::make_unique<ASTs::EmptyExpr>(LineNo(), CharNo());
     }
 
-    return std::make_unique<ASTs::VarDeclExpr>(expr.release());
+    return std::make_unique<ASTs::VarDeclExpr>(expr.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseFuncDeclList()
@@ -162,7 +186,7 @@ std::unique_ptr<ASTs::Decl> Parser::ParseFuncDecl()
 
     auto stmt = ParseCompoundStmt();
 
-    return std::make_unique<ASTs::FuncDecl>(type.release(), ident.release(), params.release(), stmt.release());
+    return std::make_unique<ASTs::FuncDecl>(type.release(), ident.release(), params.release(), stmt.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseParamList()
@@ -187,7 +211,7 @@ std::unique_ptr<ASTs::Param> Parser::ParseParam()
     auto type = ParseType();
     auto iden = ParseIdentifier();
 
-    return std::make_unique<ASTs::Param>(type.release(), iden.release());
+    return std::make_unique<ASTs::Param>(type.release(), iden.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseArgList()
@@ -211,7 +235,7 @@ std::unique_ptr<ASTs::List> Parser::ParseArgList()
 
 std::unique_ptr<ASTs::Arg> Parser::ParseArg()
 {
-    return std::make_unique<ASTs::Arg>(ParseExpr().release());
+    return std::make_unique<ASTs::Arg>(ParseExpr().release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Type> Parser::ParseType()
@@ -221,26 +245,26 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
     {
         case Lexicon::INT:
         Next();
-        ptr = std::make_unique<ASTs::IntType>();
+        ptr = std::make_unique<ASTs::IntType>(LineNo(), CharNo());
         break;
         case Lexicon::REAL:
         Next();
-        ptr = std::make_unique<ASTs::RealType>();
+        ptr = std::make_unique<ASTs::RealType>(LineNo(), CharNo());
         break;
         case Lexicon::BOOL:
         Next();
-        ptr = std::make_unique<ASTs::BoolType>();
+        ptr = std::make_unique<ASTs::BoolType>(LineNo(), CharNo());
         break;
         case Lexicon::VOID:
         Next();
-        ptr = std::make_unique<ASTs::VoidType>();
+        ptr = std::make_unique<ASTs::VoidType>(LineNo(), CharNo());
         break;
         case Lexicon::STRING:
         Next();
-        ptr = std::make_unique<ASTs::StringType>();
+        ptr = std::make_unique<ASTs::StringType>(LineNo(), CharNo());
         break;
         default:
-        ptr = std::make_unique<ASTs::ErrorType>();
+        ptr = std::make_unique<ASTs::ErrorType>(LineNo(), CharNo());
         ReportMismatch();
     }
     return ptr;
@@ -264,7 +288,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseAssignmentExpr()
             auto op = ParseOperator();
             auto expr2 = ParseAssignmentExpr();
 
-            expr1 = std::make_unique<ASTs::AssignExpr>(expr1.release(), expr2.release(), op.release());
+            expr1 = std::make_unique<ASTs::AssignExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
         }
 
     return expr1;
@@ -277,7 +301,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseLogicalOrExpr()
     {
         auto op = ParseOperator();
         auto expr2 = ParseLogicalOrExpr();
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
 
     return expr1;
@@ -290,7 +314,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseLogicalAndExpr()
     {
         auto op = ParseOperator();
         auto expr2 = ParseLogicalAndExpr();
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
 
     return expr1;
@@ -304,7 +328,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseEqualityExpr()
     {
         auto op = ParseOperator();
         auto expr2 = ParseEqualityExpr();
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
 
     return expr1;
@@ -320,7 +344,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseRelationExpr()
     {
         auto op = ParseOperator();
         auto expr2 = ParseRelationExpr();
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
 
     return expr1;
@@ -335,7 +359,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseAdditiveExpr()
         auto op = ParseOperator();
         auto expr2 = ParseAdditiveExpr();
 
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
 
     return expr1;
@@ -351,7 +375,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseMultiplicativeExpr()
     {
         auto op = ParseOperator();
         auto expr2 = ParseMultiplicativeExpr();
-        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release());
+        expr1 = std::make_unique<ASTs::BinaryExpr>(expr1.release(), expr2.release(), op.release(), LineNo(), CharNo());
     }
     return expr1;
 }
@@ -364,7 +388,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseUnaryExpr()
         auto op = ParseOperator();
         auto expr2 = ParseUnaryExpr();
 
-        return std::make_unique<ASTs::PreUnaryExpr>(expr2.release(), op.release());
+        return std::make_unique<ASTs::PreUnaryExpr>(expr2.release(), op.release(), LineNo(), CharNo());
     }
     else
     {
@@ -395,18 +419,18 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
             }
             Match(Lexicon::CPAREN);
 
-            expr = std::make_unique<ASTs::FunctionCallExpr>(identifier.release(), argList);
+            expr = std::make_unique<ASTs::FunctionCallExpr>(identifier.release(), argList, LineNo(), CharNo());
         }
         else if(LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::UNARY_SUB))
         {
             auto op = ParseOperator();
-            auto var = new ASTs::VariableExpr(new ASTs::Variable(identifier.release()));
+            auto var = new ASTs::VariableExpr(new ASTs::Variable(identifier.release(), LineNo(), CharNo()));
 
-            expr = std::make_unique<ASTs::PostUnaryExpr>(var, op.release());
+            expr = std::make_unique<ASTs::PostUnaryExpr>(var, op.release(), LineNo(), CharNo());
         }
         else
         {
-            expr = std::make_unique<ASTs::VariableExpr>(new ASTs::Variable(identifier.release()));
+            expr = std::make_unique<ASTs::VariableExpr>(new ASTs::Variable(identifier.release(), LineNo(), CharNo()));
         }
     }
     else if(LexemeIs(Lexicon::INTVAL))
@@ -438,7 +462,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
     else
     {
         ReportMismatch();
-        expr = std::make_unique<ASTs::ErrorExpr>();
+        expr = std::make_unique<ASTs::ErrorExpr>(LineNo(), CharNo());
     }
 
     return expr;
@@ -477,14 +501,14 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseExprStmt()
     if(LexemeIs(Lexicon::SEMICOLON))
     {
         Next();
-        return std::make_unique<ASTs::EmptyStmt>();
+        return std::make_unique<ASTs::EmptyStmt>(LineNo(), CharNo());
     }
     else
     {
         auto expr = ParseExpr();
         Match(Lexicon::SEMICOLON);
 
-        return std::make_unique<ASTs::ExprStmt>(expr.release());
+        return std::make_unique<ASTs::ExprStmt>(expr.release(), LineNo(), CharNo());
     }
 }
 
@@ -517,10 +541,10 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseIfStmt()
     }
     else
     {
-        elseStmt = std::make_unique<ASTs::EmptyStmt>();
+        elseStmt = std::make_unique<ASTs::EmptyStmt>(LineNo(), CharNo());
     }
 
-    return std::make_unique<ASTs::IfStmt>(ifCond.release(), ifBody.release(), elifList.release(), elseStmt.release());
+    return std::make_unique<ASTs::IfStmt>(ifCond.release(), ifBody.release(), elifList.release(), elseStmt.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseElifList()
@@ -533,7 +557,7 @@ std::unique_ptr<ASTs::List> Parser::ParseElifList()
 
     auto stmt = ParseStmt();
 
-    std::unique_ptr<ASTs::ElifStmt> elif = std::make_unique<ASTs::ElifStmt>(cond.release(), stmt.release());
+    std::unique_ptr<ASTs::ElifStmt> elif = std::make_unique<ASTs::ElifStmt>(cond.release(), stmt.release(), LineNo(), CharNo());
 
     if(LexemeIs(Lexicon::ELIF))
     {
@@ -563,7 +587,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
         Match(Lexicon::CPAREN);
         Match(Lexicon::SEMICOLON);
 
-        stmt = std::make_unique<ASTs::DoWhileStmt>(cond.release(), body.release());
+        stmt = std::make_unique<ASTs::DoWhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
     }
     else
     {
@@ -580,7 +604,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
 
             auto body = ParseStmt();
 
-            stmt = std::make_unique<ASTs::ForStmt>(list.release(), cond.release(), postOp.release(), body.release());
+            stmt = std::make_unique<ASTs::ForStmt>(list.release(), cond.release(), postOp.release(), body.release(), LineNo(), CharNo());
 
         }
         else
@@ -590,7 +614,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
             Match(Lexicon::CPAREN);
             auto body = ParseStmt();
 
-            stmt = std::make_unique<ASTs::WhileStmt>(cond.release(), body.release());
+            stmt = std::make_unique<ASTs::WhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
         }
 
     }
@@ -604,12 +628,12 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()
     if(LexemeIs(Lexicon::CONTINUE))
     {
         Next();
-        stmt = std::make_unique<ASTs::ContinueStmt>();
+        stmt = std::make_unique<ASTs::ContinueStmt>(LineNo(), CharNo());
     }
     else
     {
         Match(Lexicon::BREAK);
-        stmt = std::make_unique<ASTs::BreakStmt>();
+        stmt = std::make_unique<ASTs::BreakStmt>(LineNo(), CharNo());
 
     }
 
@@ -620,14 +644,14 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()
 std::unique_ptr<ASTs::Stmt> Parser::ParseReturnStmt()
 {
     Match(Lexicon::RETURN);
-    return std::make_unique<ASTs::ReturnStmt>(ParseExprStmt().release());
+    return std::make_unique<ASTs::ReturnStmt>(ParseExprStmt().release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
 {
     if(!Match(Lexicon::OCURLY))
     {
-        return std::make_unique<ASTs::ErrorStmt>();
+        return std::make_unique<ASTs::ErrorStmt>(LineNo(), CharNo());
     }
 
     std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
@@ -637,7 +661,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
     }
 
     Match(Lexicon::CCURLY);
-    return std::make_unique<ASTs::CompoundStmt>(list.release());
+    return std::make_unique<ASTs::CompoundStmt>(list.release(), LineNo(), CharNo());
 }
 
 
@@ -671,12 +695,12 @@ std::unique_ptr<ASTs::Block> Parser::ParseItem()
         LexemeIs(Lexicon::VOID))
     {
         auto list = ParseLocalVarDeclList();
-        block = std::make_unique<ASTs::VarDeclListBlock>(list.release());
+        block = std::make_unique<ASTs::VarDeclListBlock>(list.release(), LineNo(), CharNo());
     }
     else
     {
         auto stmt = ParseStmt();
-        block = std::make_unique<ASTs::StmtBlock>(stmt.release());
+        block = std::make_unique<ASTs::StmtBlock>(stmt.release(), LineNo(), CharNo());
     }
 
     return block;
@@ -685,7 +709,7 @@ std::unique_ptr<ASTs::Block> Parser::ParseItem()
 std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
 {
     // TODO: Handle
-    auto op = std::make_unique<ASTs::Operator>(currentLexicon->spelling);
+    auto op = std::make_unique<ASTs::Operator>(currentLexicon->spelling, LineNo(), CharNo());
 
     Next();
     return op;
@@ -693,10 +717,7 @@ std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
 
 std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
 {
-    if(!LexemeIs(Lexicon::INTVAL))
-        return std::unique_ptr<ASTs::IntLiteral>{};
-
-    auto literal = std::make_unique<ASTs::IntLiteral>(currentLexicon->spelling);
+    auto literal = std::make_unique<ASTs::IntLiteral>(currentLexicon->spelling, LineNo(), CharNo());
     Next();
 
     return literal;
@@ -704,10 +725,7 @@ std::unique_ptr<ASTs::IntLiteral> Parser::ParseIntLiteral()
 
 std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
 {
-    if(!LexemeIs(Lexicon::REALVAL))
-        return std::unique_ptr<ASTs::RealLiteral>{};
-
-    auto literal = std::make_unique<ASTs::RealLiteral>(currentLexicon->spelling);
+    auto literal = std::make_unique<ASTs::RealLiteral>(currentLexicon->spelling, LineNo(), CharNo());
     Next();
 
     return literal;
@@ -715,10 +733,7 @@ std::unique_ptr<ASTs::RealLiteral> Parser::ParseRealLiteral()
 
 std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
 {
-    if(!LexemeIs(Lexicon::BOOLVAL))
-        return std::unique_ptr<ASTs::BoolLiteral>{};
-
-    auto literal = std::make_unique<ASTs::BoolLiteral>(currentLexicon->spelling);
+    auto literal = std::make_unique<ASTs::BoolLiteral>(currentLexicon->spelling, LineNo(), CharNo());
     Next();
 
     return literal;
@@ -726,10 +741,7 @@ std::unique_ptr<ASTs::BoolLiteral> Parser::ParseBoolLiteral()
 
 std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
 {
-    if(!LexemeIs(Lexicon::STRINGVAL))
-        return std::unique_ptr<ASTs::StringLiteral>{};
-
-    auto literal = std::make_unique<ASTs::StringLiteral>(currentLexicon->spelling);
+    auto literal = std::make_unique<ASTs::StringLiteral>(currentLexicon->spelling, LineNo(), CharNo());
     Next();
 
     return literal;
@@ -737,10 +749,7 @@ std::unique_ptr<ASTs::StringLiteral> Parser::ParseStringLiteral()
 
 std::unique_ptr<ASTs::Identifier> Parser::ParseIdentifier()
 {
-    if(!LexemeIs(Lexicon::IDENTIFIER))
-        return std::unique_ptr<ASTs::Identifier>{};
-    
-    auto ident = std::make_unique<ASTs::Identifier>(currentLexicon->spelling);
+    auto ident = std::make_unique<ASTs::Identifier>(currentLexicon->spelling, LineNo(), CharNo());
     Next();
 
     return ident;

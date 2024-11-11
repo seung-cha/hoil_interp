@@ -11,7 +11,7 @@ namespace ASTs
     class Decl : public AST
     {
         public:
-        Decl(Type *type, Identifier *identifier) : type{type}, identifier{identifier}
+        Decl(Type *type, Identifier *identifier, int lineNo, int charNo) : type{type}, identifier{identifier}, AST{lineNo, charNo}
         {
 
         }

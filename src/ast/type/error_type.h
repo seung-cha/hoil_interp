@@ -8,7 +8,7 @@ namespace ASTs
     class ErrorType : public Type
     {
         public:
-        ErrorType() : Type{VarType::ERROR}
+        ErrorType(int lineNo, int charNo) : Type{VarType::ERROR, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<ErrorType>();
+            return std::make_unique<ErrorType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

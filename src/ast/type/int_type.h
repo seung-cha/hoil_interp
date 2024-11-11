@@ -8,7 +8,7 @@ namespace ASTs
     class IntType : public Type
     {
         public:
-        IntType() : Type{VarType::INT}
+        IntType(int lineNo, int charNo) : Type{VarType::INT, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<IntType>();
+            return std::make_unique<IntType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

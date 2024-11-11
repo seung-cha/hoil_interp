@@ -9,7 +9,7 @@ namespace ASTs
     class ReturnStmt : public Stmt
     {
         public:
-        ReturnStmt(Stmt *stmt) : stmt{stmt}
+        ReturnStmt(Stmt *stmt, int lineNo, int charNo) : stmt{stmt}, Stmt{lineNo, charNo}
         {
 
         }

@@ -9,7 +9,7 @@ namespace ASTs
     class VarDeclExpr : public Expr
     {
         public:
-        VarDeclExpr(Expr *expr) : expr{expr}
+        VarDeclExpr(Expr *expr, int lineNo, int charNo) : expr{expr}, Expr{lineNo, charNo}
         {
 
         }

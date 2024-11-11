@@ -8,7 +8,7 @@ namespace ASTs
     class Literal : public Terminal
     {
         public:
-        Literal(std::string spelling) : Terminal{spelling}
+        Literal(std::string spelling, int lineNo, int charNo) : Terminal{spelling, lineNo, charNo}
         {
             
         }

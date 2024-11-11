@@ -9,7 +9,7 @@ namespace ASTs
     class Operator : public Terminal
     {
         public:
-        Operator(std::string spelling) : Terminal{spelling}
+        Operator(std::string spelling, int lineNo, int charNo) : Terminal{spelling, lineNo, charNo}
         {
             if(spelling == "==" || spelling == "!=" ||
             spelling == "<=" || spelling == ">=" || 
@@ -18,6 +18,11 @@ namespace ASTs
             {
                 boolOp = true;
             }
+        }
+
+        Operator(std::string spelling) : Terminal{spelling, 0, 0}
+        {
+
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override

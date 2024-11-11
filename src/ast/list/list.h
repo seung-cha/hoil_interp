@@ -7,6 +7,11 @@ namespace ASTs
 {
     class List : public AST
     {
+        public:
+        List()
+        {
+
+        }
 
     };
 }

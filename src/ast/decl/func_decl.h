@@ -14,7 +14,7 @@ namespace ASTs
     class FuncDecl : public Decl
     {
         public:
-        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt) : Decl{type, identifier},
+        FuncDecl(Type *type, Identifier *identifier, List *params, Stmt *stmt, int lineNo, int charNo) : Decl{type, identifier, lineNo, charNo},
         params{params}, stmt{stmt}
         {
 

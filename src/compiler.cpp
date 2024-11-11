@@ -132,7 +132,7 @@ bool Compiler::Run()
 
 void Compiler::ReserveFunc(ASTs::VarType type, std::string decl, std::vector<ASTs::VarType> params, std::vector<std::string> paramIdent)
 {
-    ASTs::Identifier *funcIdent = new ASTs::Identifier(decl);
+    ASTs::Identifier *funcIdent = new ASTs::Identifier(decl, 0, 0);
     ASTs::List *funcList = nullptr;
     ASTs::Type *funcType = MakeType(type);
 
@@ -157,8 +157,8 @@ void Compiler::ReserveFunc(ASTs::VarType type, std::string decl, std::vector<AST
 
             paramType = MakeType(params[i]);
 
-            ASTs::Identifier *ident = new ASTs::Identifier(paramIdent[i]);
-            ASTs::Param *param = new ASTs::Param(paramType, ident);
+            ASTs::Identifier *ident = new ASTs::Identifier(paramIdent[i], 0, 0);
+            ASTs::Param *param = new ASTs::Param(paramType, ident, 0, 0);
 
             head->param = std::unique_ptr<ASTs::Param>{param};
         }
@@ -171,7 +171,7 @@ void Compiler::ReserveFunc(ASTs::VarType type, std::string decl, std::vector<AST
     }
 
 
-    reservedFuncs.push_back(std::make_unique<ASTs::FuncDecl>(funcType, funcIdent, funcList, new ASTs::EmptyStmt()));
+    reservedFuncs.push_back(std::make_unique<ASTs::FuncDecl>(funcType, funcIdent, funcList, new ASTs::EmptyStmt(0, 0), 0, 0));
     reservedFuncs[reservedFuncs.size() - 1]->isFuncDecl = true;
 
 
@@ -182,19 +182,19 @@ ASTs::Type *Compiler::MakeType(ASTs::VarType type)
     switch(type)
     {
         case ASTs::VarType::INT:
-        return new ASTs::IntType();
+        return new ASTs::IntType(0, 0);
         break;
         case ASTs::VarType::REAL:
-        return new ASTs::RealType();
+        return new ASTs::RealType(0, 0);
         break;
         case ASTs::VarType::BOOL:
-        return new ASTs::BoolType();
+        return new ASTs::BoolType(0, 0);
         break;
         case ASTs::VarType::STRING:
-        return new ASTs::StringType();
+        return new ASTs::StringType(0, 0);
         break;
         case ASTs::VarType::VOID:
-        return new ASTs::VoidType();
+        return new ASTs::VoidType(0, 0);
     }
 
     assert(false && "MakeType() couldn't handle type at switch block");

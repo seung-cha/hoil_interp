@@ -8,6 +8,10 @@ namespace ASTs
     class EmptyStmt : public Stmt
     {
         public:
+        EmptyStmt(int lineNo, int charNo) : Stmt{lineNo, charNo}
+        {
+            
+        }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {

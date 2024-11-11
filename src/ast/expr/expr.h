@@ -10,6 +10,15 @@ namespace ASTs
     class Expr : public AST
     {
         public:
+        Expr()
+        {
+
+        }
+        Expr(int lineNo, int charNo) : AST{lineNo, charNo}
+        {
+
+        }
+
         std::unique_ptr<Type> type{};
         bool assignable = false;
     };

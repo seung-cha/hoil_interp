@@ -8,7 +8,7 @@ namespace ASTs
     class VoidType : public Type
     {
         public:
-        VoidType() : Type{VarType::VOID}
+        VoidType(int lineNo, int charNo) : Type{VarType::VOID, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<VoidType>();
+            return std::make_unique<VoidType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

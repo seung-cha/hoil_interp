@@ -8,7 +8,7 @@ namespace ASTs
     class RealType : public Type
     {
         public:
-        RealType() : Type{VarType::REAL}
+        RealType(int lineNo, int charNo) : Type{VarType::REAL, lineNo, charNo}
         {
             
         }
@@ -26,7 +26,7 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<RealType>();
+            return std::make_unique<RealType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)

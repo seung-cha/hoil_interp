@@ -7,7 +7,12 @@ namespace ASTs
 {
     class Block : public AST
     {
+        public:
+        Block(int lineNo, int charNo) : AST{lineNo, charNo}
+        {
 
+        }
+        
     };
 }
 

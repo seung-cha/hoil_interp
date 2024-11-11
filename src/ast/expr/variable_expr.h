@@ -12,7 +12,8 @@ namespace ASTs
         public:
         VariableExpr(Variable *variable) : variable{variable}
         {
-
+            lineNo = variable->lineNo;
+            charNo = variable->charNo;
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override

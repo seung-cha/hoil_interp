@@ -10,7 +10,7 @@ namespace ASTs
     class VarDecl : public Decl
     {
         public:
-        VarDecl(Type *type, Identifier *identifier, Expr *expr) : Decl{type, identifier}, expr{expr}
+        VarDecl(Type *type, Identifier *identifier, Expr *expr, int lineNo, int charNo) : Decl{type, identifier, lineNo, charNo}, expr{expr}
         {
 
         }

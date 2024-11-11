@@ -11,8 +11,8 @@ namespace ASTs
     class IfStmt : public Stmt
     {
         public:
-        IfStmt(Expr *cond, Stmt *ifStmt, List *elifList, Stmt *elseStmt) : 
-        cond{cond}, ifStmt{ifStmt}, elifList{elifList}, elseStmt{elseStmt}
+        IfStmt(Expr *cond, Stmt *ifStmt, List *elifList, Stmt *elseStmt, int lineNo, int charNo) : 
+        cond{cond}, ifStmt{ifStmt}, elifList{elifList}, elseStmt{elseStmt}, Stmt{lineNo, charNo}
         {
 
         }

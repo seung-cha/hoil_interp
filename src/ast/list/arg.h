@@ -10,7 +10,7 @@ namespace ASTs
     class Arg : public AST
     {
         public:
-        Arg(Expr *expr) : expr{expr}
+        Arg(Expr *expr, int lineNo, int charNo) : expr{expr}, AST{lineNo, charNo}
         {
 
         }

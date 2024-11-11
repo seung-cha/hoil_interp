@@ -8,7 +8,7 @@ namespace ASTs
     class Identifier : public Terminal
     {
         public:
-        Identifier(std::string spelling) : Terminal{spelling}
+        Identifier(std::string spelling, int lineNo, int charNo) : Terminal{spelling, lineNo, charNo}
         {
 
         }
