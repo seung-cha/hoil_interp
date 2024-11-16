@@ -1,5 +1,6 @@
-# Toylan
-Compiler for statistically typed language Toylan(guage) written in C++.
+# Human-Oriented Instruction Language
+My Honours project
+
 
 
 ## Specifications
@@ -8,62 +9,87 @@ Compiler for statistically typed language Toylan(guage) written in C++.
 
 
 # Overview
-Toylan is designed to be simple to learn and easy to use.
+HOIL aims to loosen grammar restrictions as much as possible with the help of AI (yay, another AI product).
+
+# Instruction
+Each line contains at most one instruction. Instruction is one of `declaration` or `statement`. Instruction must terminate with a new line or EOF.
+
+# Type
+HOIL supports 5 types:
+`Number`, `Logic`, `Sentence`, `Object`, `Attribute`
+
+
+## Variable Declaration and Initialisation
+HOIL infers type from instruction. 
+```
+{identifier} is 3
+```
+The instruction above declares `{identifier}` and assigns it a value of 3 (`Number` type).
+
+Users can declare variables without initial value
+```
+{identifier} is Number
+```
+This instruction declares `{identifier}` but does not assign a value. Attempting to use this variable will result in compilation error.
+
+Type is fixed. That is, once a type is determined, attempting to assign a value of different type will result in a compilation error:
+```
+{identifier} is Number
+{identifier} is true # An attempt to assign a logic value
+
+# ERROR!
+```
+
+## Attribute
+`Attribute` qualifies `Object`. Unlike other types, `Attribute` cannot be changed later once defined.
+
+```
+small_cube is Attribute: "a cube block whose size is 10 cubic centimetres"
+red_color is Attribute: "red object"
+```
+
+```
+small_cube is Attribute
+small_cube is "a cube block whose size is 10 cubic cemtimetres" # ERROR
+```
+
+If value is omitted, name qualifies the attribute.
+```
+cube is Attribute # equivalent to cube is Attribute: "cube"
+```
+
+## Object
+`Object` consists of one or more `Attribute`. Multiple `Attribute` can be joined together as a logic.
+
+```
+small_red_cube is Object
+small_red_cube is small_cube and red_color
+
+# small_red_cube is a cube that is small and red
+```
+
+```
+small_or_red_object is Object
+small_or_red_object is small_cube or red_color
+
+# small_or_red_object is either a small cube or anything that is red.
+```
+Similar to `Attribute`, once an `Object` is specified, it cannot be changed later.
+
+TOOD: What should happen when it fails to allocate object?
+
 
 ## Reserved Keywords
 Following keywords are reserved and cannot be used as an identifier.
 ```
-int,    real,   bool,   void,   string,   true,   false,  if,     elif,   else,    
-for,    while,  do,     break,  continue, return, loop,   until
+
 ```
 
 ## Identifier
-Identifiers are defined with alphanumerics and underscore. Identifiers must start with an alphabet or an underscore. 
-
-Examples of well-formed identifiers
-
-```
-correctId
-_
-_3124
-Valid
-correct_1_Identifier
-```
-Examples of ill-formed identifiers
-```
-1invalid
-invalid_+identifier
-_not-valid
-```
-
-## Data Types
-Toylan features the following primitive data types - 
-* `int`: Signed whole numbers in 4 bytes range. (equivalent to `int32_t`)
-* `real`: Signed real numbers in 4 bytes range. (equivalent to `float`)
-* `bool`: true, false. 1 byte range. (equivalent to `bool`)
-
-## Operations
-Following operations can be performed on `int` and `real`  
-* `+`: Arithmetic addition.
-* `-`: Arithmetic subtraction.
-* `*`: Arithmetic multiplication.
-* `/`: Arithmetic division.
-
-Following operations can only be performed on `int`  
-* `%`: Arithmetic modulo (remainder).
-
-Following operations are boolean operations and the effects are obvious:
-* `!` Negation
-* `==` Equality
-* `!=` Inequality
-* `>` Strictly greater
-* `<` Strictly less
-* `>=` Greater or equal
-* `<=` Less or equal
-
+Identifiers are defined with alphanumerics. Identifiers must start with an alphabet.
 
 ## Comments
-Toylan uses `#` to indicate the beginning of a comment.  
+HOIL uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
 
 
