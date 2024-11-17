@@ -183,11 +183,17 @@ namespace LexerComponents
                 case ';':
                 lex = new Lexicons::Semicolon(lineNo, charNo);
                 break;
+                case ':':
+                lex = new Lexicons::Colon(lineNo, charNo);
+                break;
                 case EOF:
                 lex = new Lexicons::EndOfFile(lineNo, charNo);
                 break;
                 case ',':
                 lex = new Lexicons::Comma(lineNo, charNo);
+                break;
+                case '\n':
+                lex = new Lexicons::Newline(lineNo, charNo);
                 break;
                 default:
                 error_lex:

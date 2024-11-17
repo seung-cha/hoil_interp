@@ -110,22 +110,22 @@ bool Compiler::Run()
     }
 
 
-    Analyser analyser{parser.program.get(), reservedFuncs};
+    // Analyser analyser{parser.program.get(), reservedFuncs};
 
-    if(analyser.errorMsgs.size() != 0)
-    {
-        for(auto& msg : analyser.errorMsgs)
-        {
-            std::cout << msg << std::endl;
-        }
+    // if(analyser.errorMsgs.size() != 0)
+    // {
+    //     for(auto& msg : analyser.errorMsgs)
+    //     {
+    //         std::cout << msg << std::endl;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    if(test_analyser)
-    {
-        return true;
-    }
+    // if(test_analyser)
+    // {
+    //     return true;
+    // }
 
     return true;
 }

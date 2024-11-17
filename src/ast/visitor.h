@@ -32,6 +32,9 @@ namespace ASTs
     class ForStmt;
     class WhileStmt;
     class ReturnStmt;
+    class InstructStmt;
+    class DeclStmt;
+
     
     class ArgList;
     class Arg;
@@ -66,6 +69,7 @@ namespace ASTs
     class Variable;
     class Identifier;
 
+    
     class Program;
 
     class Visitor
@@ -103,6 +107,8 @@ namespace ASTs
         virtual AST *VisitForStmt(ForStmt *stmt, AST *obj) = 0;
         virtual AST *VisitWhileStmt(WhileStmt* Stmt, AST *obj) = 0;
         virtual AST *VisitReturnStmt(ReturnStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitInstructStmt(InstructStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitDeclStmt(DeclStmt *stmt, AST *obj) = 0;
 
         // Lists
         virtual AST *VisitArgList(ArgList *list, AST *obj) = 0;

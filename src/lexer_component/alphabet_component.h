@@ -71,19 +71,19 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Continue(lineNo, charNo);
             }
-            else if(str == "int")
-            {
-                lex = new Lexicons::Int(lineNo, charNo);
-            }
-            else if(str == "real")
+            // else if(str == "int")
+            // {
+            //     lex = new Lexicons::Int(lineNo, charNo);
+            // }
+            else if(str == "Number" || str == "number")
             {
                 lex = new Lexicons::Real(lineNo, charNo);
             }
-            else if(str == "bool")
+            else if(str == "Logic" || str == "logic")
             {
                 lex = new Lexicons::Bool(lineNo, charNo);
             }
-            else if(str == "string")
+            else if(str == "Sentence" || str == "sentence")
             {
                 lex = new Lexicons::String(lineNo, charNo);
             }
@@ -103,9 +103,21 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Until(lineNo, charNo);
             }
+            else if(str == "Object" || str == "object")
+            {
+                lex = new Lexicons::Object(lineNo, charNo);
+            }
+            else if(str == "Attribute" || str == "attribute")
+            {
+                lex = new Lexicons::Attribute(lineNo, charNo);
+            }
+            else if(str == "Is" || str == "is")
+            {
+                lex = new Lexicons::Is(lineNo, charNo);
+            }
             else
             {
-                while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
+                while(isalnum(scanner->currentChar))
                 {   
                     ss << scanner->currentChar;
                     scanner->Next();

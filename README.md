@@ -96,13 +96,11 @@ A comment may appear at the start or end of a line. The effect of comment persis
 # Context Free Grammar
 Non terminals are represented with a capital letter.
 ```
-                  program -> (func_decl)*
+                  program -> (stmt)*
 
        # Variable declaration
-      local_var_decl_list -> type var_decl_list ";"
-            var_decl_list -> var_decl ("," var_decl_list)*
-                 var_decl -> Identifier var_decl_expr
-            var_decl_expr -> ("=" expr)?
+                 var_decl -> identifier is (Type | expr)?
+
 
        # Function declaration, params and args
                 func_decl -> type Identifier "(" param_list? ")" compound_stmt
@@ -112,11 +110,8 @@ Non terminals are represented with a capital letter.
                  arg_list -> arg ("," arg)*
                       arg -> expr
 
-
        # Expressions
-                     expr -> assignment_expr
-          assignment_expr -> logical_or_expr
-                           | assignment_expr assign_op logical_or_expr
+                     expr -> logical_or_expr
           logical_or_expr -> logical_or_expr "||" logical_and_expr
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
@@ -160,9 +155,9 @@ Non terminals are represented with a capital letter.
                            | jump_stmt
                            | return_stmt
                            | compound_stmt
+                           | instruct_stmt
 
-                expr_stmt -> ";"
-                           | expr ";"
+                expr_stmt -> var_decl
                   if_stmt -> If "(" expr" )" stmt ( Elif "(" expr ")" stmt )* ( Else stmt )?
                 loop_stmt -> Loop "(" expr ")" stmt
                            | Loop "(" local_var_decl_list expr_stmt expr ")" stmt
@@ -171,10 +166,12 @@ Non terminals are represented with a capital letter.
                            | Break ";"
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" item_list? "}"
+            instruct_stmt -> > STRINGLITERAL # TODO
 
                item_list -> item (item_list)*
                     item -> local_var_decl_list | stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
-                     type -> Int | Real | String | Bool | Void
+
+                     Type -> Number | Logic | Sentence | Object
 ```

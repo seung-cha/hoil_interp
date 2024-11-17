@@ -36,12 +36,12 @@ char Scanner::Seek()
     }
     
     char const peek = _peek();
-    if(currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '#')
+    if(currentChar == ' ' || currentChar == '\t' || currentChar == '#')
     {
         _trimBlanks();
         return currentChar;
     } 
-    else if(peek == ' ' || peek == '\t' || peek == '\n' || peek == '#')
+    else if(peek == ' ' || peek == '\t' || peek == '#')
     {
         _readChar();
         _trimBlanks();
@@ -79,6 +79,13 @@ char Scanner::_readChar()
     charNo++;
     currentChar = stream.get();
 
+    // TODO: better info on newline token
+    if(currentChar == '\n')
+    {
+        charNo = 0;
+        lineNo++;
+    }
+
 
     return currentChar;
 }
@@ -105,10 +112,10 @@ void Scanner::_trimBlanks()
             case '\t':
             charNo += BLANK_SPACE - 1; // _readChar() increments it by 1
             break;
-            case '\n':
-            charNo = 0;    // _readChar() resets it to 0. 
-            lineNo++;
-            break;
+            // case '\n':
+            // charNo = 0;    // _readChar() resets it to 0. 
+            // lineNo++;
+            // break;
             case '#':
             //Skip the entire line
             getline(stream, temp);
