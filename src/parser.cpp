@@ -505,6 +505,22 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
     {
         return ParseInstructStmt();
     }
+    else if(LexemeIs(Lexicon::IF))
+    {
+        return ParseIfStmt();
+    }
+    else if(LexemeIs(Lexicon::LOOP))
+    {
+        return ParseLoopStmt();
+    }
+    else if(LexemeIs(Lexicon::BREAK) || LexemeIs(Lexicon::CONTINUE))
+    {
+        return ParseJumpStmt();
+    }
+    else if(LexemeIs(Lexicon::OCURLY))
+    {
+        return ParseCompoundStmt();
+    }
     else if(LexemeIs(Lexicon::IDENTIFIER))
     {
         // This is really just a decl stmt
@@ -645,10 +661,9 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()
     {
         Match(Lexicon::BREAK);
         stmt = std::make_unique<ASTs::BreakStmt>(LineNo(), CharNo());
-
     }
 
-    Match(Lexicon::SEMICOLON);
+    Match(Lexicon::NEWLINE);
     return stmt;
 }
 

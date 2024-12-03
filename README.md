@@ -181,7 +181,6 @@ Non terminals are represented with a capital letter.
                            | if_stmt
                            | loop_stmt
                            | jump_stmt
-                           | return_stmt
                            | compound_stmt
                            | instruct_stmt
 
@@ -189,8 +188,8 @@ Non terminals are represented with a capital letter.
                   if_stmt -> If expr "\n" stmt (Elif expr "\n" stmt )* ( Else "\n" stmt )?
                 loop_stmt -> Repeat "\n" stmt
                            | Repeat Until expr "\n" stmt
-                jump_stmt -> Continue ";"
-                           | Break ";"
+                jump_stmt -> Continue
+                           | Break
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" item_list? "}"
             instruct_stmt -> > STRINGLITERAL # TODO
