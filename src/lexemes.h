@@ -61,6 +61,9 @@
 #include "lexicon/keyword/loop.h"
 #include "lexicon/keyword/return.h"
 #include "lexicon/keyword/until.h"
+#include "lexicon/keyword/is.h"
+#include "lexicon/keyword/equal_kwd.h"
+#include "lexicon/keyword/not_kwd.h"
 
 // Misc
 #include "lexicon/misc/oparen.h"

@@ -75,15 +75,15 @@ namespace LexerComponents
             // {
             //     lex = new Lexicons::Int(lineNo, charNo);
             // }
-            else if(str == "Number" || str == "number")
+            else if(str == "Number")
             {
                 lex = new Lexicons::Real(lineNo, charNo);
             }
-            else if(str == "Logic" || str == "logic")
+            else if(str == "Logic")
             {
                 lex = new Lexicons::Bool(lineNo, charNo);
             }
-            else if(str == "Sentence" || str == "sentence")
+            else if(str == "Sentence")
             {
                 lex = new Lexicons::String(lineNo, charNo);
             }
@@ -103,17 +103,33 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Until(lineNo, charNo);
             }
-            else if(str == "Object" || str == "object")
+            else if(str == "Object")
             {
                 lex = new Lexicons::Object(lineNo, charNo);
             }
-            else if(str == "Attribute" || str == "attribute")
+            else if(str == "Attribute")
             {
                 lex = new Lexicons::Attribute(lineNo, charNo);
             }
-            else if(str == "Is" || str == "is")
+            else if(str == "is")
             {
                 lex = new Lexicons::Is(lineNo, charNo);
+            }
+            else if(str == "not")
+            {
+                lex = new Lexicons::NotKwd(lineNo,  charNo);
+            }
+            else if(str == "equals")
+            {
+                lex = new Lexicons::EqualKwd(lineNo, charNo);
+            }
+            else if(str == "and")
+            {
+                lex = new Lexicons::LogicalAnd(lineNo, charNo);
+            }
+            else if(str == "or")
+            {
+                lex = new Lexicons::LogicalOr(lineNo, charNo);
             }
             else
             {
