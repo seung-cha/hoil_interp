@@ -24,6 +24,7 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Instruct Stmt>" << std::endl;
+            literal->Print(ident + 1);
         }
 
         std::unique_ptr<StringLiteral> literal;

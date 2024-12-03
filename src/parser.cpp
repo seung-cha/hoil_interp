@@ -56,8 +56,7 @@ bool Parser::Match(Lexicons::LexiconId id)
         ReportMismatch();
         matched = false;
     }
-    
-    if(currentLexicon)
+    else if(!LexemeIs(Lexicon::END_OF_FILE))
     {
         Next();
     }
@@ -73,10 +72,16 @@ void Parser::ReportMismatch()
     }
     else
     {
+
         std::ostringstream ss;
         ss << "Unexpected Token: " << currentLexicon->Verbose() << " (" << LineNo() << ", " << CharNo() << ")";
         errorMsgs.push_back(ss.str());
-        //Next();
+
+        // TODO: Hot fix
+        if(!LexemeIs(Lexicon::END_OF_FILE))
+        {
+            Next();
+        }
     }
 }
 
@@ -134,22 +139,38 @@ std::unique_ptr<ASTs::List> Parser::ParseVarDeclList()
 std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
 {
     auto ident = ParseIdentifier();
-    std::unique_ptr<ASTs::Type> type{};
-    std::unique_ptr<ASTs::Expr> expr{};
+    std::unique_ptr<ASTs::Type> type = std::make_unique<ASTs::VoidType>(0, 0);  // Denotes none type
+    std::unique_ptr<ASTs::Expr> expr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
     if(LexemeIs(Lexicon::IS))
     {
         Next();
 
-        if(LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::BOOL) || 
-        LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon::OBJECT))
+        // Handle object or attrib decl specifically as they have a different gramamar
+        if(LexemeIs(Lexicon::OBJECT) || LexemeIs(Lexicon::ATTRIBUTE))
         {
-            type = std::move(ParseType());
+            type =  std::move(ParseType());
+
+            if(LexemeIs(Lexicon::COLON))
+            {
+                Next();
+                expr = std::move(ParseExpr());
+            }
+
         }
         else
         {
-            expr = std::move(ParseExpr());
+            if(LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::BOOL) || 
+            LexemeIs(Lexicon::STRING))
+            {
+                type = std::move(ParseType());
+            }
+            else
+            {
+                expr = std::move(ParseExpr());
+            }
         }
+
     }
 
     // Fill Type later
@@ -283,6 +304,14 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         case Lexicon::STRING:
         Next();
         ptr = std::make_unique<ASTs::StringType>(LineNo(), CharNo());
+        break;
+        case Lexicon::OBJECT:
+        Next();
+        ptr = std::make_unique<ASTs::ObjectType>(LineNo(), CharNo());
+        break;
+        case Lexicon::ATTRIBUTE:
+        Next();
+        ptr = std::make_unique<ASTs::AttributeType>(LineNo(), CharNo());
         break;
         default:
         ptr = std::make_unique<ASTs::ErrorType>(LineNo(), CharNo());

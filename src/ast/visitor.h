@@ -59,6 +59,8 @@ namespace ASTs
     class RealType;
     class VoidType;
     class StringType; 
+    class ObjectType;
+    class AttributeType;
 
     class BoolLiteral;
     class IntLiteral;
@@ -135,6 +137,8 @@ namespace ASTs
         virtual AST *VisitRealType(RealType *type, AST *obj) = 0;
         virtual AST *VisitVoidType(VoidType *type, AST *obj) = 0;
         virtual AST *VisitStringType(StringType *type, AST *obj) = 0;
+        virtual AST *VisitObjectType(ObjectType *type, AST *obj) = 0;
+        virtual AST *VisitAttributeType(AttributeType *type, AST *obj) = 0;
 
         // Literals
         virtual AST *VisitBoolLiteral(BoolLiteral *literal, AST *obj) = 0;

@@ -38,7 +38,14 @@ Type is fixed. That is, once a type is determined, attempting to assign a value 
 {identifier} is true # An attempt to assign a logic value
 
 # ERROR!
+
 ```
+Multi-variable declaration and assignment is prohibited.
+```
+int a, b, c;
+a = b = c;
+```
+The equivalence of these expressions doesn't exist in HOIL.
 
 ## Attribute
 `Attribute` qualifies `Object`. Unlike other types, `Attribute` cannot be changed later once defined.
@@ -88,6 +95,18 @@ Following keywords are reserved and cannot be used as an identifier.
 ## Identifier
 Identifiers are defined with alphanumerics. Identifiers must start with an alphabet.
 
+## Logical Expression
+Logical (boolean) works as you would expect. A few exceptions:
+* 'is' is equivalent to `==`
+* `not` is negation. Prefix `not` is `!` and `is not` is `!=`. 
+* `and` and `or` for `&&` and `||`
+
+* Equality operation on the `Number` type is interpreted as equality within a small interval. This is because `Number` suppers decimals.
+
+## Loop
+loop until i < 5 with
+
+ 
 ## Comments
 HOIL uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
@@ -100,6 +119,8 @@ Non terminals are represented with a capital letter.
 
        # Variable declaration
                  var_decl -> identifier is (Type | expr)?
+                           | identifier is Attribute (":" expr)?
+                           | identifier is Object (":" expr)?
 
 
        # Function declaration, params and args

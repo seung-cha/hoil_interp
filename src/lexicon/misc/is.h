@@ -8,7 +8,7 @@ namespace Lexicons
     class Is : public Lexicon
     {
         public:
-        Is(int lineNo, int charNo) : Lexicon{Lexicon::NEWLINE, "is", lineNo, charNo}
+        Is(int lineNo, int charNo) : Lexicon{Lexicon::IS, "is", lineNo, charNo}
         {
 
         }

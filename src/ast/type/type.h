@@ -14,7 +14,9 @@ namespace ASTs
         BOOL,
         STRING,
         VOID,
-        ERROR
+        ERROR,
+        OBJECT,
+        ATTRIBUTE,
     };
 
     class Type : public AST

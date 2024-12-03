@@ -51,6 +51,8 @@
 #include "ast/type/bool_type.h"
 #include "ast/type/void_type.h"
 #include "ast/type/error_type.h"
+#include "ast/type/object_type.h"
+#include "ast/type/attribute_type.h"
 
 // Decl
 #include "ast/decl/decl.h"
