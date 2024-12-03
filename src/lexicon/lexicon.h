@@ -36,8 +36,10 @@ namespace Lexicons
         // <                            // >
         OCURLY          = 204,          CCURLY          = 205,
 
-        SEMICOLON       = 210,          COMMA           = 211,          NEWLINE     = 212,          IS          = 213,
+        SEMICOLON       = 210,          COMMA           = 211,          NEWLINE     = 212,
         COLON           = 214,
+
+        IS              = 215,          NOT_KWD         = 216,          EQUAL_KWD   = 217,                                                                          // Literal keywords 
 
         IDENTIFIER      = 250,          ERR             = 254,
         END_OF_FILE     = 255;
