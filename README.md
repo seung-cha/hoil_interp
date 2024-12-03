@@ -89,6 +89,7 @@ TOOD: What should happen when it fails to allocate object?
 ## Reserved Keywords
 Following keywords are reserved and cannot be used as an identifier.
 ```
+or, and, is, not, equals
 
 ```
 
@@ -118,9 +119,8 @@ Non terminals are represented with a capital letter.
                   program -> (stmt)*
 
        # Variable declaration
-                 var_decl -> identifier is (Type | expr)?
-                           | identifier is Attribute (":" expr)?
-                           | identifier is Object (":" expr)?
+                 var_decl -> identifier is (Type | Expr)
+                           | identifier is Type Expr
 
 
        # Function declaration, params and args
@@ -134,11 +134,17 @@ Non terminals are represented with a capital letter.
        # Expressions
                      expr -> logical_or_expr
           logical_or_expr -> logical_or_expr "||" logical_and_expr
+                           | logical_or_expr "or" logical_and_expr
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
+                           | logical_and_expr "and" equality_expr
                            | equality_expr
             equality_expr -> equality_expr "==" relation_expr
+                           | equality_expr "is" relation_expr
+                           | equality_expr "equals" relation_expr
                            | equality_expr "!=" relation_expr
+                           | equality_expr "is not" relation_expr
+                           | equality_expr "not equals" relation_expr
                            | relation_expr
             relation_expr -> relation_expr "<"  additive_expr
                            | relation_expr "<=" additive_expr
@@ -157,6 +163,7 @@ Non terminals are represented with a capital letter.
                            | "++" unary_expr
                            | "--" unary_expr
                            | "!" unary_expr
+                           | "not" unary_expr
                            | primary_expr
              primary_expr -> Identifier
                            | Identifier "(" arg_list? ")"
