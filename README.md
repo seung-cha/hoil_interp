@@ -119,8 +119,8 @@ Non terminals are represented with a capital letter.
                   program -> (stmt)*
 
        # Variable declaration
-                 var_decl -> identifier is (Type | Expr)
-                           | identifier is Type Expr
+                 var_decl -> identifier is Expr
+                           | identifier is Type (":" Expr)?
 
 
        # Function declaration, params and args
@@ -186,7 +186,7 @@ Non terminals are represented with a capital letter.
                            | instruct_stmt
 
                 expr_stmt -> var_decl
-                  if_stmt -> If "(" expr" )" stmt ( Elif "(" expr ")" stmt )* ( Else stmt )?
+                  if_stmt -> If expr "\n" stmt (Elif expr "\n" stmt )* ( Else "\n" stmt )?
                 loop_stmt -> Loop "(" expr ")" stmt
                            | Loop "(" local_var_decl_list expr_stmt expr ")" stmt
                            | Loop stmt Until "(" expr ")" ";"
