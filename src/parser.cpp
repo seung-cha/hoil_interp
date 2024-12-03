@@ -566,7 +566,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseExprStmt()
 std::unique_ptr<ASTs::Stmt> Parser::ParseIfStmt()
 {
     Match(Lexicon::IF);
-    
+
     auto ifCond = ParseExpr();
 
     Match(Lexicon::NEWLINE);
@@ -616,52 +616,21 @@ std::unique_ptr<ASTs::List> Parser::ParseElifList()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
 {
-    std::unique_ptr<ASTs::Stmt> stmt{};
+    std::unique_ptr<ASTs::Expr> condExpr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
     Match(Lexicon::LOOP);
-    if(!LexemeIs(Lexicon::OPAREN))
+
+    if(LexemeIs(Lexicon::UNTIL))
     {
-        // Handle LOOP UNTIL
-        auto body = ParseStmt();
-        Match(Lexicon::UNTIL);
-        Match(Lexicon::OPAREN);
-        auto cond = ParseExpr();
-        Match(Lexicon::CPAREN);
-        Match(Lexicon::SEMICOLON);
-
-        stmt = std::make_unique<ASTs::DoWhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
-    }
-    else
-    {
-        Match(Lexicon::OPAREN);
-
-        if(LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || 
-        LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon:: VOID))
-        {
-            // For-loop like form
-            auto list = ParseLocalVarDeclList();
-            auto cond = ParseExprStmt();
-            auto postOp = ParseExpr();
-            Match(Lexicon::CPAREN);
-
-            auto body = ParseStmt();
-
-            stmt = std::make_unique<ASTs::ForStmt>(list.release(), cond.release(), postOp.release(), body.release(), LineNo(), CharNo());
-
-        }
-        else
-        {
-            // While-loop like form
-            auto cond = ParseExpr();
-            Match(Lexicon::CPAREN);
-            auto body = ParseStmt();
-
-            stmt = std::make_unique<ASTs::WhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
-        }
-
+        Next();
+        condExpr = std::move(ParseExpr());
     }
 
-    return stmt;
+    Match(Lexicon::NEWLINE);
+
+    std::unique_ptr<ASTs::Stmt> body = ParseStmt();
+
+    return std::make_unique<ASTs::WhileStmt>(condExpr.release(), body.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()

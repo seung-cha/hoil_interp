@@ -95,7 +95,7 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Return(lineNo, charNo);
             }
-            else if(str == "loop")
+            else if(str == "repeat")
             {
                 lex = new Lexicons::Loop(lineNo, charNo);
             }

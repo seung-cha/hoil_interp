@@ -187,9 +187,8 @@ Non terminals are represented with a capital letter.
 
                 expr_stmt -> var_decl
                   if_stmt -> If expr "\n" stmt (Elif expr "\n" stmt )* ( Else "\n" stmt )?
-                loop_stmt -> Loop "(" expr ")" stmt
-                           | Loop "(" local_var_decl_list expr_stmt expr ")" stmt
-                           | Loop stmt Until "(" expr ")" ";"
+                loop_stmt -> Repeat "\n" stmt
+                           | Repeat Until expr "\n" stmt
                 jump_stmt -> Continue ";"
                            | Break ";"
               return_stmt -> Return expr_stmt
