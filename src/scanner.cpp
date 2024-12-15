@@ -117,10 +117,20 @@ void Scanner::_trimBlanks()
             // lineNo++;
             // break;
             case '#':
-            //Skip the entire line
-            getline(stream, temp);
-            charNo = 0;
-            lineNo++;
+
+            while(true)
+            {
+                //Skip the entire line
+                getline(stream, temp);
+                charNo = 0;
+                lineNo++;
+
+                if(_peek() == '#') _readChar();
+                else break;
+            }
+
+            currentChar = '\n';
+            return;
             break;
             default:
             return;

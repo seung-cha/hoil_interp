@@ -57,6 +57,16 @@ namespace ASTs
             return dataType == VarType::ERROR;
         }
 
+        bool inline IsAttributeType()
+        {
+            return dataType == VarType::ATTRIBUTE;
+        }
+
+        bool inline IsObjectType()
+        {
+            return dataType == VarType::OBJECT;
+        }
+
         /**
          * Return a deep copy of this object.
          */

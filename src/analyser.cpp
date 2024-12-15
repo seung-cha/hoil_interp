@@ -50,24 +50,37 @@ AST *Analyser::VisitFuncDeclList(FuncDeclList *list, AST *obj)
 
 AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
+    // Void type represents none value
     decl->isVarDecl = true;
 
     if(!symbolTable.Insert(decl->identifier->spelling, decl))
     {
-        std::stringstream ss;
-        ss << "Variable is already declared: " << decl->identifier->spelling;
-        ReportError(ss.str());
-    }
 
-    decl->expr->Visit(this, nullptr);
-    
-    // TODO: Checking for nullptr is because of EmptyExpr from VarDecl
-    // come up with a better way to handle empty expr
-    if(decl->expr->type)
-    {
-        if(!decl->type->Compatible(decl->expr->type.get()))
+        decl->type = symbolTable.Lookup(decl->identifier->spelling)->type->DeepCopy();
+        decl->expr->Visit(this, nullptr);
+
+        if(!decl->expr->type->Compatible(decl->expr->type.get()))
         {
-            ReportError("Incompatible Variable type and expression type");
+            //TODO: Sophisticated error type
+            ReportError("Incompatible variable assignment!");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+
+        }
+    }
+    else
+    {
+        decl->expr->Visit(this, nullptr);
+        // Var is newly declared.
+        if(decl->type->IsVoidType())
+        {
+            decl->type = decl->expr->type->DeepCopy();
+        }
+        else if(!decl->expr->type->Compatible(decl->expr->type.get()))
+        {
+            
+            //TODO: Sophisticated error type
+            ReportError("Incompatible variable assignment!");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
         }
     }
 
@@ -146,6 +159,7 @@ AST *Analyser::VisitBoolExpr(BoolExpr *expr, AST *obj)
 
 AST *Analyser::VisitEmptyExpr(EmptyExpr *expr, AST *obj)
 {
+    expr->isEmptyExpr = true;
     return nullptr;
 }
 
@@ -336,7 +350,7 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     stmt->isLoopStmt = true;
     stmt->stmt->Visit(this, stmt);
 
-    if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
+    if(!stmt->cond->isEmptyExpr && !(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("While conditional expr does not evaluate to bool");
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
@@ -345,8 +359,14 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     return nullptr;
 }
 
+AST *Analyser::VisitInstructStmt(InstructStmt *stmt, AST *obj)
+{
+    return nullptr;
+}
+
 AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
 {
+    // HOIL only supports for loops
     stmt->isLoopStmt = true;
     symbolTable.OpenScope();    // TODO: Consider refactoring this
     stmt->list->Visit(this, stmt);
@@ -373,6 +393,7 @@ AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
 
 AST *Analyser::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
 {
+    // HOIL only supports while loops
     stmt->isLoopStmt = true;
     stmt->body->Visit(this, stmt);
     stmt->cond->Visit(this, nullptr);

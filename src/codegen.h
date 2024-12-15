@@ -44,6 +44,7 @@ class CodeGen : public ASTs::Visitor
     virtual ASTs::AST *VisitForStmt(ASTs::ForStmt *stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitWhileStmt(ASTs::WhileStmt* Stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitReturnStmt(ASTs::ReturnStmt *stmt, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitInstructStmt(ASTs::InstructStmt *stmt, ASTs::AST *obj) override;
 
     // Lists
     virtual ASTs::AST *VisitArgList(ASTs::ArgList *list, ASTs::AST *obj) override;

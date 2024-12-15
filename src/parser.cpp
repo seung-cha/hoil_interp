@@ -151,6 +151,7 @@ std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
 
         if(LexemeIs(Lexicon::COLON))
         {
+            Next();
             expr = std::move(ParseExpr());
         }
     }
@@ -632,6 +633,7 @@ std::unique_ptr<ASTs::List> Parser::ParseElifList()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
 {
+    // HOIL only support while loops
     std::unique_ptr<ASTs::Expr> condExpr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
     Match(Lexicon::LOOP);

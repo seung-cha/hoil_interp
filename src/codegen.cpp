@@ -90,6 +90,11 @@ AST *CodeGen::VisitVarExpr(VariableExpr *expr, AST *obj)
     return nullptr;
 }
 
+AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
+{
+    return nullptr;
+}
+
 AST *CodeGen::VisitBreakStmt(BreakStmt *stmt, AST *obj)
 {
     return nullptr;
