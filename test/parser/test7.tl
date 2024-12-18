@@ -1,20 +1,17 @@
 # if elif
-int main()
+if true
 {
-    if(1)
-    {
 
-    }
-    elif(2)
-    {
+}
+elif true
+{
 
-    }
-    elif(3)
-    {
+}
+elif true
+{
 
-    }
-    else
-    {
-        
-    }
+}
+else
+{
+
 }

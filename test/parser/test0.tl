@@ -1,8 +1,8 @@
 # Simple variable declarations
-int main()
-{
-    int identifier;
-    string identifier;
-    real identifier;
-    void identifier;
-}
+identifier is Number
+identifier is String
+identifier is Real
+identifier is Logic
+identifier is Attribute
+identifier is Object
+

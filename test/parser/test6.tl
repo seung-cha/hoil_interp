@@ -1,13 +1,10 @@
 # if else
 
-int main()
+if true
 {
-    if(1)
-    {
 
-    }
-    else
-    {
-        
-    }
+}
+else
+{
+
 }

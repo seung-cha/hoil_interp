@@ -683,12 +683,19 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
     }
 
     std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
+
+    while(LexemeIs(Lexicon::NEWLINE))
+    {
+        Next(); // Trim new lines in case of empty compound stmt
+    }
+
     if(!LexemeIs(Lexicon::CCURLY))
     {
         list = ParseItemList();
     }
 
     Match(Lexicon::CCURLY);
+    Match(Lexicon::NEWLINE);
     return std::make_unique<ASTs::CompoundStmt>(list.release(), LineNo(), CharNo());
 }
 

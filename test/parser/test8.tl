@@ -1,5 +1,2 @@
 # boolean expr
-int main()
-{
-    1 < 2;
-}
+id is 1 < 2
