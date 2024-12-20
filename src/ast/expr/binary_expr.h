@@ -24,6 +24,7 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Binary Expression>" << std::endl;
+            type->Print(ident + 1);
             lhs->Print(ident + 1);
             op->Print(ident + 1);
             rhs->Print(ident + 1);

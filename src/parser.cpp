@@ -711,7 +711,15 @@ std::unique_ptr<ASTs::List> Parser::ParseItemList()
 
     std::unique_ptr<ASTs::List> blockList = std::make_unique<ASTs::EmptyBlockList>();
 
-    if(!LexemeIs(Lexicon::END_OF_FILE))
+    // First set of all stmts
+    if(
+        LexemeIs(Lexicon::IDENTIFIER) ||
+        LexemeIs(Lexicon::IF) ||
+        LexemeIs(Lexicon::LOOP) ||
+        LexemeIs(Lexicon::BREAK) ||
+        LexemeIs(Lexicon::CONTINUE) ||
+        LexemeIs(Lexicon::OCURLY) ||
+        LexemeIs(Lexicon::GREATER))
     {
         blockList = ParseItemList();
     }

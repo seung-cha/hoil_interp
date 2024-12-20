@@ -195,7 +195,7 @@ Non terminals are represented with a capital letter.
             instruct_stmt -> > STRINGLITERAL # TODO
 
                item_list -> item (item_list)*
-                    item -> local_var_decl_list | stmt
+                    item -> stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
 

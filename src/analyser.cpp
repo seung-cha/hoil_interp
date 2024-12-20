@@ -55,11 +55,30 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 
     if(!symbolTable.Insert(decl->identifier->spelling, decl))
     {
+        // Already declared
+        
+        // Check if variable is declared explicitly again
+        if(!decl->type->IsVoidType())
+        {
+            if(!decl->type->Compatible(symbolTable.Lookup(decl->identifier->spelling)->type.get()))
+            {
+                ReportError("Identifier is re-declared with a different type. This is not allowed.");
+                decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+            }
+        }
+        else
+        {
+            decl->type = symbolTable.Lookup(decl->identifier->spelling)->type->DeepCopy();
+        }
 
-        decl->type = symbolTable.Lookup(decl->identifier->spelling)->type->DeepCopy();
         decl->expr->Visit(this, nullptr);
 
-        if(!decl->expr->type->Compatible(decl->expr->type.get()))
+        if(decl->expr->isEmptyExpr)
+        {
+            ReportError("Variable is re-declared without a value. This is not allowed.");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+        }
+        else if(!decl->expr->type->Compatible(decl->type.get()))
         {
             //TODO: Sophisticated error type
             ReportError("Incompatible variable assignment!");
@@ -69,13 +88,13 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
     }
     else
     {
-        decl->expr->Visit(this, nullptr);
         // Var is newly declared.
+        decl->expr->Visit(this, nullptr);
         if(decl->type->IsVoidType())
         {
             decl->type = decl->expr->type->DeepCopy();
         }
-        else if(!decl->expr->type->Compatible(decl->expr->type.get()))
+        else if(!decl->expr->isEmptyExpr && !decl->expr->type->Compatible(decl->type.get()))
         {
             
             //TODO: Sophisticated error type
@@ -140,7 +159,14 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
     {
         if(expr->op->IsBoolOp())
         {
-            expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
+            if(expr->lhs->type->IsAttributeType() || expr->lhs->type->IsStringType())
+            {
+                expr->type = std::make_unique<ObjectType>(expr->lineNo, expr->charNo);
+            }
+            else
+            {
+                expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
+            }
         }
         else
         {
@@ -316,7 +342,7 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
 {
     // Accept args decl and initialise it here?
-    assert(obj && "Nothing has been passed to VisitCompoundStmt()");
+    //assert(obj && "Nothing has been passed to VisitCompoundStmt()");
     symbolTable.OpenScope();
 
     if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
@@ -330,8 +356,9 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
     }
     else
     {
-        assert(false && 
-        "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
+        // Comment out since Hoil starts without a scope
+        // assert(false && 
+        // "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
     }
 
 
@@ -361,6 +388,13 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
 
 AST *Analyser::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 {
+    stmt->literal->Visit(this, nullptr);
+    return nullptr;
+}
+
+AST *Analyser::VisitDeclStmt(DeclStmt *stmt, AST *obj)
+{
+    stmt->decl->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -630,6 +664,16 @@ AST *Analyser::VisitStringType(StringType *type, AST *obj)
     return nullptr;
 }
 
+AST *Analyser::VisitObjectType(ObjectType *type, AST *obj)
+{
+    return nullptr;
+}
+
+AST *Analyser::VisitAttributeType(AttributeType *type, AST *obj)
+{
+    return nullptr;
+}
+
 AST *Analyser::VisitBoolLiteral(BoolLiteral *literal, AST *obj)
 {
     return nullptr;
@@ -667,6 +711,7 @@ AST *Analyser::VisitIdentifier(Identifier *ident, AST *obj)
 
 AST *Analyser::VisitProgram(Program *program, AST *obj)
 {
+    std::cout << "Program " << std::endl;
     program->list->Visit(this, nullptr);
     return nullptr;
 }
