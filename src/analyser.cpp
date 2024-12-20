@@ -52,15 +52,14 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
     // Void type represents none value
     decl->isVarDecl = true;
-
-    if(!symbolTable.Insert(decl->identifier->spelling, decl))
+    if(Decl *prev_decl = symbolTable.Lookup(decl->identifier->spelling))
     {
         // Already declared
         
         // Check if variable is declared explicitly again
         if(!decl->type->IsVoidType())
         {
-            if(!decl->type->Compatible(symbolTable.Lookup(decl->identifier->spelling)->type.get()))
+            if(!decl->type->Compatible(prev_decl->type.get()))
             {
                 ReportError("Identifier is re-declared with a different type. This is not allowed.");
                 decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
@@ -68,7 +67,7 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
         }
         else
         {
-            decl->type = symbolTable.Lookup(decl->identifier->spelling)->type->DeepCopy();
+            decl->type = prev_decl->type->DeepCopy();
         }
 
         decl->expr->Visit(this, nullptr);
@@ -88,6 +87,7 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
     }
     else
     {
+        symbolTable.Insert(decl->identifier->spelling, decl);
         // Var is newly declared.
         decl->expr->Visit(this, nullptr);
         if(decl->type->IsVoidType())
@@ -711,7 +711,6 @@ AST *Analyser::VisitIdentifier(Identifier *ident, AST *obj)
 
 AST *Analyser::VisitProgram(Program *program, AST *obj)
 {
-    std::cout << "Program " << std::endl;
     program->list->Visit(this, nullptr);
     return nullptr;
 }

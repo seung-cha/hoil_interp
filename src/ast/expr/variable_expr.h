@@ -25,6 +25,7 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Variable Expression>" << std::endl;
+            type->Print(ident + 1);
             variable->Print(ident + 1);
         }
 

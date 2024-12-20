@@ -17,6 +17,7 @@ namespace ASTs
         bool isFuncBody = false;
         bool isLoopStmt = false;
         bool isFuncStmt = false;
+        bool isEmptyStmt = false;
     };
 }
 

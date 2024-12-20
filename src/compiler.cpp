@@ -7,6 +7,7 @@
 #include "parser.h"
 #include "analyser.h"
 #include "AST.h"
+#include "codegen.h"
 
 bool Compiler::Run()
 {
@@ -112,7 +113,7 @@ bool Compiler::Run()
     {
         parser.program->Print(0);   
     }
-    
+
     if(analyser.errorMsgs.size() != 0)
     {
         for(auto& msg : analyser.errorMsgs)
@@ -128,6 +129,9 @@ bool Compiler::Run()
     {
         return true;
     }
+
+    CodeGen gen{parser.program.get()};
+    std::cout << gen.bytecode << std::endl;
 
     return true;
 }
