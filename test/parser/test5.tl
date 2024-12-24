@@ -1,8 +1,5 @@
 # if stmt
-int main()
+if true
 {
-    if(1)
-    {
 
-    }
 }

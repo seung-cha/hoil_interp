@@ -33,6 +33,8 @@
 #include "ast/stmt/loop_while_stmt.h"
 #include "ast/stmt/loop_do_while_stmt.h"
 #include "ast/stmt/error_stmt.h"
+#include "ast/stmt/instruct_stmt.h"
+#include "ast/stmt/decl_stmt.h"
 
 // Literals
 #include "ast/literal/literal.h"
@@ -49,6 +51,8 @@
 #include "ast/type/bool_type.h"
 #include "ast/type/void_type.h"
 #include "ast/type/error_type.h"
+#include "ast/type/object_type.h"
+#include "ast/type/attribute_type.h"
 
 // Decl
 #include "ast/decl/decl.h"

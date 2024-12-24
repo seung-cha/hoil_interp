@@ -1,8 +1,13 @@
 # variable declaration with expression
-int main()
-{
-    int id1 = 3, id2 = 5;
-    real id2 = 3.1414;
-    bool id3 = true, id4 = false;
-    string str = "Hello World!";
-}
+
+id1 is Number: 3
+id2 is Number: 5
+id3 is Logic: true
+id4 is Logic: false
+str is Sentence: "Hello World!"
+
+id5 is 3
+id6 is 5
+id7 is true
+id8 is false
+id9 is "Hello World!"

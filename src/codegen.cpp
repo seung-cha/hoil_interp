@@ -2,9 +2,16 @@
 
 using namespace ASTs;
 
-CodeGen::CodeGen(Program *program, std::vector<std::unique_ptr<ASTs::FuncDecl>>& reserve) : program{program}, reserve{reserve}
+CodeGen::CodeGen(Program *program, std::vector<std::unique_ptr<ASTs::FuncDecl>> &reserve) : program{program}
 {
+    program->Visit(this, nullptr);
+    bytecode = ss.str();
+}
 
+CodeGen::CodeGen(Program *program) : program{program}
+{
+    program->Visit(this, nullptr);
+    bytecode = ss.str();
 }
 
 
@@ -21,6 +28,14 @@ AST *CodeGen::VisitFuncDeclList(FuncDeclList *list, AST *obj)
 
 AST *CodeGen::VisitVarDecl(VarDecl *decl, AST *obj)
 {
+    // Write $decl %ident type
+    ss << "$decl ";
+    decl->identifier->Visit(this, nullptr);
+    ss << " ";
+    decl->type->Visit(this, nullptr);
+    ss << " ";
+    decl->expr->Visit(this, nullptr);
+
     return nullptr;
 }
 
@@ -37,11 +52,18 @@ AST *CodeGen::VisitAssignExpr(AssignExpr *expr, AST *obj)
 
 AST *CodeGen::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
 {
+    expr->lhs->Visit(this, nullptr);
+    ss << ';';
+    expr->rhs->Visit(this, nullptr);
+    ss << ';';
+    expr->op->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitBoolExpr(BoolExpr *expr, AST *obj)
 {
+    
+    expr->literal->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -62,41 +84,67 @@ AST *CodeGen::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
 
 AST *CodeGen::VisitIntExpr(IntExpr *expr, AST *obj)
 {
+    expr->literal->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj)
 {
+    expr->expr->Visit(this, nullptr);
+    expr->op->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
 {
+    expr->expr->Visit(this, nullptr);
+    expr->op->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitRealExpr(RealExpr *expr, AST *obj)
 {
+    expr->literal->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitStringExpr(StringExpr *expr, AST *obj)
 {
+    expr->literal->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitVarExpr(VariableExpr *expr, AST *obj)
+{  
+    expr->variable->Visit(this, nullptr);
+    return nullptr;
+}
+
+AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 {
+    ss << "$instruct ";
+    stmt->literal->Visit(this, nullptr);
+    ss << '\n';
+
+    return nullptr;
+}
+
+AST *CodeGen::VisitDeclStmt(DeclStmt *stmt, AST *obj)
+{
+    stmt->decl->Visit(this, nullptr);
+    ss << '\n';
     return nullptr;
 }
 
 AST *CodeGen::VisitBreakStmt(BreakStmt *stmt, AST *obj)
 {
+    ss << "$break\n";
     return nullptr;
 }
 
 AST *CodeGen::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
 {
+    ss << "$continue\n";
     return nullptr;
 }
 
@@ -107,11 +155,20 @@ AST *CodeGen::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
 {
+    ss << "$open_scope\n";
+    stmt->list->Visit(this, nullptr);
+    ss << "$close_scope\n";
     return nullptr;
 }
 
 AST *CodeGen::VisitWhileStmt(WhileStmt *stmt, AST *obj)
 {
+    ss << "$while ";
+    stmt->cond->Visit(this, nullptr);
+    ss << '\n';
+    stmt->stmt->Visit(this, nullptr);
+    ss << "$while_end\n";
+
     return nullptr;
 }
 
@@ -127,11 +184,30 @@ AST *CodeGen::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
 {
+    ss << "$if ";
+    stmt->cond->Visit(this, nullptr);
+    ss << '\n';
+    stmt->ifStmt->Visit(this, nullptr);
+    ss << "$if_end\n";
+    stmt->elifList->Visit(this, nullptr);
+    
+    if(!stmt->elseStmt->isEmptyStmt)
+    {
+        ss << "$else_begin\n";
+        stmt->elseStmt->Visit(this, nullptr);
+        ss << "$else_end\n";
+    }
+
     return nullptr;
 }
 
 AST *CodeGen::VisitElifStmt(ElifStmt *stmt, AST *obj)
 {
+    ss << "$elif ";
+    ss << stmt->cond->Visit(this, nullptr);
+    ss << '\n';
+    ss << stmt->stmt->Visit(this, nullptr);
+    ss << "$elif_end\n";
     return nullptr;
 }
 
@@ -147,6 +223,8 @@ AST *CodeGen::VisitErrorStmt(ErrorStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitExprStmt(ExprStmt *stmt, AST *obj)
 {
+    stmt->expr->Visit(this, nullptr);
+    ss << '\n';
     return nullptr;
 }
 
@@ -163,11 +241,15 @@ AST *CodeGen::VisitArg(Arg *arg, AST *obj)
 
 AST *CodeGen::VisitBlockItemList(BlockItemList *list, AST *obj)
 {
+    list->block->Visit(this, nullptr);
+    list->next->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitElifList(ElifList *list, AST *obj)
 {
+    list->elif->Visit(this, nullptr);
+    list->next->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -213,6 +295,7 @@ AST *CodeGen::VisitParam(Param *param, AST *obj)
 
 AST *CodeGen::VisitStmtBlock(StmtBlock *block, AST *obj)
 {
+    block->stmt->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -231,6 +314,7 @@ AST *CodeGen::VisitVarDeclList(VarDeclList *list, AST *obj)
 // exprs and stmts will do instead.
 AST *CodeGen::VisitBoolType(BoolType *type, AST *obj) 
 {
+    ss << "$bool";
     return nullptr;
 }
 
@@ -246,6 +330,7 @@ AST *CodeGen::VisitIntType(IntType *type, AST *obj)
 
 AST *CodeGen::VisitRealType(RealType *type, AST *obj)
 {
+    ss << "$real";
     return nullptr;
 }
 
@@ -256,11 +341,25 @@ AST *CodeGen::VisitVoidType(VoidType *type, AST *obj)
 
 AST *CodeGen::VisitStringType(StringType *type, AST *obj)
 {
+    ss << "$string";
+    return nullptr;
+}
+
+AST *CodeGen::VisitObjectType(ObjectType *type, AST *obj)
+{
+    ss << "$object";
+    return nullptr;
+}
+
+AST *CodeGen::VisitAttributeType(AttributeType *type, AST *obj)
+{
+    ss << "$attribute";
     return nullptr;
 }
 
 AST *CodeGen::VisitBoolLiteral(BoolLiteral *literal, AST *obj)
 {
+    ss << literal->spelling;
     return nullptr;
 }
 
@@ -271,31 +370,37 @@ AST *CodeGen::VisitIntLiteral(IntLiteral *literal, AST *obj)
 
 AST *CodeGen::VisitRealLiteral(RealLiteral *literal, AST *obj)
 {
+    ss << literal->spelling;
     return nullptr;
 }
 
 AST *CodeGen::VisitStringLiteral(StringLiteral *literal, AST *obj)
 {
+    ss << '\"' << literal->spelling << '\"';
     return nullptr;
 }
 
 AST *CodeGen::VisitOperator(Operator *op, AST *obj)
 {
+    ss << op->spelling;
     return nullptr;
 }
 
 AST *CodeGen::VisitVariable(Variable *variable, AST *obj)
 {
+    variable->identifier->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitIdentifier(Identifier *ident, AST *obj)
 {
+    ss << "%" << ident->spelling << "%";
     return nullptr;
 }
 
 AST *CodeGen::VisitProgram(Program *program, AST *obj)
 {
+    program->list->Visit(this, nullptr);
     return nullptr;
 }
 

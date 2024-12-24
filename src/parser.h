@@ -100,6 +100,7 @@ class Parser
     std::unique_ptr<ASTs::Stmt> ParseJumpStmt();
     std::unique_ptr<ASTs::Stmt> ParseReturnStmt();
     std::unique_ptr<ASTs::Stmt> ParseCompoundStmt();
+    std::unique_ptr<ASTs::Stmt> ParseInstructStmt();
     
     std::unique_ptr<ASTs::Type> ParseType();
     std::unique_ptr<ASTs::Operator> ParseOperator();

@@ -50,24 +50,56 @@ AST *Analyser::VisitFuncDeclList(FuncDeclList *list, AST *obj)
 
 AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
+    // Void type represents none value
     decl->isVarDecl = true;
-
-    if(!symbolTable.Insert(decl->identifier->spelling, decl))
+    if(Decl *prev_decl = symbolTable.Lookup(decl->identifier->spelling))
     {
-        std::stringstream ss;
-        ss << "Variable is already declared: " << decl->identifier->spelling;
-        ReportError(ss.str());
-    }
-
-    decl->expr->Visit(this, nullptr);
-    
-    // TODO: Checking for nullptr is because of EmptyExpr from VarDecl
-    // come up with a better way to handle empty expr
-    if(decl->expr->type)
-    {
-        if(!decl->type->Compatible(decl->expr->type.get()))
+        // Already declared
+        
+        // Check if variable is declared explicitly again
+        if(!decl->type->IsVoidType())
         {
-            ReportError("Incompatible Variable type and expression type");
+            if(!decl->type->Compatible(prev_decl->type.get()))
+            {
+                ReportError("Identifier is re-declared with a different type. This is not allowed.");
+                decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+            }
+        }
+        else
+        {
+            decl->type = prev_decl->type->DeepCopy();
+        }
+
+        decl->expr->Visit(this, nullptr);
+
+        if(decl->expr->isEmptyExpr)
+        {
+            ReportError("Variable is re-declared without a value. This is not allowed.");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+        }
+        else if(!decl->expr->type->Compatible(decl->type.get()))
+        {
+            //TODO: Sophisticated error type
+            ReportError("Incompatible variable assignment!");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+
+        }
+    }
+    else
+    {
+        symbolTable.Insert(decl->identifier->spelling, decl);
+        // Var is newly declared.
+        decl->expr->Visit(this, nullptr);
+        if(decl->type->IsVoidType())
+        {
+            decl->type = decl->expr->type->DeepCopy();
+        }
+        else if(!decl->expr->isEmptyExpr && !decl->expr->type->Compatible(decl->type.get()))
+        {
+            
+            //TODO: Sophisticated error type
+            ReportError("Incompatible variable assignment!");
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
         }
     }
 
@@ -127,7 +159,14 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
     {
         if(expr->op->IsBoolOp())
         {
-            expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
+            if(expr->lhs->type->IsAttributeType() || expr->lhs->type->IsStringType())
+            {
+                expr->type = std::make_unique<ObjectType>(expr->lineNo, expr->charNo);
+            }
+            else
+            {
+                expr->type = std::make_unique<BoolType>(expr->lineNo, expr->charNo);
+            }
         }
         else
         {
@@ -146,6 +185,7 @@ AST *Analyser::VisitBoolExpr(BoolExpr *expr, AST *obj)
 
 AST *Analyser::VisitEmptyExpr(EmptyExpr *expr, AST *obj)
 {
+    expr->isEmptyExpr = true;
     return nullptr;
 }
 
@@ -302,7 +342,7 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
 {
     // Accept args decl and initialise it here?
-    assert(obj && "Nothing has been passed to VisitCompoundStmt()");
+    //assert(obj && "Nothing has been passed to VisitCompoundStmt()");
     symbolTable.OpenScope();
 
     if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
@@ -316,8 +356,9 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
     }
     else
     {
-        assert(false && 
-        "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
+        // Comment out since Hoil starts without a scope
+        // assert(false && 
+        // "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
     }
 
 
@@ -336,7 +377,7 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     stmt->isLoopStmt = true;
     stmt->stmt->Visit(this, stmt);
 
-    if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
+    if(!stmt->cond->isEmptyExpr && !(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("While conditional expr does not evaluate to bool");
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
@@ -345,8 +386,21 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     return nullptr;
 }
 
+AST *Analyser::VisitInstructStmt(InstructStmt *stmt, AST *obj)
+{
+    stmt->literal->Visit(this, nullptr);
+    return nullptr;
+}
+
+AST *Analyser::VisitDeclStmt(DeclStmt *stmt, AST *obj)
+{
+    stmt->decl->Visit(this, nullptr);
+    return nullptr;
+}
+
 AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
 {
+    // HOIL only supports for loops
     stmt->isLoopStmt = true;
     symbolTable.OpenScope();    // TODO: Consider refactoring this
     stmt->list->Visit(this, stmt);
@@ -373,6 +427,7 @@ AST *Analyser::VisitForStmt(ForStmt *stmt, AST *obj)
 
 AST *Analyser::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
 {
+    // HOIL only supports while loops
     stmt->isLoopStmt = true;
     stmt->body->Visit(this, stmt);
     stmt->cond->Visit(this, nullptr);
@@ -605,6 +660,16 @@ AST *Analyser::VisitVoidType(VoidType *type, AST *obj)
 }
 
 AST *Analyser::VisitStringType(StringType *type, AST *obj)
+{
+    return nullptr;
+}
+
+AST *Analyser::VisitObjectType(ObjectType *type, AST *obj)
+{
+    return nullptr;
+}
+
+AST *Analyser::VisitAttributeType(AttributeType *type, AST *obj)
 {
     return nullptr;
 }

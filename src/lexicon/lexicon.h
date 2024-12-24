@@ -14,7 +14,8 @@ namespace Lexicons
         public:
         LexiconId const static 
         INT             = 0,            REAL            = 1,            BOOL        = 2,            STRING      = 3,    // Types
-        VOID            = 4,
+        VOID            = 4,            OBJECT          = 5,            ATTRIBUTE   = 6,
+
         INTVAL          = 10,           REALVAL         = 11,           BOOLVAL     = 12,           STRINGVAL   = 13,
 
         TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
@@ -35,7 +36,10 @@ namespace Lexicons
         // <                            // >
         OCURLY          = 204,          CCURLY          = 205,
 
-        SEMICOLON       = 210,          COMMA           = 211,
+        SEMICOLON       = 210,          COMMA           = 211,          NEWLINE     = 212,
+        COLON           = 214,
+
+        IS              = 215,          NOT_KWD         = 216,          EQUAL_KWD   = 217,                                                                          // Literal keywords 
 
         IDENTIFIER      = 250,          ERR             = 254,
         END_OF_FILE     = 255;

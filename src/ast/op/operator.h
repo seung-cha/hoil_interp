@@ -14,7 +14,7 @@ namespace ASTs
             if(spelling == "==" || spelling == "!=" ||
             spelling == "<=" || spelling == ">=" || 
             spelling == "<" || spelling == ">" ||
-            spelling == "!")
+            spelling == "!" || spelling == "&&" || spelling == "||")
             {
                 boolOp = true;
             }
@@ -42,6 +42,10 @@ namespace ASTs
             if(spelling == "=" || spelling == "==" || spelling == "!=")
             {
                 return type1->Compatible(type2);
+            }
+            else if(spelling == "||" || spelling == "&&")
+            {
+                return type1->Compatible(type2) && (type1->IsBoolType() || type1->IsAttributeType() || type1->IsStringType());
             }
             else if(spelling == "+" || spelling == "-" || spelling == "*" || spelling == "/" ||
             spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=" || spelling == "-=" ||

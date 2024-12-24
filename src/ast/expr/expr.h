@@ -21,6 +21,7 @@ namespace ASTs
 
         std::unique_ptr<Type> type{};
         bool assignable = false;
+        bool isEmptyExpr = false;
     };
 }
 

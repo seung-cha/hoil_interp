@@ -45,7 +45,9 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitForStmt(ASTs::ForStmt *stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitWhileStmt(ASTs::WhileStmt* Stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitReturnStmt(ASTs::ReturnStmt *stmt, ASTs::AST *obj) override;
-
+    virtual ASTs::AST *VisitInstructStmt(ASTs::InstructStmt *stmt, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitDeclStmt(ASTs::DeclStmt *stmt, ASTs::AST *obj) override;
+    
     // Lists
     virtual ASTs::AST *VisitArgList(ASTs::ArgList *list, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitArg(ASTs::Arg *arg, ASTs::AST *obj) override;
@@ -71,6 +73,8 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitRealType(ASTs::RealType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVoidType(ASTs::VoidType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitStringType(ASTs::StringType *type, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitObjectType(ASTs::ObjectType *type, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitAttributeType(ASTs::AttributeType *type, ASTs::AST *obj) override;
 
     // Literals
     virtual ASTs::AST *VisitBoolLiteral(ASTs::BoolLiteral *literal, ASTs::AST *obj) override;

@@ -7,6 +7,8 @@
 #include "lexicon/type/bool.h"
 #include "lexicon/type/string.h"
 #include "lexicon/type/void.h"
+#include "lexicon/type/attribute.h"
+#include "lexicon/type/object.h"
 
 // Values
 #include "lexicon/type/int_value.h"
@@ -59,6 +61,9 @@
 #include "lexicon/keyword/loop.h"
 #include "lexicon/keyword/return.h"
 #include "lexicon/keyword/until.h"
+#include "lexicon/keyword/is.h"
+#include "lexicon/keyword/equal_kwd.h"
+#include "lexicon/keyword/not_kwd.h"
 
 // Misc
 #include "lexicon/misc/oparen.h"
@@ -71,7 +76,10 @@
 #include "lexicon/misc/error.h"
 #include "lexicon/misc/eof.h"
 #include "lexicon/misc/semicolon.h"
+#include "lexicon/misc/colon.h"
 #include "lexicon/misc/comma.h"
+#include "lexicon/misc/newline.h"
+#include "lexicon/misc/is.h"
 
 
 

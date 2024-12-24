@@ -71,19 +71,19 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Continue(lineNo, charNo);
             }
-            else if(str == "int")
-            {
-                lex = new Lexicons::Int(lineNo, charNo);
-            }
-            else if(str == "real")
+            // else if(str == "int")
+            // {
+            //     lex = new Lexicons::Int(lineNo, charNo);
+            // }
+            else if(str == "Number")
             {
                 lex = new Lexicons::Real(lineNo, charNo);
             }
-            else if(str == "bool")
+            else if(str == "Logic")
             {
                 lex = new Lexicons::Bool(lineNo, charNo);
             }
-            else if(str == "string")
+            else if(str == "Sentence")
             {
                 lex = new Lexicons::String(lineNo, charNo);
             }
@@ -95,7 +95,7 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Return(lineNo, charNo);
             }
-            else if(str == "loop")
+            else if(str == "repeat")
             {
                 lex = new Lexicons::Loop(lineNo, charNo);
             }
@@ -103,9 +103,37 @@ namespace LexerComponents
             {
                 lex = new Lexicons::Until(lineNo, charNo);
             }
+            else if(str == "Object")
+            {
+                lex = new Lexicons::Object(lineNo, charNo);
+            }
+            else if(str == "Attribute")
+            {
+                lex = new Lexicons::Attribute(lineNo, charNo);
+            }
+            else if(str == "is")
+            {
+                lex = new Lexicons::Is(lineNo, charNo);
+            }
+            else if(str == "not")
+            {
+                lex = new Lexicons::NotKwd(lineNo,  charNo);
+            }
+            else if(str == "equals")
+            {
+                lex = new Lexicons::EqualKwd(lineNo, charNo);
+            }
+            else if(str == "and")
+            {
+                lex = new Lexicons::LogicalAnd(lineNo, charNo);
+            }
+            else if(str == "or")
+            {
+                lex = new Lexicons::LogicalOr(lineNo, charNo);
+            }
             else
             {
-                while(isalnum(scanner->currentChar) || scanner->currentChar == '_')
+                while(isalnum(scanner->currentChar))
                 {   
                     ss << scanner->currentChar;
                     scanner->Next();

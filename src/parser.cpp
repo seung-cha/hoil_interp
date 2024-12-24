@@ -34,7 +34,7 @@ int Parser::CharNo()
 std::string Parser::Spelling()
 {
     if(!currentLexicon)
-        return 0;
+        return "";
         
     return currentLexicon->spelling;
 }
@@ -43,6 +43,7 @@ bool Parser::LexemeIs(Lexicons::LexiconId id)
 {
     if(!currentLexicon)
         return false;
+    
 
     return currentLexicon->Id == id;
 }
@@ -55,8 +56,7 @@ bool Parser::Match(Lexicons::LexiconId id)
         ReportMismatch();
         matched = false;
     }
-    
-    if(currentLexicon)
+    else if(!LexemeIs(Lexicon::END_OF_FILE))
     {
         Next();
     }
@@ -72,25 +72,35 @@ void Parser::ReportMismatch()
     }
     else
     {
+
         std::ostringstream ss;
         ss << "Unexpected Token: " << currentLexicon->Verbose() << " (" << LineNo() << ", " << CharNo() << ")";
         errorMsgs.push_back(ss.str());
-        //Next();
+
+        // TODO: Hot fix
+        if(!LexemeIs(Lexicon::END_OF_FILE))
+        {
+            Next();
+        }
     }
 }
 
 
 std::unique_ptr<ASTs::Program> Parser::ParseProgram()
 {
-    std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyFuncDeclList>();
-    if( LexemeIs(Lexicon::INT)  ||
-        LexemeIs(Lexicon::REAL) ||
-        LexemeIs(Lexicon::BOOL) ||
-        LexemeIs(Lexicon::STRING) ||
-        LexemeIs(Lexicon::VOID))
+    std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
+    
+    // Trim the new lines first
+    while(LexemeIs(Lexicon::NEWLINE))
     {
-        list = ParseFuncDeclList();
+        Next();
     }
+
+    if(!LexemeIs(Lexicon::END_OF_FILE))
+    {
+        list = ParseItemList();
+    }
+
 
     Match(Lexicon::END_OF_FILE);
 
@@ -129,10 +139,28 @@ std::unique_ptr<ASTs::List> Parser::ParseVarDeclList()
 std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
 {
     auto ident = ParseIdentifier();
-    auto expr = ParseVarDeclExpr();
+    std::unique_ptr<ASTs::Type> type = std::make_unique<ASTs::VoidType>(0, 0);  // Denotes none type
+    std::unique_ptr<ASTs::Expr> expr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
-    // Fill Type later
-    return std::make_unique<ASTs::VarDecl>(nullptr, ident.release(), expr.release(), LineNo(), CharNo());
+    Match(Lexicon::IS);
+
+    if(LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::BOOL) || LexemeIs(Lexicon::STRING)
+    || LexemeIs(Lexicon::OBJECT) || LexemeIs(Lexicon::ATTRIBUTE))
+    {
+        type = std::move(ParseType());
+
+        if(LexemeIs(Lexicon::COLON))
+        {
+            Next();
+            expr = std::move(ParseExpr());
+        }
+    }
+    else
+    {
+        expr = std::move(ParseExpr());
+    }
+
+    return std::make_unique<ASTs::VarDecl>(type.release(), ident.release(), expr.release(), LineNo(), CharNo());
 }
 
 
@@ -263,6 +291,14 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         Next();
         ptr = std::make_unique<ASTs::StringType>(LineNo(), CharNo());
         break;
+        case Lexicon::OBJECT:
+        Next();
+        ptr = std::make_unique<ASTs::ObjectType>(LineNo(), CharNo());
+        break;
+        case Lexicon::ATTRIBUTE:
+        Next();
+        ptr = std::make_unique<ASTs::AttributeType>(LineNo(), CharNo());
+        break;
         default:
         ptr = std::make_unique<ASTs::ErrorType>(LineNo(), CharNo());
         ReportMismatch();
@@ -272,7 +308,7 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
 
 std::unique_ptr<ASTs::Expr> Parser::ParseExpr()
 {
-    return ParseAssignmentExpr();
+    return ParseLogicalOrExpr();
 }
 
 std::unique_ptr<ASTs::Expr> Parser::ParseAssignmentExpr()
@@ -324,7 +360,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseEqualityExpr()
 {
     std::unique_ptr<ASTs::Expr> expr1 = ParseRelationExpr();
 
-    if(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL))
+    if(LexemeIs(Lexicon::EQUAL) || LexemeIs(Lexicon::NEQUAL) || LexemeIs(Lexicon::IS) || LexemeIs(Lexicon::NOT_KWD) || LexemeIs(Lexicon::EQUAL_KWD))
     {
         auto op = ParseOperator();
         auto expr2 = ParseEqualityExpr();
@@ -383,7 +419,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParseMultiplicativeExpr()
 std::unique_ptr<ASTs::Expr> Parser::ParseUnaryExpr()
 {  
     if( LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::UNARY_SUB) 
-     || LexemeIs(Lexicon::SUB)       || LexemeIs(Lexicon::NOT))
+     || LexemeIs(Lexicon::SUB)       || LexemeIs(Lexicon::NOT) || LexemeIs(Lexicon::NOT_KWD))
     {
         auto op = ParseOperator();
         auto expr2 = ParseUnaryExpr();
@@ -433,11 +469,6 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
             expr = std::make_unique<ASTs::VariableExpr>(new ASTs::Variable(identifier.release(), LineNo(), CharNo()));
         }
     }
-    else if(LexemeIs(Lexicon::INTVAL))
-    {
-        auto intLiteral = ParseIntLiteral();
-        expr = std::make_unique<ASTs::IntExpr>(intLiteral.release());
-    }
     else if(LexemeIs(Lexicon::REALVAL))
     {
         auto realLiteral = ParseRealLiteral();
@@ -470,7 +501,12 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
 {
-    if(LexemeIs(Lexicon::IF))
+    // Assume new lines are trimmed
+    if(LexemeIs(Lexicon::GREATER))
+    {
+        return ParseInstructStmt();
+    }
+    else if(LexemeIs(Lexicon::IF))
     {
         return ParseIfStmt();
     }
@@ -478,70 +514,95 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
     {
         return ParseLoopStmt();
     }
-    else if(LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK))
+    else if(LexemeIs(Lexicon::BREAK) || LexemeIs(Lexicon::CONTINUE))
     {
         return ParseJumpStmt();
-    }
-    else if(LexemeIs(Lexicon::RETURN))
-    {
-        return ParseReturnStmt();
     }
     else if(LexemeIs(Lexicon::OCURLY))
     {
         return ParseCompoundStmt();
     }
-    else
+    else if(LexemeIs(Lexicon::IDENTIFIER))
     {
+        // This is really just a decl stmt
         return ParseExprStmt();
     }
+    else
+    {
+        ReportMismatch();
+        return std::make_unique<ASTs::ErrorStmt>(LineNo(), CharNo());
+    }
+
+    // if(LexemeIs(Lexicon::IF))
+    // {
+    //     return ParseIfStmt();
+    // }
+    // else if(LexemeIs(Lexicon::LOOP))
+    // {
+    //     return ParseLoopStmt();
+    // }
+    // else if(LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK))
+    // {
+    //     return ParseJumpStmt();
+    // }
+    // else if(LexemeIs(Lexicon::RETURN))
+    // {
+    //     return ParseReturnStmt();
+    // }
+    // else if(LexemeIs(Lexicon::OCURLY))
+    // {
+    //     return ParseCompoundStmt();
+    // }
+    // else
+    // {
+    //     return ParseExprStmt();
+    // }
+}
+
+std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()
+{
+    Match(Lexicon::GREATER);
+    auto str = ParseStringLiteral();
+    Match(Lexicon::NEWLINE);
+
+    return std::make_unique<ASTs::InstructStmt>(str.release(), LineNo(), CharNo());
+
+
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseExprStmt()
 {
-    if(LexemeIs(Lexicon::SEMICOLON))
-    {
-        Next();
-        return std::make_unique<ASTs::EmptyStmt>(LineNo(), CharNo());
-    }
-    else
-    {
-        auto expr = ParseExpr();
-        Match(Lexicon::SEMICOLON);
+    
+    auto decl = ParseVarDecl();
+    Match(Lexicon::NEWLINE);
 
-        return std::make_unique<ASTs::ExprStmt>(expr.release(), LineNo(), CharNo());
-    }
+    return std::make_unique<ASTs::DeclStmt>(decl.release(), LineNo(), CharNo());
+
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseIfStmt()
 {
     Match(Lexicon::IF);
 
-    Match(Lexicon::OPAREN);
     auto ifCond = ParseExpr();
-    Match(Lexicon::CPAREN);
+
+    Match(Lexicon::NEWLINE);
 
     auto ifBody = ParseStmt();
 
-    std::unique_ptr<ASTs::List> elifList{};
+    std::unique_ptr<ASTs::List> elifList = std::make_unique<ASTs::EmptyElifList>();
     if(LexemeIs(Lexicon::ELIF))
     {
-        elifList = ParseElifList();
-    }
-    else
-    {
-        elifList = std::make_unique<ASTs::EmptyElifList>();
+        elifList = std::move(ParseElifList());
     }
 
 
-    std::unique_ptr<ASTs::Stmt> elseStmt{};
+    std::unique_ptr<ASTs::Stmt> elseStmt = std::make_unique<ASTs::EmptyStmt>(LineNo(), CharNo());
     if(LexemeIs(Lexicon::ELSE))
     {
         Next();
-        elseStmt = ParseStmt();
-    }
-    else
-    {
-        elseStmt = std::make_unique<ASTs::EmptyStmt>(LineNo(), CharNo());
+        Match(Lexicon::NEWLINE);
+        elseStmt = std::move(ParseStmt());
     }
 
     return std::make_unique<ASTs::IfStmt>(ifCond.release(), ifBody.release(), elifList.release(), elseStmt.release(), LineNo(), CharNo());
@@ -550,10 +611,8 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseIfStmt()
 std::unique_ptr<ASTs::List> Parser::ParseElifList()
 {
     Match(Lexicon::ELIF);
-    Match(Lexicon::OPAREN);
-
     auto cond = ParseExpr();
-    Match(Lexicon::CPAREN);
+    Match(Lexicon::NEWLINE);
 
     auto stmt = ParseStmt();
 
@@ -574,52 +633,22 @@ std::unique_ptr<ASTs::List> Parser::ParseElifList()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
 {
-    std::unique_ptr<ASTs::Stmt> stmt{};
+    // HOIL only support while loops
+    std::unique_ptr<ASTs::Expr> condExpr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
     Match(Lexicon::LOOP);
-    if(!LexemeIs(Lexicon::OPAREN))
+
+    if(LexemeIs(Lexicon::UNTIL))
     {
-        // Handle LOOP UNTIL
-        auto body = ParseStmt();
-        Match(Lexicon::UNTIL);
-        Match(Lexicon::OPAREN);
-        auto cond = ParseExpr();
-        Match(Lexicon::CPAREN);
-        Match(Lexicon::SEMICOLON);
-
-        stmt = std::make_unique<ASTs::DoWhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
-    }
-    else
-    {
-        Match(Lexicon::OPAREN);
-
-        if(LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || 
-        LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon:: VOID))
-        {
-            // For-loop like form
-            auto list = ParseLocalVarDeclList();
-            auto cond = ParseExprStmt();
-            auto postOp = ParseExpr();
-            Match(Lexicon::CPAREN);
-
-            auto body = ParseStmt();
-
-            stmt = std::make_unique<ASTs::ForStmt>(list.release(), cond.release(), postOp.release(), body.release(), LineNo(), CharNo());
-
-        }
-        else
-        {
-            // While-loop like form
-            auto cond = ParseExpr();
-            Match(Lexicon::CPAREN);
-            auto body = ParseStmt();
-
-            stmt = std::make_unique<ASTs::WhileStmt>(cond.release(), body.release(), LineNo(), CharNo());
-        }
-
+        Next();
+        condExpr = std::move(ParseExpr());
     }
 
-    return stmt;
+    Match(Lexicon::NEWLINE);
+
+    std::unique_ptr<ASTs::Stmt> body = ParseStmt();
+
+    return std::make_unique<ASTs::WhileStmt>(condExpr.release(), body.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()
@@ -634,10 +663,9 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseJumpStmt()
     {
         Match(Lexicon::BREAK);
         stmt = std::make_unique<ASTs::BreakStmt>(LineNo(), CharNo());
-
     }
 
-    Match(Lexicon::SEMICOLON);
+    Match(Lexicon::NEWLINE);
     return stmt;
 }
 
@@ -655,12 +683,19 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
     }
 
     std::unique_ptr<ASTs::List> list = std::make_unique<ASTs::EmptyBlockList>();
+
+    while(LexemeIs(Lexicon::NEWLINE))
+    {
+        Next(); // Trim new lines in case of empty compound stmt
+    }
+
     if(!LexemeIs(Lexicon::CCURLY))
     {
         list = ParseItemList();
     }
 
     Match(Lexicon::CCURLY);
+    Match(Lexicon::NEWLINE);
     return std::make_unique<ASTs::CompoundStmt>(list.release(), LineNo(), CharNo());
 }
 
@@ -668,16 +703,23 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCompoundStmt()
 std::unique_ptr<ASTs::List> Parser::ParseItemList()
 {
     auto item = ParseItem();
+
+    while(LexemeIs(Lexicon::NEWLINE))
+    {
+        Next();
+    }
+
     std::unique_ptr<ASTs::List> blockList = std::make_unique<ASTs::EmptyBlockList>();
-    // TODO: STOP BEING LAZY AND IMPLEMENT FIRST SET
-    // WHAT IS THIS??????
+
+    // First set of all stmts
     if(
-        LexemeIs(Lexicon::INT) || LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::STRING) || LexemeIs(Lexicon::VOID) || LexemeIs(Lexicon::BOOL)
-    ||  LexemeIs(Lexicon::IF) || LexemeIs(Lexicon::LOOP) || LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK)
-    ||  LexemeIs(Lexicon::RETURN) || LexemeIs(Lexicon::OCURLY) || LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::INTVAL)
-    ||  LexemeIs(Lexicon::REALVAL) || LexemeIs(Lexicon::BOOLVAL) || LexemeIs(Lexicon::STRINGVAL) || LexemeIs(Lexicon::OPAREN)
-    ||  LexemeIs(Lexicon::ADD) || LexemeIs(Lexicon::SUB) || LexemeIs(Lexicon::UNARY_ADD) || LexemeIs(Lexicon::UNARY_SUB)
-    ||  LexemeIs(Lexicon::NOT))
+        LexemeIs(Lexicon::IDENTIFIER) ||
+        LexemeIs(Lexicon::IF) ||
+        LexemeIs(Lexicon::LOOP) ||
+        LexemeIs(Lexicon::BREAK) ||
+        LexemeIs(Lexicon::CONTINUE) ||
+        LexemeIs(Lexicon::OCURLY) ||
+        LexemeIs(Lexicon::GREATER))
     {
         blockList = ParseItemList();
     }
@@ -688,30 +730,62 @@ std::unique_ptr<ASTs::List> Parser::ParseItemList()
 std::unique_ptr<ASTs::Block> Parser::ParseItem()
 {
     std::unique_ptr<ASTs::Block> block{};
-    if(LexemeIs(Lexicon::INT)  ||
-        LexemeIs(Lexicon::REAL) ||
-        LexemeIs(Lexicon::BOOL) ||
-        LexemeIs(Lexicon::STRING) ||
-        LexemeIs(Lexicon::VOID))
-    {
-        auto list = ParseLocalVarDeclList();
-        block = std::make_unique<ASTs::VarDeclListBlock>(list.release(), LineNo(), CharNo());
-    }
-    else
-    {
-        auto stmt = ParseStmt();
-        block = std::make_unique<ASTs::StmtBlock>(stmt.release(), LineNo(), CharNo());
-    }
+    
+    auto stmt = ParseStmt();
+    block = std::make_unique<ASTs::StmtBlock>(stmt.release(), LineNo(), CharNo());
+    
 
     return block;
 }
 
 std::unique_ptr<ASTs::Operator> Parser::ParseOperator()
 {
-    // TODO: Handle
-    auto op = std::make_unique<ASTs::Operator>(currentLexicon->spelling, LineNo(), CharNo());
+    // Hybrid between words and symbols. Translate word to symbol
+    std::string spelling = currentLexicon->spelling;
 
-    Next();
+    if(LexemeIs(Lexicon::IS))
+    {
+        Next();
+
+        if(LexemeIs(Lexicon::NOT_KWD))
+        {
+            Next();
+            spelling = "!=";
+        }
+        else
+        {
+            spelling = "==";
+        }
+
+
+    }
+    else if(LexemeIs(Lexicon::NOT_KWD))
+    {
+        Next();
+
+        if(LexemeIs(Lexicon::EQUAL_KWD))
+        {
+            Next();
+            spelling = "!=";
+        }
+        else
+        {
+            spelling = "!";
+        }
+
+    }
+    else if(LexemeIs(Lexicon::EQUAL_KWD))
+    {
+        spelling = "==";
+    }
+    else
+    {
+        Next(); // Symbol keyword.
+    }
+
+
+    auto op = std::make_unique<ASTs::Operator>(spelling, LineNo(), CharNo());
+
     return op;
 }
 

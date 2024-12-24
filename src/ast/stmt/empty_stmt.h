@@ -10,7 +10,7 @@ namespace ASTs
         public:
         EmptyStmt(int lineNo, int charNo) : Stmt{lineNo, charNo}
         {
-            
+            isEmptyStmt = true;
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override

@@ -38,7 +38,14 @@ Type is fixed. That is, once a type is determined, attempting to assign a value 
 {identifier} is true # An attempt to assign a logic value
 
 # ERROR!
+
 ```
+Multi-variable declaration and assignment is prohibited.
+```
+int a, b, c;
+a = b = c;
+```
+The equivalence of these expressions doesn't exist in HOIL.
 
 ## Attribute
 `Attribute` qualifies `Object`. Unlike other types, `Attribute` cannot be changed later once defined.
@@ -82,12 +89,25 @@ TOOD: What should happen when it fails to allocate object?
 ## Reserved Keywords
 Following keywords are reserved and cannot be used as an identifier.
 ```
+or, and, is, not, equals
 
 ```
 
 ## Identifier
 Identifiers are defined with alphanumerics. Identifiers must start with an alphabet.
 
+## Logical Expression
+Logical (boolean) works as you would expect. A few exceptions:
+* 'is' is equivalent to `==`
+* `not` is negation. Prefix `not` is `!` and `is not` is `!=`. 
+* `and` and `or` for `&&` and `||`
+
+* Equality operation on the `Number` type is interpreted as equality within a small interval. This is because `Number` suppers decimals.
+
+## Loop
+loop until i < 5 with
+
+ 
 ## Comments
 HOIL uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
@@ -96,13 +116,12 @@ A comment may appear at the start or end of a line. The effect of comment persis
 # Context Free Grammar
 Non terminals are represented with a capital letter.
 ```
-                  program -> (func_decl)*
+                  program -> (stmt)*
 
        # Variable declaration
-      local_var_decl_list -> type var_decl_list ";"
-            var_decl_list -> var_decl ("," var_decl_list)*
-                 var_decl -> Identifier var_decl_expr
-            var_decl_expr -> ("=" expr)?
+                 var_decl -> identifier is Expr
+                           | identifier is Type (":" Expr)?
+
 
        # Function declaration, params and args
                 func_decl -> type Identifier "(" param_list? ")" compound_stmt
@@ -112,17 +131,20 @@ Non terminals are represented with a capital letter.
                  arg_list -> arg ("," arg)*
                       arg -> expr
 
-
        # Expressions
-                     expr -> assignment_expr
-          assignment_expr -> logical_or_expr
-                           | assignment_expr assign_op logical_or_expr
+                     expr -> logical_or_expr
           logical_or_expr -> logical_or_expr "||" logical_and_expr
+                           | logical_or_expr "or" logical_and_expr
                            | logical_and_expr
          logical_and_expr -> logical_and_expr "&&" equality_expr
+                           | logical_and_expr "and" equality_expr
                            | equality_expr
             equality_expr -> equality_expr "==" relation_expr
+                           | equality_expr "is" relation_expr
+                           | equality_expr "equals" relation_expr
                            | equality_expr "!=" relation_expr
+                           | equality_expr "is not" relation_expr
+                           | equality_expr "not equals" relation_expr
                            | relation_expr
             relation_expr -> relation_expr "<"  additive_expr
                            | relation_expr "<=" additive_expr
@@ -141,6 +163,7 @@ Non terminals are represented with a capital letter.
                            | "++" unary_expr
                            | "--" unary_expr
                            | "!" unary_expr
+                           | "not" unary_expr
                            | primary_expr
              primary_expr -> Identifier
                            | Identifier "(" arg_list? ")"
@@ -158,23 +181,23 @@ Non terminals are represented with a capital letter.
                            | if_stmt
                            | loop_stmt
                            | jump_stmt
-                           | return_stmt
                            | compound_stmt
+                           | instruct_stmt
 
-                expr_stmt -> ";"
-                           | expr ";"
-                  if_stmt -> If "(" expr" )" stmt ( Elif "(" expr ")" stmt )* ( Else stmt )?
-                loop_stmt -> Loop "(" expr ")" stmt
-                           | Loop "(" local_var_decl_list expr_stmt expr ")" stmt
-                           | Loop stmt Until "(" expr ")" ";"
-                jump_stmt -> Continue ";"
-                           | Break ";"
+                expr_stmt -> var_decl
+                  if_stmt -> If expr "\n" stmt (Elif expr "\n" stmt )* ( Else "\n" stmt )?
+                loop_stmt -> Repeat "\n" stmt
+                           | Repeat Until expr "\n" stmt
+                jump_stmt -> Continue
+                           | Break
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" item_list? "}"
+            instruct_stmt -> > STRINGLITERAL # TODO
 
                item_list -> item (item_list)*
-                    item -> local_var_decl_list | stmt
+                    item -> stmt
 
                 assign_op -> "=" | "+=" | "-=" | "/=" | "*="
-                     type -> Int | Real | String | Bool | Void
+
+                     Type -> Number | Logic | Sentence | Object
 ```

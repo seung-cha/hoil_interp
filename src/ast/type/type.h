@@ -14,7 +14,9 @@ namespace ASTs
         BOOL,
         STRING,
         VOID,
-        ERROR
+        ERROR,
+        OBJECT,
+        ATTRIBUTE,
     };
 
     class Type : public AST
@@ -53,6 +55,16 @@ namespace ASTs
         bool inline IsErrorType()
         {
             return dataType == VarType::ERROR;
+        }
+
+        bool inline IsAttributeType()
+        {
+            return dataType == VarType::ATTRIBUTE;
+        }
+
+        bool inline IsObjectType()
+        {
+            return dataType == VarType::OBJECT;
         }
 
         /**

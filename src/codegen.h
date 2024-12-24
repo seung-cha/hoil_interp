@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <memory>
+#include <sstream>
+#include <string>
 
 #include "ast/visitor.h"
 #include "AST.h"
@@ -12,6 +14,10 @@ class CodeGen : public ASTs::Visitor
 {
     public:
     CodeGen(ASTs::Program *program, std::vector<std::unique_ptr<ASTs::FuncDecl>>& reserve);
+    CodeGen(ASTs::Program *program);
+    std::string bytecode;
+
+
     // Decl
     virtual ASTs::AST *VisitFuncDecl(ASTs::FuncDecl *decl, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVarDecl(ASTs::VarDecl *decl, ASTs::AST *obj) override;
@@ -44,6 +50,9 @@ class CodeGen : public ASTs::Visitor
     virtual ASTs::AST *VisitForStmt(ASTs::ForStmt *stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitWhileStmt(ASTs::WhileStmt* Stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitReturnStmt(ASTs::ReturnStmt *stmt, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitInstructStmt(ASTs::InstructStmt *stmt, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitDeclStmt(ASTs::DeclStmt *stmt, ASTs::AST *obj) override;
+
 
     // Lists
     virtual ASTs::AST *VisitArgList(ASTs::ArgList *list, ASTs::AST *obj) override;
@@ -70,6 +79,8 @@ class CodeGen : public ASTs::Visitor
     virtual ASTs::AST *VisitRealType(ASTs::RealType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVoidType(ASTs::VoidType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitStringType(ASTs::StringType *type, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitObjectType(ASTs::ObjectType *type, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitAttributeType(ASTs::AttributeType *type, ASTs::AST *obj) override;
 
     // Literals
     virtual ASTs::AST *VisitBoolLiteral(ASTs::BoolLiteral *literal, ASTs::AST *obj) override;
@@ -90,7 +101,7 @@ class CodeGen : public ASTs::Visitor
 
     private:
     ASTs::Program *program;
-    std::vector<std::unique_ptr<ASTs::FuncDecl>>& reserve;
+    std::ostringstream ss;
 
 };
 
