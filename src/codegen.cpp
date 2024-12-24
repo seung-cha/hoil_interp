@@ -53,7 +53,9 @@ AST *CodeGen::VisitAssignExpr(AssignExpr *expr, AST *obj)
 AST *CodeGen::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
 {
     expr->lhs->Visit(this, nullptr);
+    ss << ';';
     expr->rhs->Visit(this, nullptr);
+    ss << ';';
     expr->op->Visit(this, nullptr);
     return nullptr;
 }
