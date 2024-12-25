@@ -206,9 +206,9 @@ AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
 AST *CodeGen::VisitElifStmt(ElifStmt *stmt, AST *obj)
 {
     ss << "$elif ";
-    ss << stmt->cond->Visit(this, nullptr);
+    stmt->cond->Visit(this, nullptr);
     ss << '\n';
-    ss << stmt->stmt->Visit(this, nullptr);
+    stmt->stmt->Visit(this, nullptr);
     ss << "$elif_end\n";
     return nullptr;
 }
