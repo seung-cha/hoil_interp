@@ -1,25 +1,25 @@
 # If-elif-else stmt
 
 grade is Number: 70
-
+result is Sentence
 if grade < 50
 {
-    # fail!
+    result is "Fail"
 }
 elif grade >= 50 and grade < 65
 {
-    # pass!
+    result is "Pass"
 }
 elif grade >= 65 and grade < 75
 {
-    # credit!
+    result is "Credit"
 }
 elif grade >= 75 and grade < 85
 {
-    # distinction!
+    result is "Distinction"
 }
 else
 {
-    # High distinction!
+    result is "High distinction"
 }
 
