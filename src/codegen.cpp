@@ -184,6 +184,7 @@ AST *CodeGen::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
 {
+    ss << "$branch_begin";
     ss << "$if ";
     stmt->cond->Visit(this, nullptr);
     ss << '\n';
@@ -197,7 +198,8 @@ AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
         stmt->elseStmt->Visit(this, nullptr);
         ss << "$else_end\n";
     }
-
+    
+    ss << "$branch_end";
     return nullptr;
 }
 
