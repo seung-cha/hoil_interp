@@ -320,7 +320,7 @@ AST *Analyser::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
 {
     if(!symbolTable.peek().isLoopScope)
     {
-        ReportError("break is called inside a non-loop scope.");
+        ReportError("continue is called inside a non-loop scope.");
     }
 
     return nullptr;
@@ -361,11 +361,9 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
         // "VisitCompoundStmt() received obj that's neither Stmt nor FuncDecl");
     }
 
+    //stmt->list->Visit(this, stmt);
+    stmt->list->Visit(this, obj); // Passing obj otherwise nested jump stmt fails
 
-
-    //
-
-    stmt->list->Visit(this, stmt);
     symbolTable.CloseScope();
 
     return nullptr;
