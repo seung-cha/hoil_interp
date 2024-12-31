@@ -190,6 +190,7 @@ AST *CodeGen::VisitDoWhileStmt(DoWhileStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
 {
+    ss << "$branch_begin\n";
     ss << "$if ";
     stmt->cond->Visit(this, nullptr);
     ss << '\n';
@@ -203,16 +204,17 @@ AST *CodeGen::VisitIfStmt(IfStmt *stmt, AST *obj)
         stmt->elseStmt->Visit(this, nullptr);
         ss << "$else_end\n";
     }
-
+    
+    ss << "$branch_end\n";
     return nullptr;
 }
 
 AST *CodeGen::VisitElifStmt(ElifStmt *stmt, AST *obj)
 {
     ss << "$elif ";
-    ss << stmt->cond->Visit(this, nullptr);
+    stmt->cond->Visit(this, nullptr);
     ss << '\n';
-    ss << stmt->stmt->Visit(this, nullptr);
+    stmt->stmt->Visit(this, nullptr);
     ss << "$elif_end\n";
     return nullptr;
 }
