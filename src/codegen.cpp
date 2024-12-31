@@ -129,6 +129,12 @@ AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
     return nullptr;
 }
 
+AST *CodeGen::VisitCallStmt(CallStmt *stmt, AST *obj)
+{
+    // TODO
+    return nullptr;
+}
+
 AST *CodeGen::VisitDeclStmt(DeclStmt *stmt, AST *obj)
 {
     stmt->decl->Visit(this, nullptr);

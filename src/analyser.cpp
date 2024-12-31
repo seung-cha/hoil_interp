@@ -348,6 +348,7 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
     if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
     {
         symbolTable.peek().isFunctionScope = true;
+        decl->params->Visit(this, nullptr);
     }
     else if(Stmt *parentStmt = dynamic_cast<Stmt*>(obj))
     {
@@ -383,6 +384,12 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
+    return nullptr;
+}
+
+AST *Analyser::VisitCallStmt(CallStmt *stmt, AST *obj)
+{
+    stmt->expr->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -522,7 +529,7 @@ AST *Analyser::VisitArg(Arg *arg, AST *obj)
 
     arg->expr->Visit(this, nullptr);
     
-    if(!arg->expr->type->Compatible(param->type.get()))
+    if(!param->type->IsVoidType() && !arg->expr->type->Compatible(param->type.get()))
     {
         std::ostringstream ss;
         ss << "Argument type mismatch: " << param->identifier->spelling;

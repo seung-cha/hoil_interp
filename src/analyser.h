@@ -47,6 +47,7 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitReturnStmt(ASTs::ReturnStmt *stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitInstructStmt(ASTs::InstructStmt *stmt, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitDeclStmt(ASTs::DeclStmt *stmt, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitCallStmt(ASTs::CallStmt *stmt, ASTs::AST *obj) override;
     
     // Lists
     virtual ASTs::AST *VisitArgList(ASTs::ArgList *list, ASTs::AST *obj) override;

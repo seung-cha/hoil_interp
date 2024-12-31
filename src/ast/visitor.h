@@ -34,6 +34,7 @@ namespace ASTs
     class ReturnStmt;
     class InstructStmt;
     class DeclStmt;
+    class CallStmt;
 
     
     class ArgList;
@@ -111,6 +112,7 @@ namespace ASTs
         virtual AST *VisitReturnStmt(ReturnStmt *stmt, AST *obj) = 0;
         virtual AST *VisitInstructStmt(InstructStmt *stmt, AST *obj) = 0;
         virtual AST *VisitDeclStmt(DeclStmt *stmt, AST *obj) = 0;
+        virtual AST *VisitCallStmt(CallStmt *stmt, AST *obj) = 0;
 
         // Lists
         virtual AST *VisitArgList(ArgList *list, AST *obj) = 0;

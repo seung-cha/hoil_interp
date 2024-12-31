@@ -199,22 +199,30 @@ std::unique_ptr<ASTs::List> Parser::ParseFuncDeclList()
 
 std::unique_ptr<ASTs::Decl> Parser::ParseFuncDecl()
 {
-    auto type = ParseType();
+    Match(Lexicon::DEFINE);
+
     auto ident = ParseIdentifier();
 
-    Match(Lexicon::OPAREN);
-
-    std::unique_ptr<ASTs::List> params = std::make_unique<ASTs::EmptyParamList>();
-    if(!LexemeIs(Lexicon::CPAREN))
+    std::unique_ptr<ASTs::List> paramList = std::make_unique<ASTs::EmptyParamList>();
+    if(LexemeIs(Lexicon::OPAREN))
     {
-        params = ParseParamList();
+        Next();
+        paramList = ParseParamList();
+        Match(Lexicon::CPAREN);
     }
 
-    Match(Lexicon::CPAREN);
+    std::unique_ptr<ASTs::Type> retType = std::make_unique<ASTs::VoidType>(0, 0);
+    
+    if(LexemeIs(Lexicon::RIGHT_ARR))
+    {
+        Next();
+        retType = ParseType();
+    }
 
+    Match(Lexicon::NEWLINE);
     auto stmt = ParseCompoundStmt();
 
-    return std::make_unique<ASTs::FuncDecl>(type.release(), ident.release(), params.release(), stmt.release(), LineNo(), CharNo());
+    return std::make_unique<ASTs::FuncDecl>(retType.release(), ident.release(), paramList.release(), stmt.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::List> Parser::ParseParamList()
@@ -236,8 +244,14 @@ std::unique_ptr<ASTs::List> Parser::ParseParamList()
 
 std::unique_ptr<ASTs::Param> Parser::ParseParam()
 {
-    auto type = ParseType();
     auto iden = ParseIdentifier();
+    std::unique_ptr<ASTs::Type> type = std::make_unique<ASTs::VoidType>(0, 0);
+
+    if(LexemeIs(Lexicon::COLON))
+    {
+        Next();
+        type = ParseType();
+    }
 
     return std::make_unique<ASTs::Param>(type.release(), iden.release(), LineNo(), CharNo());
 }
@@ -527,36 +541,27 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
         // This is really just a decl stmt
         return ParseExprStmt();
     }
+    else if(LexemeIs(Lexicon::CALL))
+    {
+        return ParseCallStmt();
+    }
     else
     {
         ReportMismatch();
         return std::make_unique<ASTs::ErrorStmt>(LineNo(), CharNo());
     }
 
-    // if(LexemeIs(Lexicon::IF))
-    // {
-    //     return ParseIfStmt();
-    // }
-    // else if(LexemeIs(Lexicon::LOOP))
-    // {
-    //     return ParseLoopStmt();
-    // }
-    // else if(LexemeIs(Lexicon::CONTINUE) || LexemeIs(Lexicon::BREAK))
-    // {
-    //     return ParseJumpStmt();
-    // }
-    // else if(LexemeIs(Lexicon::RETURN))
-    // {
-    //     return ParseReturnStmt();
-    // }
-    // else if(LexemeIs(Lexicon::OCURLY))
-    // {
-    //     return ParseCompoundStmt();
-    // }
-    // else
-    // {
-    //     return ParseExprStmt();
-    // }
+}
+
+std::unique_ptr<ASTs::Stmt> Parser::ParseCallStmt()
+{
+    Match(Lexicon::CALL);
+    auto ident = ParseIdentifier();
+    Match(Lexicon::OPAREN);
+    auto argList = ParseArgList();
+    Match(Lexicon::CPAREN);
+
+    return std::make_unique<ASTs::CallStmt>(new ASTs::FunctionCallExpr(ident.release(), argList.release(), 0, 0), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()
@@ -572,8 +577,16 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseExprStmt()
 {
-    
-    auto decl = ParseVarDecl();
+    std::unique_ptr<ASTs::Decl> decl{nullptr};
+    if(LexemeIs(Lexicon::DEFINE))
+    {
+        decl = ParseFuncDecl();
+    }
+    else
+    {
+        decl = ParseVarDecl();
+    }
+
     Match(Lexicon::NEWLINE);
 
     return std::make_unique<ASTs::DeclStmt>(decl.release(), LineNo(), CharNo());
