@@ -334,7 +334,30 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
         ReportError("return is called inside a non-function scope.");
     }
 
-    stmt->stmt->Visit(this, obj);
+    Decl *funcDecl = nullptr;
+    assert((funcDecl = dynamic_cast<FuncDecl*>(obj)) && "VisitReturnStmt received obj that is not a func decl?");
+
+    stmt->expr->Visit(this, obj);
+
+    if(funcDecl->type->IsVoidType() && !stmt->expr->isEmptyExpr)
+    {
+        std::stringstream ss;
+        ss << "Function is declared to not return a value but is returning something: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else if(!funcDecl->type->IsVoidType() && stmt->expr->isEmptyExpr)
+    {
+        std::stringstream ss;
+        ss << "Function is declared to return a value but is returning nothing: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else if(!stmt->expr->isEmptyExpr && !funcDecl->type->Compatible(stmt->expr->type.get()))
+    { 
+        std::stringstream ss;
+        ss << "Return type mismatch!: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    
 
     return nullptr;
 }
