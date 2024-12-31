@@ -536,7 +536,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
     {
         return ParseCompoundStmt();
     }
-    else if(LexemeIs(Lexicon::IDENTIFIER))
+    else if(LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::DEFINE))
     {
         // This is really just a decl stmt
         return ParseExprStmt();
