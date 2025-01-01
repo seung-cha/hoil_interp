@@ -18,6 +18,16 @@ CodeGen::CodeGen(Program *program) : program{program}
 // Decls
 AST *CodeGen::VisitFuncDecl(FuncDecl *decl, AST *obj)
 {
+    ss << "$func_decl ";
+    decl->identifier->Visit(this, nullptr);
+    ss << ' ';
+    decl->type->Visit(this, nullptr);
+    ss << ' ';
+    ss << "$param ";
+    decl ->params->Visit(this, nullptr);
+    ss << '\n';
+    decl->stmt->Visit(this, nullptr);
+    ss << "$func_decl_end";
     return nullptr;
 }
 
@@ -79,6 +89,10 @@ AST *CodeGen::VisitErrorExpr(ErrorExpr *expr, AST *obj)
 
 AST *CodeGen::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
 {
+    ss << "$,";
+    expr->identifier->Visit(this, nullptr);
+    ss << ',';
+    expr->args->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -129,6 +143,16 @@ AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
     return nullptr;
 }
 
+AST *CodeGen::VisitCallStmt(CallStmt *stmt, AST *obj)
+{
+    ss << "$call ";
+    stmt->identifier->Visit(this, nullptr);
+    ss << " ";
+    stmt->args->Visit(this, nullptr);
+    ss << '\n';
+    return nullptr;
+}
+
 AST *CodeGen::VisitDeclStmt(DeclStmt *stmt, AST *obj)
 {
     stmt->decl->Visit(this, nullptr);
@@ -150,6 +174,9 @@ AST *CodeGen::VisitContinueStmt(ContinueStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
 {
+    ss << "$return ";
+    stmt->expr->Visit(this, nullptr);
+    ss << '\n';
     return nullptr;
 }
 
@@ -233,11 +260,20 @@ AST *CodeGen::VisitExprStmt(ExprStmt *stmt, AST *obj)
 // Function args
 AST *CodeGen::VisitArgList(ArgList *list, AST *obj)
 {
+    list->arg->Visit(this, nullptr);
+
+    if(dynamic_cast<ArgList*>(list->next.get()))
+    {
+        ss << ',';
+    }
+
+    list->next->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitArg(Arg *arg, AST *obj)
 {
+    arg->expr->Visit(this, nullptr);
     return nullptr;
 }
 
@@ -287,11 +323,15 @@ AST *CodeGen::VisitEmptyParamList(EmptyParamList *list, AST *obj)
 
 AST *CodeGen::VisitParamList(ParamList *list, AST *obj)
 {
+    list->param->Visit(this, nullptr);
+    list->next->Visit(this, nullptr);
     return nullptr;
 }
 
 AST *CodeGen::VisitParam(Param *param, AST *obj)
 {
+    param->identifier->Visit(this, nullptr);
+    ss << " ";
     return nullptr;
 }
 

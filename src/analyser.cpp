@@ -334,7 +334,30 @@ AST *Analyser::VisitReturnStmt(ReturnStmt *stmt, AST *obj)
         ReportError("return is called inside a non-function scope.");
     }
 
-    stmt->stmt->Visit(this, obj);
+    Decl *funcDecl = nullptr;
+    assert((funcDecl = dynamic_cast<FuncDecl*>(obj)) && "VisitReturnStmt received obj that is not a func decl?");
+
+    stmt->expr->Visit(this, obj);
+
+    if(funcDecl->type->IsVoidType() && !stmt->expr->isEmptyExpr)
+    {
+        std::stringstream ss;
+        ss << "Function is declared to not return a value but is returning something: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else if(!funcDecl->type->IsVoidType() && stmt->expr->isEmptyExpr)
+    {
+        std::stringstream ss;
+        ss << "Function is declared to return a value but is returning nothing: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else if(!stmt->expr->isEmptyExpr && !funcDecl->type->Compatible(stmt->expr->type.get()))
+    { 
+        std::stringstream ss;
+        ss << "Return type mismatch!: " << funcDecl->identifier->spelling;
+        ReportError(ss.str());
+    }
+    
 
     return nullptr;
 }
@@ -348,6 +371,7 @@ AST *Analyser::VisitCompoundStmt(CompoundStmt *stmt, AST *obj)
     if(FuncDecl *decl = dynamic_cast<FuncDecl*>(obj))
     {
         symbolTable.peek().isFunctionScope = true;
+        decl->params->Visit(this, nullptr);
     }
     else if(Stmt *parentStmt = dynamic_cast<Stmt*>(obj))
     {
@@ -381,6 +405,26 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
     }
 
+    return nullptr;
+}
+
+AST *Analyser::VisitCallStmt(CallStmt *stmt, AST *obj)
+{
+    // Same as VisitFuncCallExpr
+    Decl *decl = symbolTable.Lookup(stmt->identifier->spelling);
+
+    if(!decl || !decl->isFuncDecl)
+    {
+        std::ostringstream ss;
+        ss << "Unknown Function Identifier: " << stmt->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else
+    {
+        stmt->args->Visit(this, dynamic_cast<FuncDecl*>(decl)->params.get());
+    }
+
+    return nullptr;
     return nullptr;
 }
 
@@ -520,7 +564,7 @@ AST *Analyser::VisitArg(Arg *arg, AST *obj)
 
     arg->expr->Visit(this, nullptr);
     
-    if(!arg->expr->type->Compatible(param->type.get()))
+    if(!param->type->IsVoidType() && !arg->expr->type->Compatible(param->type.get()))
     {
         std::ostringstream ss;
         ss << "Argument type mismatch: " << param->identifier->spelling;

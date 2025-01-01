@@ -2,6 +2,7 @@
 #define AST_RETURN_STMT_H
 
 #include "stmt.h"
+#include "../expr/expr.h"
 #include <memory>
 
 namespace ASTs
@@ -9,7 +10,7 @@ namespace ASTs
     class ReturnStmt : public Stmt
     {
         public:
-        ReturnStmt(Stmt *stmt, int lineNo, int charNo) : stmt{stmt}, Stmt{lineNo, charNo}
+        ReturnStmt(Expr *expr, int lineNo, int charNo) : expr{expr}, Stmt{lineNo, charNo}
         {
 
         }
@@ -23,10 +24,10 @@ namespace ASTs
         {
             PrintIdent(ident);
             std::cout << "<Return Stmt>" << std::endl;
-            stmt->Print(ident + 1);
+            expr->Print(ident + 1);
         }
 
-        std::unique_ptr<Stmt> stmt;
+        std::unique_ptr<Expr> expr;
 
 
     };

@@ -35,6 +35,7 @@
 #include "ast/stmt/error_stmt.h"
 #include "ast/stmt/instruct_stmt.h"
 #include "ast/stmt/decl_stmt.h"
+#include "ast/stmt/call_stmt.h"
 
 // Literals
 #include "ast/literal/literal.h"

@@ -131,6 +131,14 @@ namespace LexerComponents
             {
                 lex = new Lexicons::LogicalOr(lineNo, charNo);
             }
+            else if(str == "define")
+            {
+                lex = new Lexicons::Define(lineNo, charNo);
+            }
+            else if(str == "call")
+            {
+                lex = new Lexicons::Call(lineNo, charNo);
+            }
             else
             {
                 while(isalnum(scanner->currentChar))

@@ -124,9 +124,9 @@ Non terminals are represented with a capital letter.
 
 
        # Function declaration, params and args
-                func_decl -> type Identifier "(" param_list? ")" compound_stmt
+                func_decl -> define identifier ( "(" param_list ")" )? ("->" type)? compound_stmt
                param_list -> param ("," param)*
-                    param -> type Identifier
+                    param -> Identifier (: type)?
 
                  arg_list -> arg ("," arg)*
                       arg -> expr
@@ -184,7 +184,7 @@ Non terminals are represented with a capital letter.
                            | compound_stmt
                            | instruct_stmt
 
-                expr_stmt -> var_decl
+                expr_stmt -> var_decl | func_decl
                   if_stmt -> If expr "\n" stmt (Elif expr "\n" stmt )* ( Else "\n" stmt )?
                 loop_stmt -> Repeat "\n" stmt
                            | Repeat Until expr "\n" stmt
@@ -192,7 +192,8 @@ Non terminals are represented with a capital letter.
                            | Break
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" item_list? "}"
-            instruct_stmt -> > STRINGLITERAL # TODO
+            instruct_stmt -> > STRINGLITERAL
+                call_stmt -> call identifier "(" arg_list ")"
 
                item_list -> item (item_list)*
                     item -> stmt

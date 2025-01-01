@@ -55,16 +55,20 @@ namespace LexerComponents
                 }
                 break;
                 case '-':
-                lex = new Lexicons::Sub(lineNo, charNo);
                 if(scanner->Peek() == '=')
                 {
                     scanner->Next();
                     lex = new Lexicons::SubAssign(lineNo, charNo);
                 }
-                 else if(scanner->Peek() == '-')
+                else if(scanner->Peek() == '-')
                 {
                     scanner->Next();
                     lex = new Lexicons::UnarySub(lineNo, charNo);
+                }
+                else if(scanner->Peek() == '>')
+                {
+                    scanner->Next();
+                    lex = new Lexicons::RightArrow(lineNo, charNo);
                 }
                 else
                 {

@@ -64,6 +64,8 @@
 #include "lexicon/keyword/is.h"
 #include "lexicon/keyword/equal_kwd.h"
 #include "lexicon/keyword/not_kwd.h"
+#include "lexicon/keyword/define.h"
+#include "lexicon/keyword/call.h"
 
 // Misc
 #include "lexicon/misc/oparen.h"
@@ -80,6 +82,7 @@
 #include "lexicon/misc/comma.h"
 #include "lexicon/misc/newline.h"
 #include "lexicon/misc/is.h"
+#include "lexicon/misc/right_arrow.h"
 
 
 

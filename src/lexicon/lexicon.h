@@ -21,7 +21,7 @@ namespace Lexicons
         TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
         ELSE            = 54,           FOR             = 55,           WHILE       = 56,           DO          = 57,      
         BREAK           = 58,           CONTINUE        = 59,           LOOP        = 60,           RETURN      = 61,
-        UNTIL           = 62,
+        UNTIL           = 62,           CALL            = 63,
 
         ADD             = 100,          SUB             = 101,          MUL         = 102,          DIV         = 103,  // Operators
         MOD             = 104,          ASSIGN          = 105,          ADD_ASSIGN  = 106,          SUB_ASSIGN  = 107,      
@@ -33,13 +33,13 @@ namespace Lexicons
         LOGICAL_OR      = 107,          LOGICAL_AND     = 108,
         // (                            // )                            // [                        // ]
         OPAREN          = 200,          CPAREN          = 201,          OSPAREN     = 202,          CSPAREN     = 203,  // Parenthesis
-        // <                            // >
-        OCURLY          = 204,          CCURLY          = 205,
+        // <                            // >                            // ->
+        OCURLY          = 204,          CCURLY          = 205,          RIGHT_ARR   = 207,
 
         SEMICOLON       = 210,          COMMA           = 211,          NEWLINE     = 212,
         COLON           = 214,
 
-        IS              = 215,          NOT_KWD         = 216,          EQUAL_KWD   = 217,                                                                          // Literal keywords 
+        IS              = 215,          NOT_KWD         = 216,          EQUAL_KWD   = 217,          DEFINE      = 218,                                                                          // Literal keywords 
 
         IDENTIFIER      = 250,          ERR             = 254,
         END_OF_FILE     = 255;
