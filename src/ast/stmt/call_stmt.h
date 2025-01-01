@@ -2,7 +2,8 @@
 #define AST_CALL_STMT_H
 
 #include "stmt.h"
-#include "../expr/expr.h"
+#include "../identifier.h"
+#include "../list/list.h"
 #include <memory>
 
 namespace ASTs
@@ -10,7 +11,7 @@ namespace ASTs
     class CallStmt : public Stmt
     {
         public:
-        CallStmt(ASTs::Expr *callExpr, int lineNo, int charNo) : Stmt{lineNo, charNo}, expr{callExpr}
+        CallStmt(ASTs::Identifier *identifier, ASTs::List *args, int lineNo, int charNo) : Stmt{lineNo, charNo}, identifier{identifier}, args{args}
         {
             
         }
@@ -23,10 +24,14 @@ namespace ASTs
         void Print(int ident) override
         {
             PrintIdent(ident);
-            std::cout << "<Break Stmt>" << std::endl;
+            std::cout << "<Call Stmt>" << std::endl;
+            identifier->Print(ident + 1);
+            args->Print(ident + 1);
         }
 
-        std::unique_ptr<ASTs::Expr> expr;
+        std::unique_ptr<ASTs::Identifier> identifier;
+        std::unique_ptr<ASTs::List> args;
+
         
     };
 

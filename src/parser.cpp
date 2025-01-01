@@ -571,7 +571,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCallStmt()
 
     Match(Lexicon::CPAREN);
     Match(Lexicon::NEWLINE);
-    return std::make_unique<ASTs::CallStmt>(new ASTs::FunctionCallExpr(ident.release(), argList.release(), 0, 0), LineNo(), CharNo());
+    return std::make_unique<ASTs::CallStmt>(ident.release(), argList.release(), LineNo(), CharNo());
 }
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()

@@ -89,9 +89,9 @@ AST *CodeGen::VisitErrorExpr(ErrorExpr *expr, AST *obj)
 
 AST *CodeGen::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
 {
-    ss << "$call ";
+    ss << "$,";
     expr->identifier->Visit(this, nullptr);
-    ss << ' ';
+    ss << ',';
     expr->args->Visit(this, nullptr);
     return nullptr;
 }
@@ -145,7 +145,10 @@ AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 
 AST *CodeGen::VisitCallStmt(CallStmt *stmt, AST *obj)
 {
-    stmt->expr->Visit(this, nullptr);
+    ss << "$call ";
+    stmt->identifier->Visit(this, nullptr);
+    ss << " ";
+    stmt->args->Visit(this, nullptr);
     ss << '\n';
     return nullptr;
 }
@@ -258,6 +261,12 @@ AST *CodeGen::VisitExprStmt(ExprStmt *stmt, AST *obj)
 AST *CodeGen::VisitArgList(ArgList *list, AST *obj)
 {
     list->arg->Visit(this, nullptr);
+
+    if(dynamic_cast<ArgList*>(list->next.get()))
+    {
+        ss << ',';
+    }
+
     list->next->Visit(this, nullptr);
     return nullptr;
 }
@@ -265,7 +274,6 @@ AST *CodeGen::VisitArgList(ArgList *list, AST *obj)
 AST *CodeGen::VisitArg(Arg *arg, AST *obj)
 {
     arg->expr->Visit(this, nullptr);
-    ss << " ";
     return nullptr;
 }
 

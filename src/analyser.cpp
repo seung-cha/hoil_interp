@@ -410,7 +410,21 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
 
 AST *Analyser::VisitCallStmt(CallStmt *stmt, AST *obj)
 {
-    stmt->expr->Visit(this, nullptr);
+    // Same as VisitFuncCallExpr
+    Decl *decl = symbolTable.Lookup(stmt->identifier->spelling);
+
+    if(!decl || !decl->isFuncDecl)
+    {
+        std::ostringstream ss;
+        ss << "Unknown Function Identifier: " << stmt->identifier->spelling;
+        ReportError(ss.str());
+    }
+    else
+    {
+        stmt->args->Visit(this, dynamic_cast<FuncDecl*>(decl)->params.get());
+    }
+
+    return nullptr;
     return nullptr;
 }
 
