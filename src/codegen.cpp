@@ -331,7 +331,9 @@ AST *CodeGen::VisitParamList(ParamList *list, AST *obj)
 AST *CodeGen::VisitParam(Param *param, AST *obj)
 {
     param->identifier->Visit(this, nullptr);
-    ss << " ";
+    ss << ' ';
+    param->type->Visit(this, nullptr);
+    ss << ' ';
     return nullptr;
 }
 
