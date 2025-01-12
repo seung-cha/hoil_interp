@@ -105,13 +105,72 @@ Logical (boolean) works as you would expect. A few exceptions:
 * Equality operation on the `Number` type is interpreted as equality within a small interval. This is because `Number` suppers decimals.
 
 ## Loop
-loop until i < 5 with
+HOIL supports while-like loops only.
+```
+repeat 
+{
+
+}
+
+repeat until {expr}
+{
+
+}
+```
+
+The former is equivalent to `while(1)` and the latter `while(expr)`.
+
+## Function
+Functions are defined with the `define` keyword. 
+
+```
+define HelloWorld 
+{
+
+}
+```
+
+Note that unlike other languages, if a function takes no parameters, you can omit the parenthesis.
+Type hinting (var: type) for parameter is not required. However, if provided, the type of that parameter cannot be changed later.
+```
+define TypedFunc(param1, param2: Number)
+{
+     # param1 accepts any type but param2 only accepts Number
+}
+```
+
+If a function returns a value, the return type must be specified.
+```
+define ReturnFunc -> Number
+{
+
+}
+```
+This function above returns `Number`.
+
+Function can be called as an expression or statement.
+When called as a statement, it must be preceeded by the `call` keyword (This is because variable declaration and function call cannot be distinguished in LL(1)).
+
+```
+call ReturnFunc
+```
+Again, if a function takes no arguments, the parenthesis can be omitted.
+
+If used as an expression, the call keyword is not needed but parenthesis is required even without arguments.
+
+```
+a is FuncCall() + 32
+```
+
+Above defines `a` with the value of 32 + the return value (Number) of the function `FuncCall`.
 
  
 ## Comments
 HOIL uses `#` to indicate the beginning of a comment.  
 A comment may appear at the start or end of a line. The effect of comment persists to the end of the same line.
 
+# Intermediate Representation
+TODO
 
 # Context Free Grammar
 Non terminals are represented with a capital letter.
