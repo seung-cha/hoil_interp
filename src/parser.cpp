@@ -207,7 +207,11 @@ std::unique_ptr<ASTs::Decl> Parser::ParseFuncDecl()
     if(LexemeIs(Lexicon::OPAREN))
     {
         Next();
-        paramList = ParseParamList();
+        if(!LexemeIs(Lexicon::CPAREN))
+        {
+            paramList = ParseParamList();
+        }
+        
         Match(Lexicon::CPAREN);
     }
 
@@ -561,15 +565,19 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCallStmt()
 {
     Match(Lexicon::CALL);
     auto ident = ParseIdentifier();
-    Match(Lexicon::OPAREN);
     std::unique_ptr<ASTs::List> argList = std::make_unique<ASTs::EmptyArgList>();
 
-    if(!LexemeIs(Lexicon::CPAREN))
+    if(LexemeIs(Lexicon::OPAREN))
     {
-        argList = ParseArgList();
+        Next();
+
+        if(!LexemeIs(Lexicon::CPAREN))
+        {
+            argList = ParseArgList();
+        }
+        Match(Lexicon::CPAREN);
     }
 
-    Match(Lexicon::CPAREN);
     Match(Lexicon::NEWLINE);
     return std::make_unique<ASTs::CallStmt>(ident.release(), argList.release(), LineNo(), CharNo());
 }

@@ -149,7 +149,7 @@ define ReturnFunc -> Number
 This function above returns `Number`.
 
 Function can be called as an expression or statement.
-When called as a statement, it must be preceeded by the `call` keyword (This is because variable declaration and function call cannot be distinguished in LL(1)).
+When called as a statement, it must be preceeded by the `call` keyword
 
 ```
 call ReturnFunc
@@ -183,7 +183,7 @@ Non terminals are represented with a capital letter.
 
 
        # Function declaration, params and args
-                func_decl -> define identifier ( "(" param_list ")" )? ("->" type)? compound_stmt
+                func_decl -> define identifier ( "(" param_list? ")" )? ("->" type)? compound_stmt
                param_list -> param ("," param)*
                     param -> Identifier (: type)?
 
@@ -252,7 +252,7 @@ Non terminals are represented with a capital letter.
               return_stmt -> Return expr_stmt
             compound_stmt -> "{" item_list? "}"
             instruct_stmt -> > STRINGLITERAL
-                call_stmt -> call identifier "(" arg_list ")"
+                call_stmt -> call identifier ( "(" arg_list? ")" )?
 
                item_list -> item (item_list)*
                     item -> stmt
