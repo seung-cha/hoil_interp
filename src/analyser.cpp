@@ -203,7 +203,7 @@ AST *Analyser::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
         std::ostringstream ss;
         ss << "Unknown Function Identifier: " << expr->identifier->spelling;
         ReportError(ss.str());
-        expr->type = std::move(std::make_unique<ErrorType>(expr->type->lineNo, expr->type->charNo));
+        expr->type = std::move(std::make_unique<ErrorType>(expr->lineNo, expr->charNo));
     }
     else
     {
