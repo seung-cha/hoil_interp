@@ -18,6 +18,10 @@ class Compiler
     }
 
     bool Run();
+
+    /**
+     * Reserve a function using array of params and identifiers. Both need not be on the heap.
+     */
     void ReserveFunc(ASTs::VarType type, std::string decl, std::vector<ASTs::VarType> params, std::vector<std::string> paramIdent);
 
     private:
@@ -25,6 +29,7 @@ class Compiler
      * Reserve a function to be used
      */
     std::vector<std::unique_ptr<ASTs::FuncDecl>> reservedFuncs;
+
     ASTs::Type *MakeType(ASTs::VarType type);
     char *source;
     int argc;
