@@ -93,6 +93,7 @@ AST *CodeGen::VisitFuncCallExpr(FunctionCallExpr *expr, AST *obj)
     expr->identifier->Visit(this, nullptr);
     ss << ',';
     expr->args->Visit(this, nullptr);
+    ss << "$^";
     return nullptr;
 }
 
