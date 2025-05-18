@@ -6,9 +6,9 @@
 
 int main(int argc, char** argv)
 {
-    if(argc <= 1)
+    if(argc <= 2)
     {
-        std::cout << "Usage: " << argv[0] << " [source_file] --flags" << std::endl;
+        std::cout << "Usage: " << argv[0] << " [source_file] [output_file] --flags" << std::endl;
         std::cout << "Type --help or -h for more detail." << std::endl;
         return EXIT_SUCCESS;
     }
@@ -23,6 +23,7 @@ int main(int argc, char** argv)
     // 4. void CloseGripper()
     // 5. void MoveTo(x: Number, y: Number, z: Number)
     // 6. void MoveBy(x: Number, y: Number, z: Number)
+    
     compiler.ReserveFunc(ASTs::VarType::VOID, "Print", {ASTs::VarType::STRING}, {"text"});
     compiler.ReserveFunc(ASTs::VarType::VOID, "Say", {ASTs::VarType::STRING}, {"text"});
     compiler.ReserveFunc(ASTs::VarType::VOID, "OpenGripper", {}, {});

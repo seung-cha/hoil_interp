@@ -12,11 +12,12 @@
 class Compiler
 {
     public:
-    Compiler(char *source, int argc, char **argv) : source{source}, argc{argc}, argv{argv}
-    {
+    Compiler(char *source, int argc, char **argv);
+    ~Compiler();
 
-    }
-
+    /**
+     * Run compiler. Returning false if at any point an error occurs.
+     */
     bool Run();
 
     /**

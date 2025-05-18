@@ -1,6 +1,7 @@
 #include "compiler.h"
 #include <cstring>
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include "scanner.h"
 #include "lexer.h"
@@ -8,6 +9,16 @@
 #include "analyser.h"
 #include "AST.h"
 #include "codegen.h"
+
+Compiler::Compiler(char *source, int argc, char **argv): source{source}, argc{argc}, argv{argv}
+{
+
+}
+
+Compiler::~Compiler()
+{
+
+}
 
 bool Compiler::Run()
 {
@@ -17,7 +28,7 @@ bool Compiler::Run()
     bool test_analyser = false;
     bool draw_ast = false;
 
-    for(int i = 0; i < argc; i++)
+    for(int i = 3; i < argc; i++)
     {
         char const* str = argv[i];
         // Print help
@@ -57,13 +68,13 @@ bool Compiler::Run()
 
     if(!scanner.IsReady())
     {
-        std::cout << "Scanner failed to open the file. Perhaps it is invalid?" << std::endl;
+        std::cout << "Scanner failed to open the file.\n";
         return false;
     }
 
 
     Lexer lexer{&scanner};
-    Lexicons::Lexicon* lex = nullptr;
+    Lexicons::Lexicon *lex = nullptr;
 
     if(lexer_verbose)
     {
@@ -131,7 +142,11 @@ bool Compiler::Run()
     }
 
     CodeGen gen{parser.program.get()};
-    std::cout << gen.bytecode << std::endl;
+
+    // Write to file
+    std::ofstream outStream{argv[2]};
+    outStream << gen.bytecode;  
+    // std::cout << gen.bytecode << std::endl;
 
     return true;
 }
