@@ -2,6 +2,7 @@
 #define LEXER_COMP_MISC_H
 
 #include "lexer_component.h"
+#include "string_component.h"
 
 namespace LexerComponents
 {
@@ -68,7 +69,7 @@ namespace LexerComponents
                 else if(scanner->Peek() == '>')
                 {
                     scanner->Next();
-                    lex = new Lexicons::RightArrow(lineNo, charNo);
+                    lex = new Lexicons::RightArrow(lineNo, charNo);              
                 }
                 else
                 {
@@ -127,6 +128,33 @@ namespace LexerComponents
                 {
                     scanner->Next();
                     lex = new Lexicons::Gequal(lineNo, charNo);
+                }
+                else if(scanner->Peek() == '>')
+                {
+                    //>> indicates instruct stmt
+                    scanner->Next();
+                    scanner->Next(); // Skip the two >
+                    scanner->Trim(); // Trim any blank spaces inbetween
+
+                    //
+                    StringComponent strComp;
+                    
+                    Lexicons::Lexicon *strLex = strComp.GetLexicon(scanner);
+                    if(strLex == nullptr)
+                    {
+                        lex = new Lexicons::Error(std::string{c}, lineNo, charNo);
+                    }
+                    else if(strLex->Id == Lexicons::Lexicon::ERR)
+                    {
+                        lex = strLex; // Error component
+                    }
+                    else
+                    {
+                        Lexicons::StringValue *v = static_cast<Lexicons::StringValue*>(strLex);
+                        printf("value: %s\n", v->value.c_str());
+                        lex = new Lexicons::Instruct{v->value, v->LineNo, v->CharNo};
+                        delete strLex;
+                    }
                 }
                 else
                 {

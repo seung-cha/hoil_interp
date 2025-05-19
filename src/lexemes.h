@@ -84,6 +84,7 @@
 #include "lexicon/misc/is.h"
 #include "lexicon/misc/right_arrow.h"
 
-
+// Instruct token
+#include "lexicon/misc/instruct.h"
 
 #endif

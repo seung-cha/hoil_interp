@@ -17,6 +17,7 @@ namespace Lexicons
         VOID            = 4,            OBJECT          = 5,            ATTRIBUTE   = 6,
 
         INTVAL          = 10,           REALVAL         = 11,           BOOLVAL     = 12,           STRINGVAL   = 13,
+        INSTRUCT        = 14,
 
         TRUE            = 50,           FALSE           = 51,           IF          = 52,           ELIF        = 53,   // Keywords
         ELSE            = 54,           FOR             = 55,           WHILE       = 56,           DO          = 57,      
@@ -48,6 +49,7 @@ namespace Lexicons
         public:
         LexiconId const Id;
         std::string const spelling;
+        
         int const LineNo;
         int const CharNo;
         Lexicon(LexiconId t, std::string spelling, int lineNo, int charNo) : Id{t}, LineNo{lineNo}, CharNo{charNo}, spelling{spelling}

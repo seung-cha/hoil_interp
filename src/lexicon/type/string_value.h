@@ -9,7 +9,7 @@ namespace Lexicons
     {
         public:
         std::string const value;
-        StringValue(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::STRINGVAL, value, lineNo, charNo}
+        StringValue(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::STRINGVAL, value, lineNo, charNo}, value{value}
         {
 
         }

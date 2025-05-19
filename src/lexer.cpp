@@ -12,7 +12,9 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
     // Collect lexemes
     while(scanner->IsReady())
     {
-        lexemes.push_back(componentHead->GetLexicon(scanner));
+        auto lex = componentHead->GetLexicon(scanner);
+        assert(lex && "Lexer received nullptr\n");
+        lexemes.push_back(lex);
     }
 }
 
