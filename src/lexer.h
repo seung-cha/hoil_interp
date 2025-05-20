@@ -33,7 +33,7 @@ class Lexer
     private:
     int ctr = 0;
     std::vector<Lexicons::Lexicon*> lexemes;
-    std::vector<Lexicons::Instruct*> instructLexems;
+    std::vector<Lexicons::Instruct*> instructLexemes;
     Scanner *scanner;
     LexerComponents::LexerComponent *componentHead;
 
