@@ -3,12 +3,19 @@
 
 #include "../lexicon.h"
 
+typedef int8_t InstructType;
+
 namespace Lexicons
 {
     class Instruct : public Lexicon
     {
+
+        public:
+        static const InstructType None = 0, For = 1, While = 2, Assign = 3, Decl = 4;
+
     public:
         std::string const value;
+        InstructType type = Instruct::None;
 
         Instruct(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::INSTRUCT, value, lineNo, charNo}, value{value}
         {

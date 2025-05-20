@@ -14,8 +14,18 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
     {
         auto lex = componentHead->GetLexicon(scanner);
         assert(lex && "Lexer received nullptr\n");
+
+        if(lex->Id == Lexicons::Lexicon::INSTRUCT)
+        {
+            instructLexems.push_back(static_cast<Lexicons::Instruct*>(lex));
+        }
+        
         lexemes.push_back(lex);
     }
+
+    // To do: assign tag to each instruct stmt
+
+
 }
 
 Lexer::~Lexer()
