@@ -399,7 +399,7 @@ AST *Analyser::VisitWhileStmt(WhileStmt *stmt, AST *obj)
     stmt->isLoopStmt = true;
     stmt->stmt->Visit(this, stmt);
 
-    if(!stmt->cond->isEmptyExpr && !(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
+    if(!stmt->cond->isInstruct && !stmt->cond->isEmptyExpr && !(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("While conditional expr does not evaluate to bool");
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
@@ -487,7 +487,7 @@ AST *Analyser::VisitIfStmt(IfStmt *stmt, AST *obj)
 {
     stmt->cond->Visit(this, nullptr);
 
-    if(!(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
+    if(!stmt->cond->isInstruct && !(stmt->cond->type->IsBoolType() || stmt->cond->type->IsErrorType()))
     {
         ReportError("If conditional expr does not evaluate to bool");
         stmt->cond->type = std::move(std::make_unique<ErrorType>(stmt->cond->type->lineNo, stmt->cond->type->charNo));
@@ -606,6 +606,11 @@ AST *Analyser::VisitEmptyArgList(EmptyArgList *list, AST *obj)
         assert(false && "VisitEmptyArgList() couldn't convert obj to ParamList or EmptyParamList");
     }
 
+    return nullptr;
+}
+
+AST *Analyser::VisitInstructExpr(InstructExpr *expr, AST *obj)
+{
     return nullptr;
 }
 

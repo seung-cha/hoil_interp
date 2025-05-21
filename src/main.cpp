@@ -13,6 +13,7 @@ int main(int argc, char** argv)
         return EXIT_SUCCESS;
     }
 
+    // TODO: Newline token is not generated after instruct token. Generate it
     Compiler compiler{argv[1], argc, argv};
 
     // Reserve functions

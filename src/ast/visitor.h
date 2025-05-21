@@ -72,6 +72,7 @@ namespace ASTs
     class Variable;
     class Identifier;
 
+    class InstructExpr;
     
     class Program;
 
@@ -96,6 +97,7 @@ namespace ASTs
         virtual AST *VisitStringExpr(StringExpr *expr, AST *obj) = 0;
         virtual AST *VisitVarDeclExpr(VarDeclExpr *expr, AST *obj) = 0;
         virtual AST *VisitVarExpr(VariableExpr *expr, AST *obj) = 0;
+        virtual AST *VisitInstructExpr(InstructExpr *expr, AST *obj) = 0;
 
         // Stmt
         virtual AST *VisitBreakStmt(BreakStmt *stmt, AST *obj) = 0;

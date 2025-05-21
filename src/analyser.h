@@ -31,6 +31,8 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitStringExpr(ASTs::StringExpr *expr, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVarDeclExpr(ASTs::VarDeclExpr *expr, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVarExpr(ASTs::VariableExpr *expr, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitInstructExpr(ASTs::InstructExpr *expr, ASTs::AST *obj) override;
+
 
     // Stmt
     virtual ASTs::AST *VisitBreakStmt(ASTs::BreakStmt *stmt, ASTs::AST *obj) override;

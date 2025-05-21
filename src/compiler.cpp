@@ -112,6 +112,7 @@ bool Compiler::Run()
         return true;
     }
 
+
     Analyser analyser{parser.program.get(), reservedFuncs};
 
     if (draw_ast)
@@ -133,6 +134,7 @@ bool Compiler::Run()
     {
         return true;
     }
+
 
     CodeGen gen{parser.program.get()};
 

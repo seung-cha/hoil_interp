@@ -32,6 +32,18 @@ class Parser
      * Does not consume lexeme.
      */
     bool LexemeIs(Lexicons::LexiconId id); 
+
+    /**
+     * Return true if the current lexeme is instruct and the type is as specified.
+     */
+    bool InstructIs(InstructType type);
+
+    /**
+     * Return instruct lexeme; assuming it is one.
+     */
+    Lexicons::Instruct* GetInstruct();
+
+
     /**
      * Get the next lexicon
      */

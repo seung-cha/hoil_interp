@@ -64,9 +64,53 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
     openai::start();
     auto response = openai::chat().create(req);
 
-    auto res = response["choices"][0]["message"]["content"];
+    std::string res = response["choices"][0]["message"]["content"];
     std::cout << "res: " << res << std::endl;
+    
+    auto arr = json::parse(res);
+    
+    // one of : conditional, loop, assignment, expression, misc
+    for(int i = 0; i < arr.size(); i++)
+    {
+        std::string val = arr[i];
+        std::cout << val << ": ";
 
+        if(val == "conditional")
+        {
+            std::cout << "cond\n";
+            
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Conditional;
+        }
+        else if(val == "loop")
+        {
+            std::cout << "loop\n";
+
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Loop;
+        }
+        else if(val == "assignment")
+        {
+            std::cout << "assign\n";
+
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Assign;
+        }
+        else if(val == "expression")
+        {
+            std::cout << "expr\n";
+
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Expr;
+        }
+        else if(val == "misc")
+        {
+
+            std::cout << "Following instruction evaluated as misc: " << instructLexemes[i]->value << '\n'; 
+            instructLexemes[i]->type = Lexicons::Instruct::Type_None;
+        }
+        else
+        {
+            std::cout << "GPT returned unknown tag: " << val << '\n';
+            instructLexemes[i]->type = Lexicons::Instruct::Type_None;
+        }
+    }
    
     
 

@@ -135,6 +135,31 @@ AST *CodeGen::VisitVarExpr(VariableExpr *expr, AST *obj)
     return nullptr;
 }
 
+AST *CodeGen::VisitInstructExpr(InstructExpr *expr, AST *obj)
+{
+    ss << "$instruct \"";
+    
+    // switch(expr->type)
+    // {
+    //     case Lexicons::Instruct::Type_Conditional:
+    //     ss << "conditional ";
+    //     case Lexicons::Instruct::Type_Loop:
+    //     ss << "loop ";
+    //     case Lexicons::Instruct::Type_Expr:
+    //     case Lexicons::Instruct::Type_Assign:
+    //     ss << "decl ";
+    //     break;
+    //     default:
+    //     ss << "err ";
+    //     break;
+    // }
+
+    ss << expr->value;
+    ss << '\"';
+    return nullptr;
+}
+
+
 AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 {
     ss << "$instruct ";

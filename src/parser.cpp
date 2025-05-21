@@ -48,6 +48,23 @@ bool Parser::LexemeIs(Lexicons::LexiconId id)
     return currentLexicon->Id == id;
 }
 
+bool Parser::InstructIs(InstructType type)
+{
+    Lexicons::Instruct *instruct = dynamic_cast<Lexicons::Instruct*>(currentLexicon);
+    
+    if(!instruct)
+    {
+        return false;
+    }
+
+    return instruct->type == type;
+}
+
+Lexicons::Instruct* Parser::GetInstruct()
+{
+    return static_cast<Lexicons::Instruct*>(currentLexicon);
+}
+
 bool Parser::Match(Lexicons::LexiconId id)
 {
     bool matched = true;
@@ -520,15 +537,16 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
 std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
 {
     // Assume new lines are trimmed
-    if(LexemeIs(Lexicon::GREATER))
-    {
-        return ParseInstructStmt();
-    }
-    else if(LexemeIs(Lexicon::IF))
+    // if(LexemeIs(Lexicon::GREATER))
+    // {
+    //     return ParseInstructStmt();
+    // } else
+
+    if(LexemeIs(Lexicon::IF) || InstructIs(Instruct::Type_Conditional))
     {
         return ParseIfStmt();
     }
-    else if(LexemeIs(Lexicon::LOOP))
+    else if(LexemeIs(Lexicon::LOOP) || InstructIs(Instruct::Type_Loop))
     {
         return ParseLoopStmt();
     }
@@ -540,7 +558,8 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
     {
         return ParseCompoundStmt();
     }
-    else if(LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::DEFINE))
+    else if(LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::DEFINE) ||
+    InstructIs(Instruct::Type_Assign) || InstructIs(Instruct::Type_Expr))
     {
         // This is really just a decl stmt
         return ParseExprStmt();
@@ -584,6 +603,8 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCallStmt()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()
 {
+    // Not used anymore.
+    assert(false && "ParseInstructStmt() called. This is not used anymore.\n");
     Match(Lexicon::GREATER);
     auto str = ParseStringLiteral();
     Match(Lexicon::NEWLINE);
@@ -613,11 +634,20 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseExprStmt()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseIfStmt()
 {
-    Match(Lexicon::IF);
+    std::unique_ptr<ASTs::Expr> ifCond;
+    if(InstructIs(Instruct::Type_Conditional))
+    {
+        auto instruct = GetInstruct();
+        ifCond = std::make_unique<ASTs::InstructExpr>(instruct->type, instruct->value);
+        Next();
+    }
+    else
+    {
+        Match(Lexicon::IF);
+        ifCond = std::move(ParseExpr());
+        Match(Lexicon::NEWLINE);
+    }
 
-    auto ifCond = ParseExpr();
-
-    Match(Lexicon::NEWLINE);
 
     auto ifBody = ParseStmt();
 
@@ -664,18 +694,28 @@ std::unique_ptr<ASTs::List> Parser::ParseElifList()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseLoopStmt()
 {
-    // HOIL only support while loops
-    std::unique_ptr<ASTs::Expr> condExpr = std::make_unique<ASTs::EmptyExpr>(0, 0);
-
-    Match(Lexicon::LOOP);
-
-    if(LexemeIs(Lexicon::UNTIL))
+    std::unique_ptr<ASTs::Expr> condExpr;
+    if(InstructIs(Lexicons::Instruct::Type_Loop))
     {
+        auto instruct = GetInstruct();
+        condExpr = std::make_unique<ASTs::InstructExpr>(instruct->type, instruct->value);
         Next();
-        condExpr = std::move(ParseExpr());
+    }
+    else
+    {
+        // HOIL only support while loops
+        condExpr = std::make_unique<ASTs::EmptyExpr>(0, 0);
+    
+        Match(Lexicon::LOOP);
+    
+        if(LexemeIs(Lexicon::UNTIL))
+        {
+            Next();
+            condExpr = std::move(ParseExpr());
+        }
+        Match(Lexicon::NEWLINE);
     }
 
-    Match(Lexicon::NEWLINE);
 
     std::unique_ptr<ASTs::Stmt> body = ParseStmt();
 
@@ -756,7 +796,9 @@ std::unique_ptr<ASTs::List> Parser::ParseItemList()
     if(
         LexemeIs(Lexicon::IDENTIFIER) ||
         LexemeIs(Lexicon::IF) ||
+        InstructIs(Instruct::Type_Conditional) ||
         LexemeIs(Lexicon::LOOP) ||
+        InstructIs(Instruct::Type_Loop) ||
         LexemeIs(Lexicon::BREAK) ||
         LexemeIs(Lexicon::CONTINUE) ||
         LexemeIs(Lexicon::OCURLY) ||

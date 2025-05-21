@@ -18,6 +18,7 @@
 #include "ast/expr/var_decl_expr.h"
 #include "ast/expr/empty_expr.h"
 #include "ast/expr/error_expr.h"
+#include "ast/expr/instruct_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"

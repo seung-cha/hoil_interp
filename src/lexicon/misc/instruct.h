@@ -11,11 +11,11 @@ namespace Lexicons
     {
 
         public:
-        static const InstructType None = 0, For = 1, While = 2, Assign = 3, Decl = 4;
+        static const InstructType Type_None = 0, Type_Conditional = 1, Type_Loop = 2, Type_Assign = 3, Type_Expr = 4;
 
     public:
         std::string const value;
-        InstructType type = Instruct::None;
+        InstructType type = Instruct::Type_None;
 
         Instruct(std::string const value, int lineNo, int charNo) : Lexicon{Lexicon::INSTRUCT, value, lineNo, charNo}, value{value}
         {
