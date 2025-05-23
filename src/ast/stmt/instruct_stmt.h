@@ -4,13 +4,14 @@
 #include "stmt.h"
 #include "../literal/string_literal.h"
 #include <memory>
+#include <string>
 
 namespace ASTs
 {
     class InstructStmt : public Stmt
     {
         public:
-        InstructStmt(StringLiteral *literal, int lineNo, int charNo) : Stmt{lineNo, charNo}, literal{literal}
+        InstructStmt(std::string value, int lineNo, int charNo) : Stmt{lineNo, charNo}, value{value}
         {
             
         }
@@ -23,11 +24,10 @@ namespace ASTs
         void Print(int ident) override
         {
             PrintIdent(ident);
-            std::cout << "<Instruct Stmt>" << std::endl;
-            literal->Print(ident + 1);
+            printf("<Instruct Stmt | %s >\n", value.c_str());
         }
 
-        std::unique_ptr<StringLiteral> literal;
+        std::string value;
         
     };
 

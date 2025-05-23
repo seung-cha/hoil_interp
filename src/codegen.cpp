@@ -162,10 +162,11 @@ AST *CodeGen::VisitInstructExpr(InstructExpr *expr, AST *obj)
 
 AST *CodeGen::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 {
-    ss << "$instruct ";
-    stmt->literal->Visit(this, nullptr);
+    ss << "$instruct \"";
+    ss << stmt->value;
+    ss << '\"';
     ss << '\n';
-
+    
     return nullptr;
 }
 

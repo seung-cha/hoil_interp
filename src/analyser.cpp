@@ -430,7 +430,7 @@ AST *Analyser::VisitCallStmt(CallStmt *stmt, AST *obj)
 
 AST *Analyser::VisitInstructStmt(InstructStmt *stmt, AST *obj)
 {
-    stmt->literal->Visit(this, nullptr);
+    //stmt->literal->Visit(this, nullptr);
     return nullptr;
 }
 

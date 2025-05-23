@@ -11,7 +11,7 @@ namespace Lexicons
     {
 
         public:
-        static const InstructType Type_None = 0, Type_Conditional = 1, Type_Loop = 2, Type_Assign = 3, Type_Expr = 4;
+        static const InstructType Type_None = 0, Type_Conditional = 1, Type_Loop = 2, Type_Expr = 4;
 
     public:
         std::string const value;

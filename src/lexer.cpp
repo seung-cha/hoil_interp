@@ -87,14 +87,10 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
 
             instructLexemes[i]->type = Lexicons::Instruct::Type_Loop;
         }
-        else if(val == "assignment")
+        else if(val == "expression" || val == "assignment")
         {
-            std::cout << "assign\n";
-
-            instructLexemes[i]->type = Lexicons::Instruct::Type_Assign;
-        }
-        else if(val == "expression")
-        {
+            // HOIL regards expr and assignment as expr.
+            
             std::cout << "expr\n";
 
             instructLexemes[i]->type = Lexicons::Instruct::Type_Expr;

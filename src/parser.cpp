@@ -536,13 +536,12 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
 {
-    // Assume new lines are trimmed
-    // if(LexemeIs(Lexicon::GREATER))
-    // {
-    //     return ParseInstructStmt();
-    // } else
-
-    if(LexemeIs(Lexicon::IF) || InstructIs(Instruct::Type_Conditional))
+    //Assume new lines are trimmed
+    if(InstructIs(Instruct::Type_Expr))
+    {
+        return ParseInstructStmt();
+    } 
+    else if(LexemeIs(Lexicon::IF) || InstructIs(Instruct::Type_Conditional))
     {
         return ParseIfStmt();
     }
@@ -558,8 +557,7 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseStmt()
     {
         return ParseCompoundStmt();
     }
-    else if(LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::DEFINE) ||
-    InstructIs(Instruct::Type_Assign) || InstructIs(Instruct::Type_Expr))
+    else if(LexemeIs(Lexicon::IDENTIFIER) || LexemeIs(Lexicon::DEFINE))
     {
         // This is really just a decl stmt
         return ParseExprStmt();
@@ -603,13 +601,10 @@ std::unique_ptr<ASTs::Stmt> Parser::ParseCallStmt()
 
 std::unique_ptr<ASTs::Stmt> Parser::ParseInstructStmt()
 {
-    // Not used anymore.
-    assert(false && "ParseInstructStmt() called. This is not used anymore.\n");
-    Match(Lexicon::GREATER);
-    auto str = ParseStringLiteral();
-    Match(Lexicon::NEWLINE);
+    auto instruct = GetInstruct();
+    Next();
 
-    return std::make_unique<ASTs::InstructStmt>(str.release(), LineNo(), CharNo());
+    return std::make_unique<ASTs::InstructStmt>(instruct->value, LineNo(), CharNo());
 
 
 }
@@ -797,6 +792,7 @@ std::unique_ptr<ASTs::List> Parser::ParseItemList()
         LexemeIs(Lexicon::IDENTIFIER) ||
         LexemeIs(Lexicon::IF) ||
         InstructIs(Instruct::Type_Conditional) ||
+        InstructIs(Instruct::Type_Expr) ||
         LexemeIs(Lexicon::LOOP) ||
         InstructIs(Instruct::Type_Loop) ||
         LexemeIs(Lexicon::BREAK) ||
