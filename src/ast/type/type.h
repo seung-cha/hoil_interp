@@ -17,6 +17,7 @@ namespace ASTs
         ERROR,
         OBJECT,
         ATTRIBUTE,
+        ARRAY,
     };
 
     class Type : public AST
@@ -27,24 +28,29 @@ namespace ASTs
 
         }
         
+        bool inline IsArrayType()
+        {
+            return dataType == VarType::ARRAY;
+        }
+
         bool inline IsIntType()
         {
-            return dataType == VarType::INT;
+            return dataType == VarType::INT || IsVoidType();
         }
 
         bool inline IsRealType()
         {
-            return dataType == VarType::REAL;
+            return dataType == VarType::REAL || IsVoidType();
         }
 
         bool inline IsBoolType()
         {
-            return dataType == VarType::BOOL;
+            return dataType == VarType::BOOL || IsVoidType();
         }
 
         bool inline IsStringType()
         {
-            return dataType == VarType::STRING;
+            return dataType == VarType::STRING || IsVoidType();
         }
 
         bool inline IsVoidType()
@@ -64,7 +70,7 @@ namespace ASTs
 
         bool inline IsObjectType()
         {
-            return dataType == VarType::OBJECT;
+            return dataType == VarType::OBJECT || IsVoidType();
         }
 
         /**

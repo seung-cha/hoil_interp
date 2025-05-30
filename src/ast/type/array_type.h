@@ -1,21 +1,21 @@
-#ifndef AST_ATTRIB_TYPE_H
-#define AST_ATTRIB_TYPE_H
+#ifndef AST_ARRAY_TYPE_H
+#define AST_ARRAY_TYPE_H
 
 #include "type.h"
 
 namespace ASTs
 {
-    class AttributeType : public Type
+    class ArrayType : public Type
     {
         public:
-        AttributeType(int lineNo, int charNo) : Type{VarType::ATTRIBUTE, lineNo, charNo}
+        ArrayType(int lineNo, int charNo) : Type{VarType::ARRAY, lineNo, charNo}
         {
             
         }
 
         AST *Visit(Visitor *visitor, AST *obj) override
         {
-            return visitor->VisitAttributeType(this, obj);
+            return visitor->VisitArrayType(this, obj);
         }
 
         void Print(int ident) override
@@ -26,12 +26,12 @@ namespace ASTs
 
         std::unique_ptr<Type> DeepCopy() override
         {
-            return std::make_unique<ObjectType>(lineNo, charNo);
+            return std::make_unique<ArrayType>(lineNo, charNo);
         }
 
         virtual bool Compatible(Type *type)
         {
-            return type->IsAttributeType() || type->IsErrorType() || type->IsVoidType();
+            return true;
         }
     };
 }

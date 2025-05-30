@@ -48,6 +48,37 @@ AST *Analyser::VisitFuncDeclList(FuncDeclList *list, AST *obj)
     return nullptr;
 }
 
+AST *Analyser::VisitArrDecl(ArrDecl *decl, AST *obj)
+{
+    decl->isVarDecl = true;
+    // Identifier must've been declared and of type arr.
+    if(Decl *prev = symbolTable.Lookup(decl->identifier->spelling))
+    {
+        if(!prev->type->IsArrayType())
+        {
+            std::ostringstream ss;
+            ss << "Attempt to use variable as if it's array: " << decl->identifier->spelling;
+            ReportError(ss.str());
+            decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+        }
+        else
+        {
+            // TODO: Restrict index to be real?
+            decl->index->Visit(this, nullptr);
+            decl->expr->Visit(this, nullptr);
+        }
+    }
+    else
+    {
+        std::ostringstream ss;
+        ss << "Unknown Array Identifier: " << decl->identifier->spelling;
+        ReportError(ss.str());
+        decl->type = std::move(std::make_unique<ErrorType>(decl->lineNo, decl->charNo));
+    }
+
+    return nullptr;
+}
+
 AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
 {
     // Void type represents none value
@@ -92,6 +123,7 @@ AST *Analyser::VisitVarDecl(VarDecl *decl, AST *obj)
         decl->expr->Visit(this, nullptr);
         if(decl->type->IsVoidType())
         {
+            // Var declared without a type. inherit the expr's
             decl->type = decl->expr->type->DeepCopy();
         }
         else if(!decl->expr->isEmptyExpr && !decl->expr->type->Compatible(decl->type.get()))
@@ -175,6 +207,38 @@ AST *Analyser::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
     }
 
     return expr->type.get();
+}
+
+AST *Analyser::VisitArrayExpr(ArrayExpr *expr, AST * obj)
+{
+    expr->identifier->Visit(this, nullptr);
+
+    Decl *decl = symbolTable.Lookup(expr->identifier->spelling);
+
+    if(!decl || !decl->isVarDecl)
+    {
+        std::ostringstream ss;
+        ss << "Unknown Array Identifier: " << expr->identifier->spelling;
+        ReportError(ss.str());
+        expr->type = std::move(std::make_unique<ErrorType>(expr->lineNo, expr->charNo));
+    }
+    else
+    {
+        if(!decl->type->IsArrayType())
+        {
+            std::ostringstream ss;
+            ss << "Variable is not an array!" << expr->identifier->spelling;
+            ReportError(ss.str());
+            expr->type = std::move(std::make_unique<ErrorType>(expr->lineNo, expr->charNo));
+        }
+        else
+        {
+            // Array is dynamic obj
+            expr->type = std::move(std::make_unique<VoidType>(expr->lineNo, expr->charNo));
+        }
+    }
+
+    return nullptr;
 }
 
 AST *Analyser::VisitBoolExpr(BoolExpr *expr, AST *obj)
@@ -712,6 +776,11 @@ AST *Analyser::VisitStringType(StringType *type, AST *obj)
 }
 
 AST *Analyser::VisitObjectType(ObjectType *type, AST *obj)
+{
+    return nullptr;
+}
+
+AST *Analyser::VisitArrayType(ArrayType *type, AST *obj)
 {
     return nullptr;
 }

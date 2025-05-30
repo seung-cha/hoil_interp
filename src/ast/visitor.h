@@ -6,6 +6,8 @@ namespace ASTs
     class AST;
     class FuncDecl;
     class VarDecl;
+    class ArrDecl;
+
     class AssignExpr;
     class BinaryExpr;
     class BoolExpr;
@@ -19,6 +21,7 @@ namespace ASTs
     class StringExpr;
     class VarDeclExpr;
     class VariableExpr;
+    class ArrayExpr;
 
     class BreakStmt;
     class CompoundStmt;
@@ -62,6 +65,7 @@ namespace ASTs
     class StringType; 
     class ObjectType;
     class AttributeType;
+    class ArrayType;
 
     class BoolLiteral;
     class IntLiteral;
@@ -82,6 +86,7 @@ namespace ASTs
         // Decl
         virtual AST *VisitFuncDecl(FuncDecl *decl, AST *obj) = 0;
         virtual AST *VisitVarDecl(VarDecl *decl, AST *obj) = 0;
+        virtual AST *VisitArrDecl(ArrDecl *decl, AST *obj) = 0;
 
         // Expr
         virtual AST *VisitAssignExpr(AssignExpr *expr, AST *obj) = 0;
@@ -98,6 +103,7 @@ namespace ASTs
         virtual AST *VisitVarDeclExpr(VarDeclExpr *expr, AST *obj) = 0;
         virtual AST *VisitVarExpr(VariableExpr *expr, AST *obj) = 0;
         virtual AST *VisitInstructExpr(InstructExpr *expr, AST *obj) = 0;
+        virtual AST *VisitArrayExpr(ArrayExpr *expr, AST *obj) = 0;
 
         // Stmt
         virtual AST *VisitBreakStmt(BreakStmt *stmt, AST *obj) = 0;
@@ -143,6 +149,7 @@ namespace ASTs
         virtual AST *VisitStringType(StringType *type, AST *obj) = 0;
         virtual AST *VisitObjectType(ObjectType *type, AST *obj) = 0;
         virtual AST *VisitAttributeType(AttributeType *type, AST *obj) = 0;
+        virtual AST *VisitArrayType(ArrayType *type, AST *obj) = 0;
 
         // Literals
         virtual AST *VisitBoolLiteral(BoolLiteral *literal, AST *obj) = 0;

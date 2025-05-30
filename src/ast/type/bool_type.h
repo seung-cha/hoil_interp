@@ -31,7 +31,7 @@ namespace ASTs
 
         virtual bool Compatible(Type *type)
         {
-            return type->IsBoolType() || type->IsErrorType();
+            return type->IsBoolType() || type->IsErrorType() || type->IsVoidType();
         }
     };
 }

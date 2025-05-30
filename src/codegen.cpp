@@ -36,6 +36,17 @@ AST *CodeGen::VisitFuncDeclList(FuncDeclList *list, AST *obj)
     return nullptr;
 }
 
+AST *CodeGen::VisitArrDecl(ArrDecl *decl, AST *obj)
+{
+    ss << "$insert ";
+    decl->identifier->Visit(this, nullptr);
+    ss << ' ';
+    decl->index->Visit(this, nullptr);
+    ss << ' ';
+    decl->expr->Visit(this, nullptr);
+    return nullptr;
+}
+
 AST *CodeGen::VisitVarDecl(VarDecl *decl, AST *obj)
 {
     // Write $decl %ident type
@@ -67,6 +78,17 @@ AST *CodeGen::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
     expr->rhs->Visit(this, nullptr);
     ss << ';';
     expr->op->Visit(this, nullptr);
+    return nullptr;
+}
+
+AST *CodeGen::VisitArrayExpr(ArrayExpr *expr, AST *obj)
+{
+    // $arr,{ident},{index},$
+    ss << "$arr,";
+    expr->identifier->Visit(this, nullptr);
+    ss << ',';
+    expr->index->Visit(this, nullptr);
+    ss << ",$";
     return nullptr;
 }
 
@@ -396,6 +418,12 @@ AST *CodeGen::VisitErrorType(ErrorType *type, AST *obj)
 
 AST *CodeGen::VisitIntType(IntType *type, AST *obj)
 {
+    return nullptr;
+}
+
+AST *CodeGen::VisitArrayType(ArrayType *type, AST *obj)
+{
+    ss << "$array";
     return nullptr;
 }
 

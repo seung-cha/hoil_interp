@@ -14,7 +14,7 @@ namespace Lexicons
         public:
         LexiconId const static 
         INT             = 0,            REAL            = 1,            BOOL        = 2,            STRING      = 3,    // Types
-        VOID            = 4,            OBJECT          = 5,            ATTRIBUTE   = 6,
+        VOID            = 4,            OBJECT          = 5,            ATTRIBUTE   = 6,            ARRAY       = 7,
 
         INTVAL          = 10,           REALVAL         = 11,           BOOLVAL     = 12,           STRINGVAL   = 13,
         INSTRUCT        = 14,

@@ -159,10 +159,23 @@ std::unique_ptr<ASTs::Decl> Parser::ParseVarDecl()
     std::unique_ptr<ASTs::Type> type = std::make_unique<ASTs::VoidType>(0, 0);  // Denotes none type
     std::unique_ptr<ASTs::Expr> expr = std::make_unique<ASTs::EmptyExpr>(0, 0);
 
+
+    // Check if it's array assignment
+    if(LexemeIs(Lexicon::OSPAREN))
+    {
+        Next();
+        ASTs::Expr *index = ParseExpr().release();
+        Match(Lexicon::CSPAREN);
+
+        Match(Lexicon::IS);
+        expr = std::move(ParseExpr());
+        return std::make_unique<ASTs::ArrDecl>(ident.release(), index, expr.release(), LineNo(), CharNo());
+    }
+
     Match(Lexicon::IS);
 
     if(LexemeIs(Lexicon::REAL) || LexemeIs(Lexicon::BOOL) || LexemeIs(Lexicon::STRING)
-    || LexemeIs(Lexicon::OBJECT) || LexemeIs(Lexicon::ATTRIBUTE))
+    || LexemeIs(Lexicon::OBJECT) || LexemeIs(Lexicon::ATTRIBUTE) || LexemeIs(Lexicon::ARRAY))
     {
         type = std::move(ParseType());
 
@@ -334,6 +347,10 @@ std::unique_ptr<ASTs::Type> Parser::ParseType()
         Next();
         ptr = std::make_unique<ASTs::AttributeType>(LineNo(), CharNo());
         break;
+        case Lexicon::ARRAY:
+        Next();
+        ptr = std::make_unique<ASTs::ArrayType>(LineNo(), CharNo());
+        break;
         default:
         ptr = std::make_unique<ASTs::ErrorType>(LineNo(), CharNo());
         ReportMismatch();
@@ -475,7 +492,7 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
     {
         auto identifier = ParseIdentifier();
 
-        // Check function call, post ++ or --
+        // Check function call, post ++ or --, or arrayExpr
         if(LexemeIs(Lexicon::OPAREN))
         {
             Next();
@@ -498,6 +515,14 @@ std::unique_ptr<ASTs::Expr> Parser::ParsePrimaryExpr()
             auto var = new ASTs::VariableExpr(new ASTs::Variable(identifier.release(), LineNo(), CharNo()));
 
             expr = std::make_unique<ASTs::PostUnaryExpr>(var, op.release(), LineNo(), CharNo());
+        }
+        else if(LexemeIs(Lexicon::OSPAREN))
+        {
+            Next();
+            ASTs::Expr *index = ParseExpr().release(); // Index
+            Match(Lexicon::CSPAREN);  
+            
+            expr = std::make_unique<ASTs::ArrayExpr>(identifier.release(), index, LineNo(), CharNo());
         }
         else
         {

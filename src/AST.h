@@ -19,6 +19,7 @@
 #include "ast/expr/empty_expr.h"
 #include "ast/expr/error_expr.h"
 #include "ast/expr/instruct_expr.h"
+#include "ast/expr/array_expr.h"
 
 // Statements
 #include "ast/stmt/stmt.h"
@@ -55,11 +56,13 @@
 #include "ast/type/error_type.h"
 #include "ast/type/object_type.h"
 #include "ast/type/attribute_type.h"
+#include "ast/type/array_type.h"
 
 // Decl
 #include "ast/decl/decl.h"
 #include "ast/decl/var_decl.h"
 #include "ast/decl/func_decl.h"
+#include "ast/decl/array_decl.h"
 #include "ast/decl/param.h"
 
 // Operators

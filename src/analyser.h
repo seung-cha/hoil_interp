@@ -16,6 +16,7 @@ class Analyser : public ASTs::Visitor
     // Decl
     virtual ASTs::AST *VisitFuncDecl(ASTs::FuncDecl *decl, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVarDecl(ASTs::VarDecl *decl, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitArrDecl(ASTs::ArrDecl *decl, ASTs::AST *obj) override;
 
     // Expr
     virtual ASTs::AST *VisitAssignExpr(ASTs::AssignExpr *expr, ASTs::AST *obj) override;
@@ -32,6 +33,7 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitVarDeclExpr(ASTs::VarDeclExpr *expr, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitVarExpr(ASTs::VariableExpr *expr, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitInstructExpr(ASTs::InstructExpr *expr, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitArrayExpr(ASTs::ArrayExpr *expr, ASTs::AST *obj) override;
 
 
     // Stmt
@@ -78,6 +80,7 @@ class Analyser : public ASTs::Visitor
     virtual ASTs::AST *VisitStringType(ASTs::StringType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitObjectType(ASTs::ObjectType *type, ASTs::AST *obj) override;
     virtual ASTs::AST *VisitAttributeType(ASTs::AttributeType *type, ASTs::AST *obj) override;
+    virtual ASTs::AST *VisitArrayType(ASTs::ArrayType *type, ASTs::AST *obj) override;
 
     // Literals
     virtual ASTs::AST *VisitBoolLiteral(ASTs::BoolLiteral *literal, ASTs::AST *obj) override;

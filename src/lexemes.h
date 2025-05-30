@@ -9,6 +9,8 @@
 #include "lexicon/type/void.h"
 #include "lexicon/type/attribute.h"
 #include "lexicon/type/object.h"
+#include "lexicon/type/array.h"
+
 
 // Values
 #include "lexicon/type/int_value.h"

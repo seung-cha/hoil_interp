@@ -51,7 +51,7 @@ namespace ASTs
             spelling == "<"  || spelling == ">" || spelling == "<=" || spelling == ">=" || spelling == "-=" ||
             spelling == "+=" || spelling == "/=" || spelling == "*=")
             {
-                return type1->Compatible(type2) && (type1->IsIntType() || type1->IsRealType() || type1->IsErrorType());
+                return type1->Compatible(type2) && ((type1->IsIntType() || type1->IsRealType() || type1->IsErrorType()));
             }
             else if(spelling == "%")
             {

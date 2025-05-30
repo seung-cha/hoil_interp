@@ -174,6 +174,8 @@ TODO
 
 # Context Free Grammar
 Non terminals are represented with a capital letter.
+
+TODO: Update to reflect array
 ```
                   program -> (stmt)*
 
@@ -261,3 +263,6 @@ Non terminals are represented with a capital letter.
 
                      Type -> Number | Logic | Sentence | Object
 ```
+
+# Intermediate Representation
+TODO
