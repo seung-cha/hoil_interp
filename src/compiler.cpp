@@ -208,6 +208,10 @@ ASTs::Type *Compiler::MakeType(ASTs::VarType type)
         break;
     case ASTs::VarType::VOID:
         return new ASTs::VoidType(0, 0);
+    case ASTs::VarType::OBJECT:
+        return new ASTs::ObjectType(0, 0);
+    case ASTs::VarType::ARRAY:
+        return new ASTs::ArrayType(0, 0);
     }
 
     assert(false && "MakeType() couldn't handle type at switch block");
