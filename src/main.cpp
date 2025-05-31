@@ -4,6 +4,8 @@
 #include "compiler.h"
 #include "AST.h"
 
+typedef ASTs::VarType Type;
+
 int main(int argc, char** argv)
 {
     if(argc <= 2)
@@ -24,13 +26,24 @@ int main(int argc, char** argv)
     // 4. void CloseGripper()
     // 5. void MoveTo(x: Number, y: Number, z: Number)
     // 6. void MoveBy(x: Number, y: Number, z: Number)
-    
-    compiler.ReserveFunc(ASTs::VarType::VOID, "Print", {ASTs::VarType::STRING}, {"text"});
-    compiler.ReserveFunc(ASTs::VarType::VOID, "Say", {ASTs::VarType::STRING}, {"text"});
-    compiler.ReserveFunc(ASTs::VarType::VOID, "OpenGripper", {}, {});
-    compiler.ReserveFunc(ASTs::VarType::VOID, "CloseGripper", {}, {});
-    compiler.ReserveFunc(ASTs::VarType::VOID, "MoveTo", {ASTs::VarType::REAL, ASTs::VarType::REAL, ASTs::VarType::REAL}, {"x", "y", "z"});
-    compiler.ReserveFunc(ASTs::VarType::VOID, "MoveBy", {ASTs::VarType::REAL, ASTs::VarType::REAL, ASTs::VarType::REAL}, {"x", "y", "z"});
+    //
+    // Manipulation-Related functions
+    //
+    // 1. void Grab(obj: Object)     # close the gripper and grab object; internally calls MoveGroupCommander.attach_object()
+    // 2. void Release()             # Open the gripper. Internally calls MoveGroupCommander.detach_object()
+    // 3. Array PositionOf(obj: Object) #  array of size 3 (0 ~ 2), corresponding to the x, y, z coordinate of the object.
+
+    compiler.ReserveFunc(Type::VOID, "Print", {Type::STRING}, {"text"});
+    compiler.ReserveFunc(Type::VOID, "Say", {Type::STRING}, {"text"});
+    compiler.ReserveFunc(Type::VOID, "OpenGripper", {}, {});
+    compiler.ReserveFunc(Type::VOID, "CloseGripper", {}, {});
+    compiler.ReserveFunc(Type::VOID, "MoveTo", {Type::REAL, Type::REAL, Type::REAL}, {"x", "y", "z"});
+    compiler.ReserveFunc(Type::VOID, "MoveBy", {Type::REAL, Type::REAL, Type::REAL}, {"x", "y", "z"});
+
+    // Manipulation-related functions
+    compiler.ReserveFunc(Type::VOID, "Grab", {Type::OBJECT}, {"obj"});
+    compiler.ReserveFunc(Type::VOID, "Release", {}, {});
+    compiler.ReserveFunc(Type::ARRAY, "PositionOf", {Type::OBJECT}, {"obj"});
 
 
 
