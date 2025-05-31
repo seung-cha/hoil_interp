@@ -83,12 +83,12 @@ AST *CodeGen::VisitBinaryExpr(BinaryExpr *expr, AST *obj)
 
 AST *CodeGen::VisitArrayExpr(ArrayExpr *expr, AST *obj)
 {
-    // $arr,{ident},{index},$
-    ss << "$arr,";
+    // $a,{ident},{index},$
+    ss << "$a,";
     expr->identifier->Visit(this, nullptr);
     ss << ',';
     expr->index->Visit(this, nullptr);
-    ss << ",$";
+    ss << "$^";
     return nullptr;
 }
 
