@@ -99,12 +99,14 @@ Lexer::Lexer(Scanner *scanner) : scanner{scanner}
         {
 
             std::cout << "Following instruction evaluated as misc: " << instructLexemes[i]->value << '\n'; 
-            instructLexemes[i]->type = Lexicons::Instruct::Type_None;
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Expr;
+            //instructLexemes[i]->type = Lexicons::Instruct::Type_None;
         }
         else
         {
             std::cout << "GPT returned unknown tag: " << val << '\n';
-            instructLexemes[i]->type = Lexicons::Instruct::Type_None;
+            instructLexemes[i]->type = Lexicons::Instruct::Type_Expr;
+            //instructLexemes[i]->type = Lexicons::Instruct::Type_None;
         }
     }
    
