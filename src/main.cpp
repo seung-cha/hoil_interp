@@ -33,6 +33,9 @@ int main(int argc, char** argv)
     // 2. void Release()             # Open the gripper. Internally calls MoveGroupCommander.detach_object()
     // 3. Array PositionOf(obj: Object) #  array of size 3 (0 ~ 2), corresponding to the x, y, z coordinate of the object.
 
+    // EXAMPLE-SPECIFIC-FUNCTIONS
+    // 1. Number HeightOf(obj: Object) # Get the height of the object (stick)
+
     compiler.ReserveFunc(Type::VOID, "Print", {Type::STRING}, {"text"});
     compiler.ReserveFunc(Type::VOID, "Say", {Type::STRING}, {"text"});
     compiler.ReserveFunc(Type::VOID, "OpenGripper", {}, {});
@@ -44,6 +47,9 @@ int main(int argc, char** argv)
     compiler.ReserveFunc(Type::VOID, "Grab", {Type::OBJECT}, {"obj"});
     compiler.ReserveFunc(Type::VOID, "Release", {}, {});
     compiler.ReserveFunc(Type::ARRAY, "PositionOf", {Type::OBJECT}, {"obj"});
+
+    // Example-specific functions
+    compiler.ReserveFunc(Type::REAL, "HeightOf", {Type::OBJECT}, {"obj"});
 
 
 
