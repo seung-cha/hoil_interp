@@ -1,6 +1,7 @@
 #ifndef AST_OP_H
 #define AST_OP_H
 
+#include <cassert>
 #include "../terminal.h"
 #include "../type/type.h"
 
@@ -36,6 +37,10 @@ namespace ASTs
             std::cout << "[Operator, " << spelling << "]" << std::endl;
         }
 
+        /// @brief Check if the two operands are compatible with this operator (binary)
+        /// @param type1 
+        /// @param type2 
+        /// @return 
         bool Compatible(Type *type1, Type *type2)
         {
 
@@ -57,14 +62,27 @@ namespace ASTs
             {
                 return (type1->IsIntType() && type2->IsIntType()) || (type1->IsErrorType() || type2->IsErrorType());
             }
-            else if(spelling == "!")
+            else
             {
-                return type1->IsBoolType() || type1->IsErrorType();
+                fprintf(stderr, "%s", spelling.c_str());
+                assert(false && "Binary operator could not resolve this type!\n");
+            }
+        }
+
+
+        /// @brief Check if the operand is compatible with this operator (unary)
+        /// @param type 
+        /// @return 
+        bool Compatible(Type *type)
+        {
+            if(spelling == "!")
+            {
+                return type->IsBoolType() || type->IsErrorType();
             }
             else
             {
-                // unary add, sub ops left
-                return type1->IsRealType() || type1->IsIntType() || type1->IsErrorType();
+                // unary numeric operators
+                return type->IsRealType() || type->IsIntType() || type->IsErrorType();
             }
         }
 
