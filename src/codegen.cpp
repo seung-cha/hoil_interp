@@ -435,6 +435,7 @@ AST *CodeGen::VisitRealType(RealType *type, AST *obj)
 
 AST *CodeGen::VisitVoidType(VoidType *type, AST *obj)
 {
+    ss << "$void";
     return nullptr;
 }
 
