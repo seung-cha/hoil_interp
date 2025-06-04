@@ -21,7 +21,7 @@ namespace ASTs
         void Print(int ident) override
         {
             PrintIdent(ident);
-            std::cout << "<Attribute Type>" << std::endl;
+            std::cout << "<Array Type>" << std::endl;
         }
 
         std::unique_ptr<Type> DeepCopy() override
