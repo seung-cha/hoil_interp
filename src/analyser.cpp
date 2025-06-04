@@ -330,6 +330,12 @@ AST *Analyser::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
         }
         else
         {
+            // Change the unary - spelling to distinguish it from the binary
+            if(expr->op->spelling == "-")
+            {
+                expr->op->spelling = "[";
+            }
+            
             expr->type = expr->expr->type->DeepCopy();
         }
     }

@@ -135,6 +135,7 @@ AST *CodeGen::VisitPostUnaryExpr(PostUnaryExpr *expr, AST *obj)
 AST *CodeGen::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
 {
     expr->expr->Visit(this, nullptr);
+    ss << ';';
     expr->op->Visit(this, nullptr);
     return nullptr;
 }
