@@ -317,7 +317,7 @@ AST *Analyser::VisitPreUnaryExpr(PreUnaryExpr *expr, AST *obj)
 
 
     // TODO: Make sure expr is a variable
-    if(!expr->op->Compatible(expr->expr->type.get(), nullptr))
+    if(!expr->op->Compatible(expr->expr->type.get()))
     {
         ReportError("Unary Expression Type is incompatible!");
         expr->type = std::make_unique<ErrorType>(expr->lineNo, expr->charNo);
