@@ -53,7 +53,16 @@ AST *CodeGen::VisitVarDecl(VarDecl *decl, AST *obj)
     ss << "$decl ";
     decl->identifier->Visit(this, nullptr);
     ss << " ";
-    decl->type->Visit(this, nullptr);
+
+    // If void type, print as flex so GPT can know
+    if(decl->type->IsVoidType())
+    {
+        ss << "$flex";
+    }
+    else
+    {
+        decl->type->Visit(this, nullptr);
+    }
     ss << " ";
     decl->expr->Visit(this, nullptr);
 
